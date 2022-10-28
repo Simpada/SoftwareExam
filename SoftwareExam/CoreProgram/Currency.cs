@@ -95,7 +95,7 @@ namespace SoftwareExam.CoreProgram {
             set
             {
                 if (value < 0) {
-                    throw new Exception("");
+                    throw new Exception("Invalid, silver must be larger than 0");
                 }
             }
         }
