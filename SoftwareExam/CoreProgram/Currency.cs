@@ -5,6 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram {
+
     internal class Currency {
+
+        private int _gold;
+        private int _silver;
+        private int _copper;
+
+
+
+
+    
     }
 }
