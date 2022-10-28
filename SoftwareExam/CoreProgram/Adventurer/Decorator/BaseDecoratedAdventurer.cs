@@ -5,6 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurer.Decorator {
-    internal class BaseAdventurerDecorator {
+    internal class BaseDecoratedAdventurer : Adventurer {
     }
 }

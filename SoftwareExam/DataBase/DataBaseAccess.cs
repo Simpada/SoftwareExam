@@ -6,5 +6,10 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.DataBase {
     internal class DataBaseAccess {
+
+        public DataBaseAccess() {
+            Console.WriteLine("Hello Sworld");
+        }
+
     }
 }

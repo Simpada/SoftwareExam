@@ -1,8 +1,13 @@
-﻿namespace SoftwareExam {
+﻿using SoftwareExam.UI;
+
+namespace SoftwareExam {
     internal class Program {
 
         static void Main(string[] args) {
-            Console.WriteLine("Hello, World!");
+
+            GameUI Game = new GameUI();
+            Game.Run();
+
         }
     }
 }
