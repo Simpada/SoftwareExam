@@ -25,9 +25,7 @@ namespace SoftwareExam.CoreProgram.Adventurer {
 
         private string RandomName() {
 
-
-
-            return "";
+            return "Ken The Mass Murderer";
         }
 
         public abstract override string ToString();
