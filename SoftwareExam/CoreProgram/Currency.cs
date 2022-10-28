@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.Program {
+namespace SoftwareExam.CoreProgram {
     internal class Currency {
     }
 }
