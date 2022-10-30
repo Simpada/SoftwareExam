@@ -67,12 +67,17 @@ namespace SoftwareExam.CoreProgram {
                 currency._gold--;
                 currency._silver += 10;
             }
+
+            //Should not be possible to have negative money
+            if (currency._gold < 0) {
+                currency._gold = 0;
+            }
             return currency;
         }
         #endregion
 
         //Converts all to copper to check price.
-        private int CheckPriceInCopper(Currency currency)
+        public int CheckPriceInCopper(Currency currency)
         {
             return currency._copper + (currency._silver * 10) + (currency._gold * 100);
         }
@@ -138,6 +143,16 @@ namespace SoftwareExam.CoreProgram {
         public static bool operator <=(Currency currency1, Currency currency2)
         {
             return currency1.CompareTo(currency2) <= 0;
+        }
+        
+        public static bool operator ==(Currency currency1, Currency currency2)
+        {
+            return currency1.CompareTo(currency2) == 0;
+        }
+
+        public static bool operator !=(Currency currency1, Currency currency2)
+        {
+            return currency1.CompareTo(currency2) != 0;
         }
         #endregion
 
