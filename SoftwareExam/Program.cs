@@ -8,8 +8,6 @@ namespace SoftwareExam {
 
             GameUI Game = new GameUI();
             Game.Run();
-
-
         }
     }
 }

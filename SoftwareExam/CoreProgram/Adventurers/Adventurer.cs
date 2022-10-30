@@ -27,16 +27,14 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         private string RandomName() {
 
             return "Ken The Mass Murderer";
-        }
-
+        }   
+            
         public override string ToString() {
-            return $"|--------------------------------------\n" +
-                   $"|  Name:   {Name}\n" +
-                   $"|  Class:  {Class}\n" +
-                   $"|  Health: {Health}\n" +
-                   $"|  Damage: {Damage}\n" +
-                   $"|  Luck:   {Luck}\n" +
-                   $"|--------------------------------------";
+            return $"|   Name:   {Name}\n" +
+                   $"|   Class:  {Class}\n" +
+                   $"|   Health: {Health}\n" +
+                   $"|   Damage: {Damage}\n" +
+                   $"|   Luck:   {Luck}\n";
         }
 
         public abstract string GetEquipmentDescription();
