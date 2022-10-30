@@ -71,7 +71,7 @@ namespace SoftwareExam.UI {
     |-----------------------------------------
     |       [3] DISMISS ADVENTURER
     |   |\      
-    |   | |     Name:   Ken The Mass Murderer
+    |   | \     Name:   Ken The Mass Murderer
     |   | |     Class:  Rogue
     |  [===]    Health: 7
     |   | |     Damage: 10
@@ -100,6 +100,35 @@ namespace SoftwareExam.UI {
         public string GetTavernRecruiting() {
 
             return $@"
+    YE OL' TAVERN
+    [0] Cancel Recruitment
+
+    |-----------------------------------------
+    |       [1] RECRUIT NEW WARRIOR
+    | ______    
+    | | __ |    
+    | | || |    Health: 10
+    | | || |    Damage: 5
+    | \ '' /    Luck:   5
+    |  \__/     
+
+    |-----------------------------------------
+    |       [2] RECRUIT NEW MAGE
+    |   _       
+    |  \*/      
+    |   |       Health: 5
+    |   |       Damage: 10
+    |   |       Luck:   5
+    |   V       
+    |-----------------------------------------
+    |       [3] RECRUIT NEW ROGUE
+    |   |\      
+    |   | \     
+    |   | |     Health: 5
+    |  [===]    Damage: 5
+    |   | |     Luck:   10
+    |   |_|     
+    |-----------------------------------------
 
 ";
         }

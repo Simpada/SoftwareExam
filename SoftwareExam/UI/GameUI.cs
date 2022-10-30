@@ -170,7 +170,6 @@ namespace SoftwareExam.UI {
             Console.WriteLine(PlayMenu.GetTavern());
 
             /*Needs to get the character cards from adventurers to print in the tavern
-             * 
             
             YE OL' TAVERN
             [0] Return to town
@@ -240,7 +239,7 @@ namespace SoftwareExam.UI {
 
         private void DismissAdventurer() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetTavernDismissing("Hank", "10 GP, 9 SP, 3 CP"));
+            Console.WriteLine(PlayMenu.GetTavernDismissing("Hank", "GP: 2, SP: 5, CP: 7"));
         }
 
         private void RecruitAdventurer() {
