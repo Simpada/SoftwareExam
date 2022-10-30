@@ -1,4 +1,4 @@
-﻿using SoftwareExam.CoreProgram.Adventurer;
+﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.UI;
 
 namespace SoftwareExam {

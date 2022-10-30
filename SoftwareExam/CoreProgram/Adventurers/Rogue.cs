@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurer {
+namespace SoftwareExam.CoreProgram.Adventurers {
     internal class Rogue : Adventurer {
 
         public Rogue() {
+            Class = "Rogue";
             Health = 5;
             Damage = 5;
             Luck = 10;
@@ -17,12 +18,5 @@ namespace SoftwareExam.CoreProgram.Adventurer {
             throw new NotImplementedException();
         }
 
-        public override string ToString() {
-            return $"Name: {Name}\n" +
-                   "Class: Rogue\n" +
-                   $"Health: {Health}\n" +
-                   $"Damage: {Damage}\n" +
-                   $"Luck: {Luck}";
-        }
     }
 }

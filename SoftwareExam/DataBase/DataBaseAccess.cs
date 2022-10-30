@@ -8,7 +8,7 @@ namespace SoftwareExam.DataBase {
     internal class DataBaseAccess {
 
         public DataBaseAccess() {
-            Console.WriteLine("Hello Sworld");
+            
         }
 
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurer.Factory {
-    internal class AdventurerFactory {
+namespace SoftwareExam.CoreProgram.Adventurers {
+    internal class RecruitAdventurer {
     }
 }

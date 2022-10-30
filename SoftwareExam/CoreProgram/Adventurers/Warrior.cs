@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurer {
-    internal class Mage : Adventurer {
+namespace SoftwareExam.CoreProgram.Adventurers {
+    internal class Warrior : Adventurer {
 
-
-        public Mage() {
-            Health = 5;
-            Damage = 10;
+        public Warrior() {
+            Class = "Warrior";
+            Health = 10;
+            Damage = 5;
             Luck = 5;
         }
 
@@ -18,8 +18,5 @@ namespace SoftwareExam.CoreProgram.Adventurer {
             throw new NotImplementedException();
         }
 
-        public override string ToString() {
-            throw new NotImplementedException();
-        }
     }
 }

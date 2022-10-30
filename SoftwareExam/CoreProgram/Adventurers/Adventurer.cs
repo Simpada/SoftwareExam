@@ -1,4 +1,4 @@
-﻿using SoftwareExam.CoreProgram.Adventurer.Decorator;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorator;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurer {
+namespace SoftwareExam.CoreProgram.Adventurers {
     internal abstract class Adventurer {
 
         public int Health { get; set; }
@@ -14,6 +14,7 @@ namespace SoftwareExam.CoreProgram.Adventurer {
         public int Luck { get; set; }
 
         public string Name { get; set; } = "";
+        public string Class { get; set; } = "";
 
 
         private List<BaseDecoratedAdventurer> Equipment = new();
@@ -28,7 +29,15 @@ namespace SoftwareExam.CoreProgram.Adventurer {
             return "Ken The Mass Murderer";
         }
 
-        public abstract override string ToString();
+        public override string ToString() {
+            return $"|--------------------------------------\n" +
+                   $"|  Name:   {Name}\n" +
+                   $"|  Class:  {Class}\n" +
+                   $"|  Health: {Health}\n" +
+                   $"|  Damage: {Damage}\n" +
+                   $"|  Luck:   {Luck}\n" +
+                   $"|--------------------------------------";
+        }
 
         public abstract string GetEquipmentDescription();
 
