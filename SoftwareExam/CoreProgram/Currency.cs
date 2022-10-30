@@ -77,7 +77,7 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
         //Converts all to copper to check price.
-        private int CheckPriceInCopper(Currency currency)
+        public int CheckPriceInCopper(Currency currency)
         {
             return currency._copper + (currency._silver * 10) + (currency._gold * 100);
         }
