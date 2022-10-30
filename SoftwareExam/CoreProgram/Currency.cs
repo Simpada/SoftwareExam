@@ -99,6 +99,14 @@ namespace SoftwareExam.CoreProgram {
             throw new InvalidCastException("Not a currency object");
         }
 
+        public override string ToString()
+        {
+            return $"Balance: " +
+                $"CP: {_copper} \n" +
+                $"SP: {_silver}" +
+                $"GP: {_gold}"; 
+        }
+
 
         //Operator overloading
         #region
