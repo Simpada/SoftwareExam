@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram {
 
-    internal class Currency : IComparable{
+    public class Currency : IComparable{
 
         private int _gold;
         private int _silver;
         private int _copper;
 
-        public Currency(int gold, int silver, int copper)
+        public Currency(int copper, int silver, int gold)
         {
-            _gold = gold;
-            _silver = silver;
             _copper = copper;
+            _silver = silver;
+            _gold = gold;
         }
 
         public Currency()
@@ -31,20 +31,20 @@ namespace SoftwareExam.CoreProgram {
         #region
         public Currency Add(Currency currency)
         {
-            int tempGold = _gold + currency._gold;
-            int tempSilver = _silver + currency._silver;
             int tempCopper = _copper + currency._copper;
+            int tempSilver = _silver + currency._silver;
+            int tempGold = _gold + currency._gold;
 
-            return Convert(new Currency(tempGold, tempSilver, tempCopper));
+            return Convert(new Currency(tempCopper, tempSilver, tempGold));
         }
 
         public Currency Subtract(Currency currency)
         {
-            int tempGold = _gold - currency._gold;
-            int tempSilver = _silver - currency._silver;
             int tempCopper = _copper - currency._copper;
+            int tempSilver = _silver - currency._silver;
+            int tempGold = _gold - currency._gold;
 
-            return Convert(new Currency(tempGold, tempSilver, tempCopper));
+            return Convert(new Currency(tempCopper, tempSilver, tempGold));
         }
 
         public Currency Convert(Currency currency)
@@ -53,17 +53,17 @@ namespace SoftwareExam.CoreProgram {
                 currency._silver++;
                 currency._copper -= 10;
             }
-            while (_silver >= 10) {
+            while (currency._silver >= 10) {
                 currency._gold++;
                 currency._silver -= 10;
             }
 
-            while (_copper < 0) {
+            while (currency._copper < 0) {
                 currency._silver--;
                 currency._copper += 10;
             }
 
-            while (_silver < 0) {
+            while (currency._silver < 0) {
                 currency._gold--;
                 currency._silver += 10;
             }
