@@ -104,12 +104,17 @@ namespace SoftwareExam.CoreProgram {
             throw new InvalidCastException("Not a currency object");
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj is Currency currency) {
+                return CompareTo(currency) == 0;
+            }
+            throw new InvalidCastException("Not a currency object");
+        }
+
         public override string ToString()
         {
-            return $"Balance: " +
-                $"CP: {_copper} \n" +
-                $"SP: {_silver}" +
-                $"GP: {_gold}"; 
+            return $"GP: {_gold}, SP: {_silver}, CP: {_copper}";
         }
 
 
@@ -147,12 +152,12 @@ namespace SoftwareExam.CoreProgram {
         
         public static bool operator ==(Currency currency1, Currency currency2)
         {
-            return currency1.CompareTo(currency2) == 0;
+            return currency1.Equals(currency2);
         }
 
         public static bool operator !=(Currency currency1, Currency currency2)
         {
-            return currency1.CompareTo(currency2) != 0;
+            return !currency1.Equals(currency2);
         }
         #endregion
 
