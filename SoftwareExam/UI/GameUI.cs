@@ -169,7 +169,7 @@ namespace SoftwareExam.UI {
             Console.Clear();
             Console.WriteLine(PlayMenu.GetTavern());
 
-            /*Needs to get the character cards from adventurers to print in the tavern
+            /*Needs to get the character cards from adventurers to print in the tavernm
             
             YE OL' TAVERN
             [0] Return to town
