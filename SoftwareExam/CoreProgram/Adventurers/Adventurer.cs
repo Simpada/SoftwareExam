@@ -16,9 +16,11 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         public string Name { get; set; } = "";
         public string Class { get; set; } = "";
 
+        public Currency Value { get; set; } = new Currency();
+
 
         private List<BaseDecoratedAdventurer> Equipment = new();
-
+        private readonly Random Random = new();
 
         public Adventurer() {
             Name = RandomName();
@@ -26,16 +28,33 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         private string RandomName() {
 
-            return "Ken The Mass Murderer";
-        }   
-            
-        public override string ToString() {
-            return $"|   Name:   {Name}\n" +
-                   $"|   Class:  {Class}\n" +
-                   $"|   Health: {Health}\n" +
-                   $"|   Damage: {Damage}\n" +
-                   $"|   Luck:   {Luck}\n";
+            string name = PickOne(
+                new string[] {
+                    "Bernie",
+                    "Charles",
+                    "Clara",
+                    "Frida",
+                    "Ken",
+                    "Percy",
+                    "William"
+                });
+
+            string title = PickOne(
+                new string[] {
+                    "Dumb",
+                    "Hairy",
+                    "Icomprehensible",
+                    "Mass Murderer",
+                    "Obnoxious",
+                    "Rude",
+                    "Wanderer"
+                });
+
+
+            return $"{name} the {title}";
         }
+
+        public abstract override string ToString();
 
         public abstract string GetEquipmentDescription();
 
@@ -44,6 +63,11 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             // This function will apply all equipment anew to a DecoratedAdventurer
 
         }
+
+        private string PickOne(string[] alternatives) {
+            return alternatives[Random.Next(alternatives.Length)];
+        }
+
 
     }
 }
