@@ -15,7 +15,7 @@ namespace SoftwareExam.CoreProgram {
 
         public GameManager() {
             Player = new Player();
-            DataBaseAccess = new DataBaseAccess("");
+            DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
             Recruitment = new Recruitment();
         }
 
@@ -67,6 +67,11 @@ namespace SoftwareExam.CoreProgram {
 
         internal int GetAvailableAdventurers() {
             return Player.AvailableAdventurers;
+
+        public string[] GetPlayers()
+        {
+            return DataBaseAccess.RetrieveAllPlayerNames();
+
         }
     }
 }
