@@ -97,8 +97,11 @@ namespace SoftwareExam.DataBase {
             command.ExecuteNonQuery();
         }
 
-        public Player? GetPlayerFromEntry(SqliteCommand command)
+        public Player? GetPlayerFromEntry()
         {
+            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
+            connection.Open();
+
             int generatedId = -1;
 
             using SqliteDataReader reader = command.ExecuteReader();

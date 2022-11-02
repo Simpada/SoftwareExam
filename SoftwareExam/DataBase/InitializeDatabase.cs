@@ -19,10 +19,20 @@ namespace SoftwareExam.DataBase
 
         public void init()
         {
-            CreateDb();
-            CreateTablePlayer();
-            CreateTableAdventurers();
-            CreateTableDecorators();
+            if (CheckIfDatabaseExists()) {
+                CreateDb();
+                CreateTablePlayer();
+                CreateTableAdventurers();
+                CreateTableDecorators();
+            }
+        }
+
+        public bool CheckIfDatabaseExists()
+        {
+            if (File.Exists(_dataSource)) {
+                return true;
+            }
+            return false;
         }
 
         public void CreateDb()
