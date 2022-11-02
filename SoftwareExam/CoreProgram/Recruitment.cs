@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram {
-    internal class Recruitment {
+    public class Recruitment {
 
         private AdventurerFactory? Factory;
 
