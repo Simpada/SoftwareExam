@@ -42,10 +42,15 @@ namespace SoftwareExam.CoreProgram
             if (userName.Length <= 0 || userName.Length > 20 || userName == null) {
                 return false;
             }
-            if (!Regex.IsMatch(userName, @"^[a-zA-Z0-9]+$")) {
+            if (!Regex.IsMatch(userName, @"^[a-zA-Z0-9 ]+$")) {
                 return false;
             }
             return true;
+        }
+
+        public override string ToString()
+        {
+            return $"Playername: {_playerName}";
         }
 
 
