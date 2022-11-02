@@ -1,4 +1,5 @@
-﻿using SoftwareExam.CoreProgram.Adventurers;
+﻿using SoftwareExam.CoreProgram;
+using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.UI;
 
 namespace SoftwareExam {
@@ -9,5 +10,8 @@ namespace SoftwareExam {
             GameUI Game = new GameUI();
             Game.Run();
         }
+
+
+
     }
 }

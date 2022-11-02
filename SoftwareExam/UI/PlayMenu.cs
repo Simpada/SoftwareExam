@@ -48,64 +48,37 @@ namespace SoftwareExam.UI {
         }
 
 
-        public string GetTavern(/*ArrayList<Adventurers>*/) {
+        public string GetTavern(String[] AdventurerCards) {
 
-            int adventurers = 0;
+            string[] cards = new string[5];
 
-            for (int i = 0; i < 3; i++) {
-                adventurers++;
+            for (int i = 0; i < AdventurerCards.Length; i++) {
+
+                if (String.IsNullOrEmpty(AdventurerCards[i])) {
+                    cards[i] = $"    |\n    |\n    |\n    |       [{i+1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
+                } else {
+                    string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
+                        $"{AdventurerCards[i]}";
+                    cards[i] = TavernCard;
+                }
             }
 
-            for (int j = adventurers; j < 5; j++) {
-
-            }
-
-
+            int _index = 0;
 
             return $@"
     YE OL' TAVERN
     [0] Return to town
                         
     |-----------------------------------------
-    |       [1] DISMISS ADVENTURER
-    |   _       
-    |  \*/      Name:   Charles The Hairy
-    |   |       Class:  Mage
-    |   |       Health: 7
-    |   |       Damage: 15
-    |   V       Luck:   1
+{cards[_index++]}
     |-----------------------------------------
-    |       [2] DISMISS ADVENTURER
-    | ______    
-    | | __ |    Name:   Frida The Incomprehensible
-    | | || |    Class:  Warrior
-    | | || |    Health: 20
-    | \ '' /    Damage: 11
-    |  \__/     Luck:   15
+{cards[_index++]}
     |-----------------------------------------
-    |       [3] DISMISS ADVENTURER
-    |   |\      
-    |   | \     Name:   Ken The Mass Murderer
-    |   | |     Class:  Rogue
-    |  [===]    Health: 7
-    |   | |     Damage: 10
-    |   |_|     Luck:   20
+{cards[_index++]}
     |-----------------------------------------
-    |  
-    |  
-    |
-    |       [4] RECRUIT NEW ADVENTURER
-    |  
-    |
-    |  
+{cards[_index++]} 
     |-----------------------------------------
-    |  
-    |
-    |  
-    |       [5] RECRUIT NEW ADVENTURER
-    |  
-    |
-    |  
+{cards[_index++]}
     |-----------------------------------------
 
 ";
@@ -125,7 +98,6 @@ namespace SoftwareExam.UI {
     | | || |    Damage: 5
     | \ '' /    Luck:   5
     |  \__/     
-
     |-----------------------------------------
     |       [2] RECRUIT NEW MAGE
     |   _       

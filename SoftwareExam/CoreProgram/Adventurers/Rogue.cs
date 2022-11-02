@@ -18,5 +18,14 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             throw new NotImplementedException();
         }
 
+        public override string ToString() {
+            return @$"    |   |\      
+    |   | \     Name:   {Name}
+    |   | |     Class:  {Class}
+    |  [===]    Health: {Health}
+    |   | |     Damage: {Damage}
+    |   |_|     Luck:   {Luck}";
+        }
+
     }
 }
