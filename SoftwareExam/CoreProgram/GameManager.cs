@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram {
-    internal class GameManager {
+    public class GameManager {
 
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
@@ -67,7 +67,7 @@ namespace SoftwareExam.CoreProgram {
 
         internal int GetAvailableAdventurers() {
             return Player.AvailableAdventurers;
-
+        }
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();
