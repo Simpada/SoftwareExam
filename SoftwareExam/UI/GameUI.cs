@@ -33,7 +33,7 @@ namespace SoftwareExam.UI {
         // Interractions in the main menu
         #region
         private void MainMenu() {
-
+            Console.Clear();
             Console.WriteLine(StartMenu.GetStartingMenu());
 
             bool StartGame = false;
@@ -75,26 +75,10 @@ namespace SoftwareExam.UI {
             Console.Clear();
 
             // This list will later be replaced with getting names from the DB
-            List<string> dbNames = new();
-            dbNames.Add("Frank");
-            dbNames.Add("");
-            dbNames.Add("Henriette");
-            dbNames.Add("");
+            string[] savedNames = Manager.GetPlayers();
 
 
-            List<string> saveNames = new();
-
-            // This will later get its input from DB
-            foreach(string name in dbNames) {
-                if (String.IsNullOrEmpty(name)) {
-                    saveNames.Add("Empty");
-                } else {
-                    saveNames.Add(name);
-                }
-            }
-
-
-            Console.WriteLine(StartMenu.GetSaveMenu(saveNames[0], saveNames[1], saveNames[2], saveNames[3]));
+            Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
             while (true) {
 
@@ -111,7 +95,7 @@ namespace SoftwareExam.UI {
                     Console.Clear();
                     return false;
                 } else {
-                    InvalidInput(StartMenu.GetSaveMenu(saveNames[0], saveNames[1], saveNames[2], saveNames[3]));
+                    InvalidInput(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
                     continue;
                 }
                 break;

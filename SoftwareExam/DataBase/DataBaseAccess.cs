@@ -37,7 +37,7 @@ namespace SoftwareExam.DataBase {
         {
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                CREATE TABLE players
+                CREATE TABLE IF NOT EXISTS players
                 (
                     id INTEGER NOT NULL PRIMARY KEY,
                     player_name TEXT NOT NULL,
@@ -103,7 +103,7 @@ namespace SoftwareExam.DataBase {
 
             using SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-                playerNames[reader.GetInt32(0)] = reader.GetString(1);
+                playerNames[reader.GetInt32(0)-1] = reader.GetString(1);
             }
 
             for (int i = 0; i < playerNames.Length; i++) {
