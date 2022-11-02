@@ -46,7 +46,21 @@ namespace SoftwareExam.UI {
 
 ";
         }
-        public string GetTavern() {
+
+
+        public string GetTavern(/*ArrayList<Adventurers>*/) {
+
+            int adventurers = 0;
+
+            for (int i = 0; i < 3; i++) {
+                adventurers++;
+            }
+
+            for (int j = adventurers; j < 5; j++) {
+
+            }
+
+
 
             return $@"
     YE OL' TAVERN
