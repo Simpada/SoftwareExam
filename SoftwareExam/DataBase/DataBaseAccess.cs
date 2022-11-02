@@ -158,7 +158,7 @@ namespace SoftwareExam.DataBase {
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @$"
                 DROP TABLE
-                
+                IF EXISTS
                 '{table}';
             ";
 

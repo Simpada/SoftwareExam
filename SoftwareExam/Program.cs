@@ -7,9 +7,9 @@ namespace SoftwareExam {
     internal class Program {
 
         static void Main(string[] args) {
-            Player p1 = new Player(1, "Aasdasd", new Currency(2, 6, 12));
-            Player p2 = new Player(2, "ogkso", new Currency(2, 6, 12));
-            Player p3 = new Player(4, "fo j29rj22", new Currency(2, 6, 12));
+            Player p1 = new (1, "Aasdasd", new Currency(2, 6, 12));
+            Player p2 = new (2, "ogkso", new Currency(1, 3, 6));
+            Player p3 = new (4, "fo j29rj22", new Currency(6, 7, 120));
 
             DataBaseAccess db = new DataBaseAccess("Data Source = tempDatabase.db");
             db.DropTable("players");
