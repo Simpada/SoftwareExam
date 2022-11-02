@@ -5,39 +5,51 @@ namespace TestSoftwareExam
 {
     public class UnitTestPlayerDatabase
     {
-        public DataBaseAccess db;
+        public DataBaseAccess databaseAccess;
 
         [SetUp]
         public void Setup()
         {
-            db = new("Data Source = TestDb.db");
-            db.DropTable("players");
-            db.CreateDb();
+            //Ask about SetUp. Does not run on 2nd test?????????
+            string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase.db");
+            try {
+                if (File.Exists(databasePath)) {
+                    File.Delete(databasePath);
+                }
+            }
+            catch (IOException e) {}
+
+
+            databaseAccess = new("Data Source = testDatabase.db");
+
         }
 
         [Test]
         public void TestRetrievePlayer()
         {
+
             //Expected
             Currency balance = new Currency(5, 5, 500);
-            Player tempPlayer = new Player(1, "sinna krigare", balance);
-            db.Save(tempPlayer);
+            Player tempPlayer = new Player(1, "Den Sinna krigaren", balance);
+            databaseAccess.Save(tempPlayer);
 
-            Player playerFromDatabase = db.RetrieveById(1);
+            databaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
+            Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
+
             Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
 
             Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
         }
 
-        [TestCase(1, "ASDasd", 5, 5, 100)]
-        [TestCase(2, "sdfwe", 5, 5, 100)]
-        [TestCase(3, "42g4g", 5, 5, 100)]
+        [TestCase(1, "one", 5, 5, 100)]
+        [TestCase(2, "two", 5, 5, 100)]
+        [TestCase(3, "three", 5, 5, 100)]
         public void TestRetriveAllPlayerNames(int id, string name, int copper, int silver, int gold)
         {
             Player player = new(id, name, new Currency(copper, silver, gold));
-            db.Save(player);
+            databaseAccess.Save(player);
 
-            string[] playerNames = db.RetrieveAllPlayerNames();
+            string[] playerNames = databaseAccess.RetrieveAllPlayerNames();
 
             foreach (string playerName in playerNames) {
                 Console.WriteLine("Player name: " + playerName);
