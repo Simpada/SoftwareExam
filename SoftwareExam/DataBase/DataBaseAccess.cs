@@ -19,7 +19,7 @@ namespace SoftwareExam.DataBase {
 
     public class DataBaseAccess {
 
-        private readonly string DataSource = "";
+        private readonly string DataSource;
 
         public DataBaseAccess(string dataSource)
         {
@@ -93,7 +93,7 @@ namespace SoftwareExam.DataBase {
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                SELECT id, player_names
+                SELECT id, player_name
                 FROM players;
             ";
             command.ExecuteNonQuery();
@@ -149,27 +149,22 @@ namespace SoftwareExam.DataBase {
             return null;
         }
 
+
         public void DropTable(string table)
         {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
+            using SqliteConnection connection = new(DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                DROP TABLE IF EXISTS '$table';
+            command.CommandText = @$"
+                DROP TABLE
+                
+                '{table}';
             ";
-            command.Parameters.AddWithValue("$table", table);
+
+            //Why not work with IF EXISTS on drop '$table';
+            //command.Parameters.AddWithValue("$table", table);
+            command.ExecuteNonQuery();
         }
-
-        public void ResetTable()
-        {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
-            connection.Open();
-
-            DropTable("players");
-
-            CreateTablePlayer(connection);
-        }
-
     }
 }
