@@ -13,7 +13,7 @@ namespace SoftwareExam.CoreProgram
     {
         private int _id = -1;
         private string _playerName = "";
-        public Currency Balance { get; set; } = new(0, 0, 50);
+        public Currency Balance { get; set; } = new(0, 0, 0);
         public List<Adventurer> Adventurers = new();
         public int AvailableAdventurers { get; set; } = 0;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,13 +54,13 @@ namespace SoftwareExam.UI {
         }
 
 
-        public string GetTavern(String[] AdventurerCards) {
+        public string GetTavern(string[] AdventurerCards, string balance) {
 
-            string[] cards = new string[5];
+            string[] cards = new string[AdventurerCards.Length];
 
             for (int i = 0; i < AdventurerCards.Length; i++) {
 
-                if (String.IsNullOrEmpty(AdventurerCards[i])) {
+                if (string.IsNullOrEmpty(AdventurerCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |       [{i+1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
@@ -70,30 +71,44 @@ namespace SoftwareExam.UI {
 
             int _index = 0;
 
+            string MerchantDisplay = "";
+            foreach (string card in cards) {
+                MerchantDisplay += cards[_index++];
+                MerchantDisplay += "\n    |-----------------------------------------\n";
+            }
+
+
             return $@"
     YE OL' TAVERN
     [0] Return to town
+
+    Your balance is : {balance}
                         
     |-----------------------------------------
-{cards[_index++]}
-    |-----------------------------------------
-{cards[_index++]}
-    |-----------------------------------------
-{cards[_index++]}
-    |-----------------------------------------
-{cards[_index++]} 
-    |-----------------------------------------
-{cards[_index++]}
-    |-----------------------------------------
-
+{MerchantDisplay}
 ";
         }
 
-        public string GetTavernRecruiting() {
+        public string GetTavernRecruiting(Currency balance) {
+
+            Currency cost = new(0, 5, 0);
+
+            string balanceMessage = "";
+            if (balance >= cost) {
+                balanceMessage = $@"    Your new balance will be: {balance - cost}
+    All decisions to recruit are final
+    NO REFUNDS!";
+            } else {
+                balanceMessage = "\n    You cannot afford to recruit a new adventurer";
+            }
 
             return $@"
     YE OL' TAVERN
+
     [0] Cancel Recruitment
+
+    Recruitment cost: {cost}
+{balanceMessage}
 
     |-----------------------------------------
     |       [1] RECRUIT NEW WARRIOR

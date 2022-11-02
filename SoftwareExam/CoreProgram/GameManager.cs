@@ -31,7 +31,6 @@ namespace SoftwareExam.CoreProgram {
                 Player.Adventurers.Add(adventurer);
                 return true;
             }
-            
         }
 
         public void DismissAdventurer(int who) {
@@ -53,8 +52,13 @@ namespace SoftwareExam.CoreProgram {
             throw new NotImplementedException();
         }
 
-        internal string GetBalance() {
+        internal string GetBalanceString() {
             return Player.Balance.ToString();
+        }
+        
+        
+        internal Currency GetBalanceValue() {
+            return Player.Balance;
         }
 
         internal int GetAdventurerCount() {
