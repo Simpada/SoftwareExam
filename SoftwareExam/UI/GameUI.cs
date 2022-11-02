@@ -129,14 +129,14 @@ namespace SoftwareExam.UI {
                     // Access DB and save
                     string Message = Manager.SaveGame();
                     Console.Clear();
-                    Console.WriteLine(PlayMenu.GetPlayMenu());
+                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
                     Console.WriteLine(Message);
                     Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 } else if (input == '0') {
                     ExitMenu();
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetPlayMenu());
+                    InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
                     Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 }
             }
@@ -191,7 +191,7 @@ namespace SoftwareExam.UI {
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetTavern(AdventurerCards));
+                    InvalidInput(PlayMenu.GetTavern(AdventurerCards, Manager.GetBalanceString()));
                     continue;
                 }
 
@@ -202,13 +202,13 @@ namespace SoftwareExam.UI {
         }
 
         private void GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers) {
+            // This sets the maximum amount if adventurers you can display
             AdventurerCards = new string[5];
             Adventurers = Manager.GetAllAdventurers();
             for (int i = 0; i < Adventurers.Count; i++) {
                 AdventurerCards[i] = Adventurers[i].ToString();
-                if (i >= AdventurerCards.Length) { break; }
             }
-            Console.WriteLine(PlayMenu.GetTavern(AdventurerCards));
+            Console.WriteLine(PlayMenu.GetTavern(AdventurerCards, Manager.GetBalanceString()));
         }
 
         private void DismissAdventurer(int who) {
@@ -235,7 +235,7 @@ namespace SoftwareExam.UI {
 
         private void RecruitAdventurer() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetTavernRecruiting());
+            Console.WriteLine(PlayMenu.GetTavernRecruiting(Manager.GetBalanceValue()));
 
             while (true) {
 
@@ -248,7 +248,7 @@ namespace SoftwareExam.UI {
                 } else if (input == '3') {
                     Manager.RecruitAdventurer(3);
                 } else if (input != '0') {
-                    InvalidInput(PlayMenu.GetTavernRecruiting());
+                    InvalidInput(PlayMenu.GetTavernRecruiting(Manager.GetBalanceValue()));
                     continue;
                 }
                 return;
@@ -293,7 +293,7 @@ namespace SoftwareExam.UI {
 
         private void ResetPlayMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetPlayMenu() + "\n");
+            Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()) + "\n");
             Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
         }
 

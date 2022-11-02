@@ -20,15 +20,16 @@ namespace TestSoftwareExam {
         [TestCase(2, "Mage", 5, 10, 5)]
         [TestCase(3, "Rogue", 5, 5, 10)]
         public void TestFactory(int type, string expectedClass, int health, int damage, int luck) {
+            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
-            Adventurer adventurer = Recruitment.RecruitAdventurer(type);
+            Assert.That(adventurer, Is.Not.Null);
 
-            Assert.That(adventurer.Class, Is.EqualTo(expectedClass));
-            Assert.That(adventurer.Health, Is.EqualTo(health));
-            Assert.That(adventurer.Damage, Is.EqualTo(damage));
-            Assert.That(adventurer.Luck, Is.EqualTo(luck));
-
-
+            Assert.Multiple(() => {
+                Assert.That(adventurer.Class, Is.EqualTo(expectedClass));
+                Assert.That(adventurer.Health, Is.EqualTo(health));
+                Assert.That(adventurer.Damage, Is.EqualTo(damage));
+                Assert.That(adventurer.Luck, Is.EqualTo(luck));
+            });
         }
     }
 }

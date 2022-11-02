@@ -11,38 +11,67 @@ namespace SoftwareExam.CoreProgram {
 
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
-
-        private List<Adventurer> Adventurers = new();
+        private Player Player;
 
         public GameManager() {
-
+            Player = new Player();
             DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
             Recruitment = new Recruitment();
         }
 
-        public void RecruitAdventurer(int type) {
+        public bool RecruitAdventurer(int type) {
             // Replace with push to Player object
-            Adventurers.Add(Recruitment.RecruitAdventurer(type));
+
+            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player.Balance);
+
+            if (adventurer == null) {
+                return false;
+            } else {
+                Player.Balance -= Recruitment.Price;
+                Player.Adventurers.Add(adventurer);
+                return true;
+            }
         }
 
         public void DismissAdventurer(int who) {
-            Adventurers.RemoveAt(who);
+            Player.Adventurers.RemoveAt(who);
+        }
+
+        public void SetPlayer(Player player) {
+            Player = player;
         }
 
         public List<Adventurer> GetAllAdventurers() {
-            return Adventurers;
+            return Player.Adventurers;
         }
         public Adventurer GetAdventurer(int who) {
-            return Adventurers[who];
+            return Player.Adventurers[who];
         }
 
         public string SaveGame() {
             throw new NotImplementedException();
         }
 
+        internal string GetBalanceString() {
+            return Player.Balance.ToString();
+        }
+        
+        
+        internal Currency GetBalanceValue() {
+            return Player.Balance;
+        }
+
+        internal int GetAdventurerCount() {
+            return Player.Adventurers.Count();
+        }
+
+        internal int GetAvailableAdventurers() {
+            return Player.AvailableAdventurers;
+
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();
+
         }
     }
 }
