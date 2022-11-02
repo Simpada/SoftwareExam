@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers {
-    internal abstract class Adventurer {
+    public abstract class Adventurer {
 
         public int Health { get; set; }
         public int Damage { get; set; }

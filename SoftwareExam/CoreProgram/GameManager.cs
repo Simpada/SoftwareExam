@@ -15,7 +15,8 @@ namespace SoftwareExam.CoreProgram {
         private List<Adventurer> Adventurers = new();
 
         public GameManager() {
-            DataBaseAccess = new DataBaseAccess();
+
+            DataBaseAccess = new DataBaseAccess("");
             Recruitment = new Recruitment();
         }
 
