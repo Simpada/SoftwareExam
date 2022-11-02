@@ -98,7 +98,6 @@ namespace SoftwareExam.UI {
     | | || |    Damage: 5
     | \ '' /    Luck:   5
     |  \__/     
-
     |-----------------------------------------
     |       [2] RECRUIT NEW MAGE
     |   _       

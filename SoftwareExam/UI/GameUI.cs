@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace SoftwareExam.UI {
     internal class GameUI {
 
-        private GameManager Manager;
-        private StartMenu StartMenu;
-        private PlayMenu PlayMenu;
+        private readonly GameManager Manager;
+        private readonly StartMenu StartMenu;
+        private readonly PlayMenu PlayMenu;
 
         private char input;
 
@@ -263,8 +263,7 @@ namespace SoftwareExam.UI {
                     Manager.RecruitAdventurer(2);
                 } else if (input == '3') {
                     Manager.RecruitAdventurer(3);
-                } else if (input == '0') {
-                } else {
+                } else if (input != '0') {
                     InvalidInput(PlayMenu.GetTavernRecruiting());
                     continue;
                 }
