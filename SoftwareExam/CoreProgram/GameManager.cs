@@ -9,14 +9,23 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram {
     internal class GameManager {
 
-        private DataBaseAccess _dataBaseAccess;
+        private Recruitment Recruitment;
+        private DataBaseAccess DataBaseAccess;
 
         private List<Adventurer> Adventurers = new();
 
         public GameManager() {
-            _dataBaseAccess = new DataBaseAccess();
+            DataBaseAccess = new DataBaseAccess();
+            Recruitment = new Recruitment();
+        }
 
-            
+        public void RecruitAdventurer(int type) {
+            // Replace with push to Player object
+            Adventurers.Add(Recruitment.RecruitAdventurer(type));
+        }
+
+        public List<Adventurer> GetAdventurers() {
+            return Adventurers;
         }
 
         public string SaveGame() {

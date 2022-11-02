@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram;
+using SoftwareExam.CoreProgram.Adventurers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,75 +168,65 @@ namespace SoftwareExam.UI {
 
         private void TavernMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetTavern());
-
-            /*Needs to get the character cards from adventurers to print in the tavernm
-            
-            YE OL' TAVERN
-            [0] Return to town
-                        
-            |-----------------------------------------
-            |   _       [1] DISMISS ADVENTURER
-            |  \+/      Name:   Charles The Hairy
-            |   |       Class:  Mage
-            |   |       Health: 7
-            |   |       Damage: 15
-            |   V       Luck:   1
-            |-----------------------------------------
-            | ______    [2] DISMISS ADVENTURER
-            | | __ |    Name:   Frida The Incomprehensible
-            | | || |    Class:  Warrior
-            | | || |    Health: 20
-            | \ '' /    Damage: 11
-            |  \__/     Luck:   15
-            |-----------------------------------------
-            |   |\      [3] DISMISS ADVENTURER
-            |   | |     Name:   Ken The Mass Murderer
-            |   | |     Class:  Rogue
-            |  [===]    Health: 7
-            |   | |     Damage: 10
-            |   |_|     Luck:   20
-            |-----------------------------------------
-            |  
-            |  
-            |   [4] RECRUIT NEW ADVENTURER
-            |  
-            |
-            |  
-            |-----------------------------------------
-            |  
-            |  
-            |   [5] RECRUIT NEW ADVENTURER
-            |  
-            |
-            |  
-            |-----------------------------------------
-            */
+            GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers);
 
             while (true) {
 
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
-
+                    if (Adventurers.Count >= 1) {
+                        Console.WriteLine("I have an adventurer");
+                    } else {
+                        RecruitAdventurer();
+                    }
                 } else if (input == '2') {
-
+                    if (Adventurers.Count >= 2) {
+                        Console.WriteLine("I have an adventurer");
+                    } else {
+                        RecruitAdventurer();
+                    }
                 } else if (input == '3') {
-
+                    if (Adventurers.Count >= 3) {
+                        Console.WriteLine("I have an adventurer");
+                    } else {
+                        RecruitAdventurer();
+                    }
                 } else if (input == '4') {
-
+                    if (Adventurers.Count >= 4) {
+                        Console.WriteLine("I have an adventurer");
+                    } else {
+                        RecruitAdventurer();
+                    }
                 } else if (input == '5') {
-
+                    if (Adventurers.Count >= 5) {
+                        Console.WriteLine("I have an adventurer");
+                    } else {
+                        RecruitAdventurer();
+                    }
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetTavern());
+                    InvalidInput(PlayMenu.GetTavern(AdventurerCards));
+                    continue;
                 }
+
+                Console.Clear();
+                GetTavernMenu(out AdventurerCards, out Adventurers);
             }
 
         }
 
+        private void GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers) {
+            AdventurerCards = new string[5];
+            Adventurers = Manager.GetAdventurers();
+            for (int i = 0; i < Adventurers.Count; i++) {
+                AdventurerCards[i] = Adventurers[i].ToString();
+                if (i >= AdventurerCards.Length) { break; }
+            }
 
+            Console.WriteLine(PlayMenu.GetTavern(AdventurerCards));
+        }
 
         private void DismissAdventurer() {
             Console.Clear();
@@ -245,6 +236,27 @@ namespace SoftwareExam.UI {
         private void RecruitAdventurer() {
             Console.Clear();
             Console.WriteLine(PlayMenu.GetTavernRecruiting());
+
+            while (true) {
+
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    Manager.RecruitAdventurer(1);
+                    return;
+                } else if (input == '2') {
+                    Manager.RecruitAdventurer(2);
+                    return;
+                } else if (input == '3') {
+                    Manager.RecruitAdventurer(3);
+                    return;
+                } else if (input == '0') {
+                    return;
+                } else {
+                    InvalidInput(PlayMenu.GetTavernRecruiting());
+                }
+            }
+
         }
 
         private void ArmoryMenu() {
