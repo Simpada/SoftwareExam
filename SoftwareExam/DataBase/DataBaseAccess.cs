@@ -16,19 +16,25 @@ namespace SoftwareExam.DataBase {
 
     public class DataBaseAccess {
 
-        public InitializeDatabase initDb = new("Data Source = gameDatabase.db");
+        private InitializeDatabase InitDb;
 
+        public DataBaseAccess(string dataSource)
+        {
+            InitDb = new(dataSource);
+        }
+
+        //Should actually not access player - best way to return info?
         public void Save(Player player)
         {
-            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
+            using SqliteConnection connection = new SqliteConnection(InitDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                INSERT INTO players (id, player_name, copper, silver, gold)
-                VALUES ($id, $playerName, $copper, $silver, $gold)
+                INSERT INTO players (player_id, player_name, copper, silver, gold)
+                VALUES ($playerId, $playerName, $copper, $silver, $gold)
             ";
-            command.Parameters.AddWithValue("$id", player.Id);
+            command.Parameters.AddWithValue("$playerId", player.Id);
             command.Parameters.AddWithValue("$playerName", player.PlayerName);
             command.Parameters.AddWithValue("$copper", player.Balance.Copper);
             command.Parameters.AddWithValue("$silver", player.Balance.Silver);
@@ -36,32 +42,45 @@ namespace SoftwareExam.DataBase {
             command.ExecuteNonQuery();
         }
 
-        //Temp. setting method to player for testing
-        public Player? RetrieveById(int id)
+        public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
         {
-            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
+            using SqliteConnection connection = new SqliteConnection(InitDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
                 SELECT *
                 FROM players
-                WHERE id = $id;
+                WHERE player_id = $id;
             ";
             command.Parameters.AddWithValue("$id", id);
             command.ExecuteNonQuery();
 
-            return GetPlayerFromEntry(command);
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                playerId = reader.GetInt32(0);
+                playerName = reader.GetString(1);
+                copper = reader.GetInt32(2);
+                silver = reader.GetInt32(3);
+                gold = reader.GetInt32(4);
+                //should also retrieve adventurer list later.
+            } else {
+                playerId = -1;
+                playerName = "";
+                copper = 0;
+                silver = 0;
+                gold = 0;
+            }
         }
 
         public string[] RetrieveAllPlayerNames()
         {
-            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
+            using SqliteConnection connection = new SqliteConnection(InitDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                SELECT id, player_name
+                SELECT player_id, player_name
                 FROM players;
             ";
             command.ExecuteNonQuery();
@@ -84,45 +103,22 @@ namespace SoftwareExam.DataBase {
 
         public void Delete(int id)
         {
-            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
+            using SqliteConnection connection = new SqliteConnection(InitDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
                 DELETE
                 FROM players
-                WHERE id = $id;
+                WHERE player_id = $id;
             ";
             command.Parameters.AddWithValue("$id", id);
             command.ExecuteNonQuery();
         }
 
-        public Player? GetPlayerFromEntry()
-        {
-            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
-            connection.Open();
-
-            int generatedId = -1;
-
-            using SqliteDataReader reader = command.ExecuteReader();
-            if (reader.Read()) {
-                generatedId = reader.GetInt32(0);
-
-                Player retrievedPlayer = new();
-                retrievedPlayer.Id = generatedId;
-                retrievedPlayer.PlayerName = reader.GetString(1);
-                retrievedPlayer.Balance = new Currency(reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4));
-                //should also retrieve adventurer list later.
-
-                return retrievedPlayer;
-            }
-            return null;
-        }
-
-
         public void DropTable(string table)
         {
-            using SqliteConnection connection = new(initDb.DataSource);
+            using SqliteConnection connection = new(InitDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();

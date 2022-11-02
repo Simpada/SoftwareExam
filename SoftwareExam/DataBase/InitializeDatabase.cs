@@ -19,7 +19,7 @@ namespace SoftwareExam.DataBase
 
         public void init()
         {
-            if (CheckIfDatabaseExists()) {
+            if (!CheckIfDatabaseExists()) {
                 CreateDb();
                 CreateTablePlayer();
                 CreateTableAdventurers();
@@ -41,7 +41,7 @@ namespace SoftwareExam.DataBase
             connection.Open();
         }
 
-        private void CreateTablePlayer()
+        public void CreateTablePlayer()
         {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
@@ -74,7 +74,7 @@ namespace SoftwareExam.DataBase
                     class TEXT NOT NULL,
                     health INTEGER NOT NULL,
                     damaage INTEGER NOT NULL,
-                    luck INTEGER NOT NULL
+                    luck INTEGER NOT NULL,
                     player_id INTEGER NOT NULL,
                     FOREIGN KEY(player_id) REFERENCES player_id(players)
                 )
@@ -93,7 +93,7 @@ namespace SoftwareExam.DataBase
                 (
                     decorator_id INTEGER NOT NULL,
                     adventurer_id INTEGER NOT NULL,
-                    PRIMARY KEY (decoratir_id, adventurer_id),
+                    PRIMARY KEY (decorator_id, adventurer_id),
                     FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
                 )
             ";

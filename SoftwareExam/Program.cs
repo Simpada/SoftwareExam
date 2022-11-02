@@ -13,7 +13,7 @@ namespace SoftwareExam {
 
             DataBaseAccess db = new DataBaseAccess("Data Source = tempDatabase.db");
             db.DropTable("players");
-            db.CreateDb();
+            //db.CreateDb();
 
             db.Delete(1);
             db.Delete(2);
