@@ -19,6 +19,22 @@ namespace SoftwareExam.CoreProgram {
             Recruitment = new Recruitment();
         }
 
+
+        public void SetPlayer(Player player) {
+            Player = player;
+        }
+
+        internal string GetBalanceString() {
+            return Player.Balance.ToString();
+        }
+
+
+        internal Currency GetBalanceValue() {
+            return Player.Balance;
+        }
+
+        // Relates to adventurers
+        #region
         public bool RecruitAdventurer(int type) {
             // Replace with push to Player object
 
@@ -37,30 +53,12 @@ namespace SoftwareExam.CoreProgram {
             Player.Adventurers.RemoveAt(who);
         }
 
-        public void SetPlayer(Player player) {
-            Player = player;
-        }
-
         public List<Adventurer> GetAllAdventurers() {
             return Player.Adventurers;
         }
         public Adventurer GetAdventurer(int who) {
             return Player.Adventurers[who];
         }
-
-        public string SaveGame() {
-            throw new NotImplementedException();
-        }
-
-        internal string GetBalanceString() {
-            return Player.Balance.ToString();
-        }
-        
-        
-        internal Currency GetBalanceValue() {
-            return Player.Balance;
-        }
-
         internal int GetAdventurerCount() {
             return Player.Adventurers.Count();
         }
@@ -68,6 +66,23 @@ namespace SoftwareExam.CoreProgram {
         internal int GetAvailableAdventurers() {
             return Player.AvailableAdventurers;
         }
+        #endregion
+
+        public void SaveGame() {
+            
+            DataBaseAccess.Save(Player);
+
+        }
+        
+        public void LoadGame(int id) {
+
+            //DataBaseAccess.GetPlayerById(id ,out int playerId, out string playerName, out int copper, out int silver, out int gold);
+            //Player = new(playerId, playerName, new Currency(copper, silver, gold));
+
+        }
+
+
+
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();

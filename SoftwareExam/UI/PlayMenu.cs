@@ -91,6 +91,7 @@ namespace SoftwareExam.UI {
 
         public string GetTavernRecruiting(Currency balance) {
 
+            // This needs to happen elsewhere, breaks layering, cannot use Currency
             Currency cost = new(0, 5, 0);
 
             string balanceMessage = "";

@@ -84,13 +84,13 @@ namespace SoftwareExam.UI {
 
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
-                    // Will set the save state to 1 and start game
+                    Manager.LoadGame(1);
                 } else if (input == '2') {
-                    // Will set the save state to 2 and start game
+                    Manager.LoadGame(2);
                 } else if (input == '3') {
-                    // Will set the save state to 3 and start game
+                    Manager.LoadGame(3);
                 } else if (input == '4') {
-                    // Will set the save state to 4 and start game
+                    Manager.LoadGame(4);
                 } else if (input == '0') {
                     Console.Clear();
                     return false;
@@ -106,7 +106,8 @@ namespace SoftwareExam.UI {
         #endregion
 
 
-
+        // Interraction in the game menu
+        #region
         private void PlayGame() {
             ResetPlayMenu();
 
@@ -127,10 +128,10 @@ namespace SoftwareExam.UI {
                     ResetPlayMenu();
                 } else if (input == '4') {
                     // Access DB and save
-                    string Message = Manager.SaveGame();
+                    Manager.SaveGame();
                     Console.Clear();
                     Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
-                    Console.WriteLine(Message);
+                    //Console.WriteLine(Message);
                     Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 } else if (input == '0') {
                     ExitMenu();
@@ -152,6 +153,7 @@ namespace SoftwareExam.UI {
 
         private void TavernMenu() {
             Console.Clear();
+            // This function must be done in GameManager, it breaks layering, cannot access adventurer
             GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers);
 
             while (true) {
@@ -201,6 +203,7 @@ namespace SoftwareExam.UI {
 
         }
 
+        // This function must be done in GameManager, it breaks layering, cannot access adventurer
         private void GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers) {
             // This sets the maximum amount if adventurers you can display
             AdventurerCards = new string[5];
@@ -289,13 +292,12 @@ namespace SoftwareExam.UI {
 
             }
         }
-
-
         private void ResetPlayMenu() {
             Console.Clear();
             Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()) + "\n");
             Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
         }
+        #endregion
 
         private static void InvalidInput(string _display) {
             Console.Clear();

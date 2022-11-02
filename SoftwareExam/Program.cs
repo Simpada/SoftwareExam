@@ -11,7 +11,7 @@ namespace SoftwareExam {
             Player p2 = new (2, "ogkso", new Currency(1, 3, 6));
             Player p3 = new (4, "fo j29rj22", new Currency(6, 7, 120));
 
-            DataBaseAccess db = new DataBaseAccess("Data Source = tempDatabase.db");
+            DataBaseAccess db = new ("Data Source = tempDatabase.db");
             db.DropTable("players");
             db.CreateDb();
 
