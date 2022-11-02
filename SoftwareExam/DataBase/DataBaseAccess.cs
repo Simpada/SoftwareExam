@@ -3,11 +3,8 @@ using SoftwareExam.CoreProgram;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 
 /**
  * SQLite AdoNet
@@ -19,39 +16,11 @@ namespace SoftwareExam.DataBase {
 
     public class DataBaseAccess {
 
-        private readonly string DataSource;
-
-        public DataBaseAccess(string dataSource)
-        {
-            DataSource = dataSource;
-        }
-
-        public void CreateDb()
-        {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
-            CreateTablePlayer(connection);
-        }
-
-        private void CreateTablePlayer(SqliteConnection connection)
-        {
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS players
-                (
-                    id INTEGER NOT NULL PRIMARY KEY,
-                    player_name TEXT NOT NULL,
-                    copper INTEGER NOT NULL,
-                    silver INTEGER NOT NULL,
-                    gold INTEGER NOT NULL
-                )
-            ";
-            command.ExecuteNonQuery();
-        }
+        public InitializeDatabase initDb = new("Data Source = gameDatabase.db");
 
         public void Save(Player player)
         {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
+            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
@@ -59,7 +28,6 @@ namespace SoftwareExam.DataBase {
                 INSERT INTO players (id, player_name, copper, silver, gold)
                 VALUES ($id, $playerName, $copper, $silver, $gold)
             ";
-
             command.Parameters.AddWithValue("$id", player.Id);
             command.Parameters.AddWithValue("$playerName", player.PlayerName);
             command.Parameters.AddWithValue("$copper", player.Balance.Copper);
@@ -69,9 +37,9 @@ namespace SoftwareExam.DataBase {
         }
 
         //Temp. setting method to player for testing
-        public Player RetrieveById(int id)
+        public Player? RetrieveById(int id)
         {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
+            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
@@ -88,7 +56,7 @@ namespace SoftwareExam.DataBase {
 
         public string[] RetrieveAllPlayerNames()
         {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
+            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
@@ -111,13 +79,12 @@ namespace SoftwareExam.DataBase {
                     playerNames[i] = "Empty";
                 }
             }
-
             return playerNames;
         }
 
         public void Delete(int id)
         {
-            using SqliteConnection connection = new SqliteConnection(DataSource);
+            using SqliteConnection connection = new SqliteConnection(initDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();
@@ -130,7 +97,7 @@ namespace SoftwareExam.DataBase {
             command.ExecuteNonQuery();
         }
 
-        public Player GetPlayerFromEntry(SqliteCommand command)
+        public Player? GetPlayerFromEntry(SqliteCommand command)
         {
             int generatedId = -1;
 
@@ -152,7 +119,7 @@ namespace SoftwareExam.DataBase {
 
         public void DropTable(string table)
         {
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(initDb.DataSource);
             connection.Open();
 
             SqliteCommand command = connection.CreateCommand();

@@ -16,7 +16,7 @@ namespace SoftwareExam.CoreProgram {
 
         public GameManager() {
 
-            DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
+            DataBaseAccess = new DataBaseAccess();
             Recruitment = new Recruitment();
         }
 
