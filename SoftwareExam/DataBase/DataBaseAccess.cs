@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using SoftwareExam.CoreProgram;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,27 @@ namespace SoftwareExam.DataBase {
                     command.Parameters.AddWithValue("$copper", player.Balance.Copper);
                     command.Parameters.AddWithValue("$silver", player.Balance.Silver);
                     command.Parameters.AddWithValue("$gold", player.Balance.Gold);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+        
+        // This shouldn't break layering, but needs way to parse adventurers later
+        public void Save(ArrayList SaveArray)
+        {
+            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+                connection.Open();
+
+                using (SqliteCommand command = connection.CreateCommand()) {
+                    command.CommandText = @"
+                        INSERT INTO players (player_id, player_name, copper, silver, gold)
+                        VALUES ($playerId, $playerName, $copper, $silver, $gold)
+                    ";
+                    command.Parameters.AddWithValue("$playerId", SaveArray[0]);
+                    command.Parameters.AddWithValue("$playerName", SaveArray[1]);
+                    command.Parameters.AddWithValue("$copper", SaveArray[2]);
+                    command.Parameters.AddWithValue("$silver", SaveArray[3]);
+                    command.Parameters.AddWithValue("$gold", SaveArray[4]);
                     command.ExecuteNonQuery();
                 }
             }

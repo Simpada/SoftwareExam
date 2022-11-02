@@ -1,6 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.DataBase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,8 +98,19 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
         public void SaveGame() {
+
+            ArrayList SaveArray = new();
+
+            SaveArray.Add(Player.Id);
+            SaveArray.Add(Player.PlayerName);
+            SaveArray.Add(Player.Balance.Copper);
+            SaveArray.Add(Player.Balance.Silver);
+            SaveArray.Add(Player.Balance.Gold);
+
+            // Must also loop to add adventurers
+
             
-            //DataBaseAccess.Save(Player);
+            //DataBaseAccess.Save(SaveArray);
 
         }
         
