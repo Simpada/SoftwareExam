@@ -24,8 +24,15 @@ namespace SoftwareExam.CoreProgram {
             Adventurers.Add(Recruitment.RecruitAdventurer(type));
         }
 
-        public List<Adventurer> GetAdventurers() {
+        public void DismissAdventurer(int who) {
+            Adventurers.RemoveAt(who);
+        }
+
+        public List<Adventurer> GetAllAdventurers() {
             return Adventurers;
+        }
+        public Adventurer GetAdventurer(int who) {
+            return Adventurers[who];
         }
 
         public string SaveGame() {

@@ -176,31 +176,31 @@ namespace SoftwareExam.UI {
 
                 if (input == '1') {
                     if (Adventurers.Count >= 1) {
-                        Console.WriteLine("I have an adventurer");
+                        DismissAdventurer(0);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '2') {
                     if (Adventurers.Count >= 2) {
-                        Console.WriteLine("I have an adventurer");
+                        DismissAdventurer(1);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '3') {
                     if (Adventurers.Count >= 3) {
-                        Console.WriteLine("I have an adventurer");
+                        DismissAdventurer(2);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '4') {
                     if (Adventurers.Count >= 4) {
-                        Console.WriteLine("I have an adventurer");
+                        DismissAdventurer(3);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '5') {
                     if (Adventurers.Count >= 5) {
-                        Console.WriteLine("I have an adventurer");
+                        DismissAdventurer(4);
                     } else {
                         RecruitAdventurer();
                     }
@@ -219,18 +219,34 @@ namespace SoftwareExam.UI {
 
         private void GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers) {
             AdventurerCards = new string[5];
-            Adventurers = Manager.GetAdventurers();
+            Adventurers = Manager.GetAllAdventurers();
             for (int i = 0; i < Adventurers.Count; i++) {
                 AdventurerCards[i] = Adventurers[i].ToString();
                 if (i >= AdventurerCards.Length) { break; }
             }
-
             Console.WriteLine(PlayMenu.GetTavern(AdventurerCards));
         }
 
-        private void DismissAdventurer() {
+        private void DismissAdventurer(int who) {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetTavernDismissing("Hank", "GP: 2, SP: 5, CP: 7"));
+            Adventurer Adventurer = Manager.GetAdventurer(who);
+            Currency Value = Adventurer.Value * 0.7;
+
+            Console.WriteLine(PlayMenu.GetTavernDismissing(Adventurer.Name, Value.ToString()));
+
+            while (true) {
+
+                input = Console.ReadKey().KeyChar;
+
+                if (input == 'y') {
+                    Manager.DismissAdventurer(who);
+                    return;
+                } else if (input == 'n') {
+                    return;
+                } else {
+                    InvalidInput(PlayMenu.GetTavernDismissing(Adventurer.Name, Value.ToString()));
+                }
+            }
         }
 
         private void RecruitAdventurer() {
@@ -243,18 +259,16 @@ namespace SoftwareExam.UI {
 
                 if (input == '1') {
                     Manager.RecruitAdventurer(1);
-                    return;
                 } else if (input == '2') {
                     Manager.RecruitAdventurer(2);
-                    return;
                 } else if (input == '3') {
                     Manager.RecruitAdventurer(3);
-                    return;
                 } else if (input == '0') {
-                    return;
                 } else {
                     InvalidInput(PlayMenu.GetTavernRecruiting());
+                    continue;
                 }
+                return;
             }
 
         }

@@ -47,6 +47,17 @@ namespace SoftwareExam.CoreProgram {
             return Convert(new Currency(tempCopper, tempSilver, tempGold));
         }
 
+        public Currency Multiply(double multiplier) {
+
+            Currency temp = this;
+
+            temp.Gold = (int)(temp.Gold * multiplier);
+            temp.Silver = (int)(temp.Silver * multiplier);
+            temp.Copper = (int)(temp.Copper * multiplier);
+
+            return temp;
+        }
+
         public Currency Convert(Currency currency)
         {
             while (currency._copper >= 10) {
@@ -128,6 +139,11 @@ namespace SoftwareExam.CoreProgram {
         public static Currency operator -(Currency currency1, Currency currency2)
         {
             return currency1.Subtract(currency2);
+        }
+        
+        public static Currency operator *(Currency currency, double multiplier)
+        {
+            return currency.Multiply(multiplier);
         }
 
         public static bool operator >(Currency currency1, Currency currency2)

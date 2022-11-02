@@ -16,6 +16,8 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         public string Name { get; set; } = "";
         public string Class { get; set; } = "";
 
+        public Currency Value { get; set; } = new Currency();
+
 
         private List<BaseDecoratedAdventurer> Equipment = new();
         private readonly Random Random = new();
