@@ -11,10 +11,30 @@ namespace SoftwareExam.CoreProgram
 {
     public class Player
     {
-        public int id;
+        private int _id;
         private string _playerName;
         public Currency Balance { get; set; }
         public List<Adventurer> Adventurers = new();
+
+        public Player()
+        {
+            //Empty
+        }
+
+        public Player(int id, string playerName, Currency balance)
+        {
+            _id = id;
+            _playerName = playerName;
+            Balance = balance;
+        }
+
+        public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers)
+        {
+            _id = id;
+            _playerName = playerName;
+            Balance = balance;
+            Adventurers = adventurers;
+        }
 
 
         public bool ValidateUserName(string userName)
@@ -43,5 +63,21 @@ namespace SoftwareExam.CoreProgram
                 }
             }
         }
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (value < 1 || value > 4) {
+                    throw new Exception("save between 1-4");
+                }
+                else {
+                    _id = value;
+                }
+            }
+        } 
     }
 }

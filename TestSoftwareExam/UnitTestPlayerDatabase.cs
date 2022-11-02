@@ -16,7 +16,7 @@ namespace TestSoftwareExam
         public void TestRetrievePlayer()
         {
             Player player = new();
-
+            
         }
 
 
