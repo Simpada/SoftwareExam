@@ -11,7 +11,21 @@ namespace SoftwareExam.CoreProgram {
 
         private AdventurerFactory? Factory;
 
-        public Adventurer RecruitAdventurer(int type) {
+
+        public Currency Price { get; set; } = new(0, 5, 0);
+
+        public bool CheckBalance(Currency balance) {
+
+            if (balance >= Price) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+
+
+        public Adventurer? RecruitAdventurer(int type, Currency balance) {
 
             if (type == 1) {
                 Factory = new WarriorFactory();
@@ -23,7 +37,13 @@ namespace SoftwareExam.CoreProgram {
                 throw new Exception("Invalid recruitment class");
             }
 
-            return Factory.CreateAdventurer();
+            if (CheckBalance(balance)) {
+                return Factory.CreateAdventurer();
+            } else {
+                return null;
+            }
+
+            
         }
     }
 }

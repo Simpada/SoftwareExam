@@ -145,14 +145,14 @@ namespace SoftwareExam.UI {
                     // Access DB and save
                     string Message = Manager.SaveGame();
                     Console.Clear();
-                    Console.WriteLine(PlayMenu.GetPlayMenu());
+                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalance()));
                     Console.WriteLine(Message);
                     Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 } else if (input == '0') {
                     ExitMenu();
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetPlayMenu());
+                    InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalance()));
                     Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 }
             }
@@ -309,7 +309,7 @@ namespace SoftwareExam.UI {
 
         private void ResetPlayMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetPlayMenu() + "\n");
+            Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalance()) + "\n");
             Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
         }
 

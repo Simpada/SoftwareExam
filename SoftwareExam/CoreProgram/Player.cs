@@ -11,10 +11,11 @@ namespace SoftwareExam.CoreProgram
 {
     public class Player
     {
-        private int _id;
-        private string _playerName;
-        public Currency Balance { get; set; }
+        private int _id = -1;
+        private string _playerName = "";
+        public Currency Balance { get; set; } = new(0, 0, 50);
         public List<Adventurer> Adventurers = new();
+        public int AvailableAdventurers { get; set; } = 0;
 
         public Player()
         {
@@ -52,7 +53,6 @@ namespace SoftwareExam.CoreProgram
         {
             return $"Playername: {_playerName}";
         }
-
 
         //Property
         public string PlayerName

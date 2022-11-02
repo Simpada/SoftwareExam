@@ -9,13 +9,18 @@ namespace SoftwareExam.UI {
 
 
         
-        public string GetPlayMenu() {
+        public string GetPlayMenu(int totalAdventurers, int availableAdventurers, string balance) {
             return $@" 
     THE ADVENTURER'S LEAGUE   
 
-    [1] Enter Guild House (Plan expeditions)
-    [2] Go to The Tavern (Hire Adventurers)
-    [3] Shop at The Armory (Upgrade Adventurers)
+    Your balance is : {balance}
+    You have {totalAdventurers} adventurers
+    {availableAdventurers} are in town
+    {totalAdventurers-availableAdventurers} are on a quest
+
+    [1] Enter Guild House (Plan expeditions)                
+    [2] Go to The Tavern (Hire Adventurers)                 
+    [3] Shop at The Armory (Upgrade Adventurers)            
     [4] Save
     [0] Exit Game
 ";

@@ -21,7 +21,7 @@ namespace TestSoftwareExam {
         [TestCase(3, "Rogue", 5, 5, 10)]
         public void TestFactory(int type, string expectedClass, int health, int damage, int luck) {
 
-            Adventurer adventurer = Recruitment.RecruitAdventurer(type);
+            Adventurer adventurer = Recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
             Assert.That(adventurer.Class, Is.EqualTo(expectedClass));
             Assert.That(adventurer.Health, Is.EqualTo(health));
