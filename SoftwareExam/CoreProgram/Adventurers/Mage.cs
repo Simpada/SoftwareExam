@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers {
     internal class Mage : Adventurer {
 
-
         public Mage() {
             Class = "Mage";
             Health = 5;
