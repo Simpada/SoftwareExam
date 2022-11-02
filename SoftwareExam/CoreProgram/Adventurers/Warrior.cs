@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers {
-    internal class Warrior : Adventurer {
+    public class Warrior : Adventurer {
 
         public Warrior() {
             Class = "Warrior";
