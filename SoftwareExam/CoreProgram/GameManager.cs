@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram {
     internal class GameManager {
 
-        private Recruitment Recruitment;
-        private DataBaseAccess DataBaseAccess;
+        private readonly Recruitment Recruitment;
+        private readonly DataBaseAccess DataBaseAccess;
 
         private List<Adventurer> Adventurers = new();
 
