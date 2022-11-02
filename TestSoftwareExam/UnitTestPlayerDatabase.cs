@@ -10,8 +10,9 @@ namespace TestSoftwareExam
         [SetUp]
         public void Setup()
         {
-            //Ask about SetUp. Does not run on 2nd test?????????
+            //Ask about SetUp. Does not run on 2nd test????????? Lock?
             string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase.db");
+
             try {
                 if (File.Exists(databasePath)) {
                     File.Delete(databasePath);
@@ -19,25 +20,22 @@ namespace TestSoftwareExam
             }
             catch (IOException e) {}
 
-
             databaseAccess = new("Data Source = testDatabase.db");
-
         }
 
         [Test]
         public void TestRetrievePlayer()
         {
-
             //Expected
-            Currency balance = new Currency(5, 5, 500);
-            Player tempPlayer = new Player(1, "Den Sinna krigaren", balance);
+            Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
             databaseAccess.Save(tempPlayer);
 
+            //Actual
             databaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
             Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
 
-            Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
 
+            Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
             Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
         }
 

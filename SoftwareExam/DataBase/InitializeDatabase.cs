@@ -37,67 +37,74 @@ namespace SoftwareExam.DataBase
 
         public void CreateDb()
         {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
+            using (SqliteConnection connection = new(DataSource)) {
+                connection.Open();
+            }
         }
 
         public void CreateTablePlayer()
         {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
+            using (SqliteConnection connection = new(DataSource)) {
+                connection.Open();
 
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS players
-                (
-                    player_id INTEGER NOT NULL PRIMARY KEY,
-                    player_name TEXT NOT NULL,
-                    copper INTEGER NOT NULL,
-                    silver INTEGER NOT NULL,
-                    gold INTEGER NOT NULL
-                )
-            ";
-            command.ExecuteNonQuery();
+                using (SqliteCommand command = connection.CreateCommand()) {
+                    command.CommandText = @"
+                        CREATE TABLE IF NOT EXISTS players
+                        (
+                            player_id INTEGER NOT NULL PRIMARY KEY,
+                            player_name TEXT NOT NULL,
+                            copper INTEGER NOT NULL,
+                            silver INTEGER NOT NULL,
+                            gold INTEGER NOT NULL
+                        )
+                    ";
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         public void CreateTableAdventurers()
         {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
+            using (SqliteConnection connection = new(DataSource)) {
+                connection.Open();
 
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS adventurers
-                (
-                    adventurer_id INTEGER NOT NULL PRIMARY KEY,
-                    adventurer_name TEXT NOT NULL,
-                    class TEXT NOT NULL,
-                    health INTEGER NOT NULL,
-                    damaage INTEGER NOT NULL,
-                    luck INTEGER NOT NULL,
-                    player_id INTEGER NOT NULL,
-                    FOREIGN KEY(player_id) REFERENCES player_id(players)
-                )
-            ";
-            command.ExecuteNonQuery();
+                using (SqliteCommand command = connection.CreateCommand()) {
+                    command.CommandText = @"
+                        CREATE TABLE IF NOT EXISTS adventurers
+                        (
+                            adventurer_id INTEGER NOT NULL PRIMARY KEY,
+                            adventurer_name TEXT NOT NULL,
+                            class TEXT NOT NULL,
+                            health INTEGER NOT NULL,
+                            damaage INTEGER NOT NULL,
+                            luck INTEGER NOT NULL,
+                            player_id INTEGER NOT NULL,
+                            FOREIGN KEY(player_id) REFERENCES player_id(players)
+                        )
+                    ";
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         private void CreateTableDecorators()
         {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
+            using (SqliteConnection connection = new(DataSource)) {
+                connection.Open();
 
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS decorators
-                (
-                    decorator_id INTEGER NOT NULL,
-                    adventurer_id INTEGER NOT NULL,
-                    PRIMARY KEY (decorator_id, adventurer_id),
-                    FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
-                )
-            ";
-            command.ExecuteNonQuery();
+                using (SqliteCommand command = connection.CreateCommand()) {
+                    command.CommandText = @"
+                        CREATE TABLE IF NOT EXISTS decorators
+                        (
+                            decorator_id INTEGER NOT NULL,
+                            adventurer_id INTEGER NOT NULL,
+                            PRIMARY KEY (decorator_id, adventurer_id),
+                            FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
+                        )
+                     ";
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
 
