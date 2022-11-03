@@ -23,7 +23,7 @@ namespace SoftwareExam.DataBase {
         {
             using (SqliteConnection connection = new(dataSource)) {
                 connection.Open();
-                InitDb = new(dataSource, connection);
+                InitDb = new(dataSource);
             }
             
         }
