@@ -162,7 +162,7 @@ namespace SoftwareExam.DataBase {
 
                 using (SqliteCommand command = connection.CreateCommand()) {
                     command.CommandText = @$"
-                    ROP TABLE
+                    DROP TABLE
                     IF EXISTS
                     '{table}';
                 ";
