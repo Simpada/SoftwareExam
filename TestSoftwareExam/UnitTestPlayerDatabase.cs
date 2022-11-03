@@ -5,7 +5,8 @@ namespace TestSoftwareExam
 {
     public class UnitTestPlayerDatabase
     {
-        public DataBaseAccess databaseAccess;
+        // Not true
+        private DataBaseAccess databaseAccess;
 
         [SetUp]
         public void Setup()
@@ -32,7 +33,7 @@ namespace TestSoftwareExam
                 if (File.Exists(databasePath)) {
                     File.Delete(databasePath);
                 }
-            } catch (IOException e) { }
+            } catch (IOException) { }
 
             databaseAccess = new("Data Source = " + db);
 

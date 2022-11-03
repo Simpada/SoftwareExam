@@ -104,7 +104,7 @@ namespace TestSoftwareExam
         {
             c1 = new Currency(0, 1, 50);
 
-            int totalInCopper = c1.CheckPriceInCopper(c1);
+            int totalInCopper = Currency.CheckPriceInCopper(c1);
             int expectedInCopper = 5010;
 
             Assert.That(totalInCopper, Is.EqualTo(expectedInCopper));

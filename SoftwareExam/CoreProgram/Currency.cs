@@ -58,7 +58,7 @@ namespace SoftwareExam.CoreProgram {
             return temp;
         }
 
-        public Currency Convert(Currency currency)
+        public static Currency Convert(Currency currency)
         {
             while (currency._copper >= 10) {
                 currency._silver++;
@@ -88,7 +88,7 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
         //Converts all to copper to check price.
-        public int CheckPriceInCopper(Currency currency)
+        public static int CheckPriceInCopper(Currency currency)
         {
             return currency._copper + (currency._silver * 10) + (currency._gold * 100);
         }
