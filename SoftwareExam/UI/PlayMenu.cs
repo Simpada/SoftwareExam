@@ -89,18 +89,24 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetTavernRecruiting(Currency balance) {
+        public string GetTavernRecruiting(bool canAfford, string newBalance, string cost) {
 
-            // This needs to happen elsewhere, breaks layering, cannot use Currency
-            Currency cost = new(0, 5, 0);
 
-            string balanceMessage = "";
-            if (balance >= cost) {
-                balanceMessage = $@"    Your new balance will be: {balance - cost}
+            string balanceMessage;
+            string[] buyMessage = new string[3];
+
+            if (canAfford) {
+                balanceMessage = $@"    Your new balance will be: {newBalance}
     All decisions to recruit are final
     NO REFUNDS!";
+                buyMessage[0] = "[1] RECRUIT NEW WARRIOR";
+                buyMessage[1] = "[2] RECRUIT NEW MAGE";
+                buyMessage[2] = "[3] RECRUIT NEW ROGUE";
             } else {
                 balanceMessage = "\n    You cannot afford to recruit a new adventurer";
+                buyMessage[0] = "YOU CANNOT AFFORD THIS!";
+                buyMessage[1] = "YOU CANNOT AFFORD THIS!";
+                buyMessage[2] = "YOU CANNOT AFFORD THIS!";
             }
 
             return $@"
@@ -112,7 +118,7 @@ namespace SoftwareExam.UI {
 {balanceMessage}
 
     |-----------------------------------------
-    |       [1] RECRUIT NEW WARRIOR
+    |       {buyMessage[0]}
     | ______    
     | | __ |    
     | | || |    Health: 10
@@ -120,7 +126,7 @@ namespace SoftwareExam.UI {
     | \ '' /    Luck:   5
     |  \__/     
     |-----------------------------------------
-    |       [2] RECRUIT NEW MAGE
+    |       {buyMessage[1]}
     |   _       
     |  \*/      
     |   |       Health: 5
@@ -128,7 +134,7 @@ namespace SoftwareExam.UI {
     |   |       Luck:   5
     |   V       
     |-----------------------------------------
-    |       [3] RECRUIT NEW ROGUE
+    |       {buyMessage[2]}
     |   |\      
     |   | \     
     |   | |     Health: 5

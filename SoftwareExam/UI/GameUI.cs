@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
-    internal class GameUI {
+    public class GameUI {
 
         private readonly GameManager Manager;
         private readonly StartMenu StartMenu;
@@ -152,40 +152,40 @@ namespace SoftwareExam.UI {
         }
 
         private void TavernMenu() {
-            Console.Clear();
-            // This function must be done in GameManager, it breaks layering, cannot access adventurer
-            GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers);
+            Console.Clear();            
+
+            Console.WriteLine(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
 
             while (true) {
-
+                int AdventurerCount = Manager.GetAdventurerCount();
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
-                    if (Adventurers.Count >= 1) {
+                    if (AdventurerCount >= 1) {
                         DismissAdventurer(0);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '2') {
-                    if (Adventurers.Count >= 2) {
+                    if (AdventurerCount >= 2) {
                         DismissAdventurer(1);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '3') {
-                    if (Adventurers.Count >= 3) {
+                    if (AdventurerCount >= 3) {
                         DismissAdventurer(2);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '4') {
-                    if (Adventurers.Count >= 4) {
+                    if (AdventurerCount >= 4) {
                         DismissAdventurer(3);
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (input == '5') {
-                    if (Adventurers.Count >= 5) {
+                    if (AdventurerCount >= 5) {
                         DismissAdventurer(4);
                     } else {
                         RecruitAdventurer();
@@ -193,33 +193,22 @@ namespace SoftwareExam.UI {
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetTavern(AdventurerCards, Manager.GetBalanceString()));
+                    InvalidInput(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
                     continue;
                 }
 
                 Console.Clear();
-                GetTavernMenu(out AdventurerCards, out Adventurers);
+                Console.WriteLine(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
             }
 
-        }
-
-        // This function must be done in GameManager, it breaks layering, cannot access adventurer
-        private void GetTavernMenu(out string[] AdventurerCards, out List<Adventurer> Adventurers) {
-            // This sets the maximum amount if adventurers you can display
-            AdventurerCards = new string[5];
-            Adventurers = Manager.GetAllAdventurers();
-            for (int i = 0; i < Adventurers.Count; i++) {
-                AdventurerCards[i] = Adventurers[i].ToString();
-            }
-            Console.WriteLine(PlayMenu.GetTavern(AdventurerCards, Manager.GetBalanceString()));
         }
 
         private void DismissAdventurer(int who) {
             Console.Clear();
-            Adventurer Adventurer = Manager.GetAdventurer(who);
-            Currency Value = Adventurer.Value * 0.7;
 
-            Console.WriteLine(PlayMenu.GetTavernDismissing(Adventurer.Name, Value.ToString()));
+            Manager.GetAdventurerSellValue(who, out string name, out string value);
+
+            Console.WriteLine(PlayMenu.GetTavernDismissing(name, value));
 
             while (true) {
 
@@ -231,17 +220,20 @@ namespace SoftwareExam.UI {
                 } else if (input == 'n') {
                     return;
                 } else {
-                    InvalidInput(PlayMenu.GetTavernDismissing(Adventurer.Name, Value.ToString()));
+                    InvalidInput(PlayMenu.GetTavernDismissing(name, value));
                 }
             }
         }
 
         private void RecruitAdventurer() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetTavernRecruiting(Manager.GetBalanceValue()));
+
+            Manager.CheckBalance(out bool canAfford, out string newBalance, out string cost);
+            
+            Console.WriteLine(PlayMenu.GetTavernRecruiting(canAfford, newBalance, cost));
 
             while (true) {
-
+                
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
@@ -251,13 +243,13 @@ namespace SoftwareExam.UI {
                 } else if (input == '3') {
                     Manager.RecruitAdventurer(3);
                 } else if (input != '0') {
-                    InvalidInput(PlayMenu.GetTavernRecruiting(Manager.GetBalanceValue()));
+                    Manager.CheckBalance(out canAfford, out newBalance, out cost);
+                    InvalidInput(PlayMenu.GetTavernRecruiting(canAfford, newBalance, cost));
                     continue;
                 }
                 return;
             }
-
-        }
+}
 
         private void ArmoryMenu() {
             Console.Clear();

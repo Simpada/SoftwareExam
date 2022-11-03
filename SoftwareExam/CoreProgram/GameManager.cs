@@ -1,6 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.DataBase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,13 +25,20 @@ namespace SoftwareExam.CoreProgram {
             Player = player;
         }
 
-        internal string GetBalanceString() {
+        public string GetBalanceString() {
             return Player.Balance.ToString();
         }
 
-
-        internal Currency GetBalanceValue() {
+        public Currency GetBalanceValue() {
             return Player.Balance;
+        }
+
+        public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
+
+            canAfford = Recruitment.CheckBalance(Player.Balance);
+            cost = Recruitment.Price.ToString();
+            newBalance = (Player.Balance - Recruitment.Price).ToString();
+
         }
 
         // Relates to adventurers
@@ -53,12 +61,33 @@ namespace SoftwareExam.CoreProgram {
             Player.Adventurers.RemoveAt(who);
         }
 
-        public List<Adventurer> GetAllAdventurers() {
-            return Player.Adventurers;
+        public string[] GetAllAdventurerCards() {
+
+            // This sets the maximum amount of adventurers you can display
+            string[]AdventurerCards = new string[5];
+
+            List<Adventurer> Adventurers = Player.Adventurers;
+
+            for (int i = 0; i < Adventurers.Count; i++) {
+                AdventurerCards[i] = Adventurers[i].ToString();
+            }
+
+            return AdventurerCards;
         }
+        public void GetAdventurerSellValue(int who, out string name, out string value) {
+
+            double sellMultiplier = 0.7;
+
+            Adventurer adventurer = Player.Adventurers[who];
+
+            name = adventurer.Name;
+            value = (adventurer.Value * sellMultiplier).ToString();
+        }
+
         public Adventurer GetAdventurer(int who) {
             return Player.Adventurers[who];
         }
+
         internal int GetAdventurerCount() {
             return Player.Adventurers.Count();
         }
@@ -69,8 +98,19 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
         public void SaveGame() {
+
+            ArrayList SaveArray = new();
+
+            SaveArray.Add(Player.Id);
+            SaveArray.Add(Player.PlayerName);
+            SaveArray.Add(Player.Balance.Copper);
+            SaveArray.Add(Player.Balance.Silver);
+            SaveArray.Add(Player.Balance.Gold);
+
+            // Must also loop to add adventurers
+
             
-            DataBaseAccess.Save(Player);
+            //DataBaseAccess.Save(SaveArray);
 
         }
         
@@ -81,12 +121,11 @@ namespace SoftwareExam.CoreProgram {
 
         }
 
-
-
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();
 
         }
+
     }
 }

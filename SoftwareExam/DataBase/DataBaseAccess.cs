@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using SoftwareExam.CoreProgram;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,18 @@ namespace SoftwareExam.DataBase {
 
         public DataBaseAccess(string dataSource)
         {
-            InitDb = new(dataSource);
+            using (SqliteConnection connection = new(dataSource)) {
+                connection.Open();
+                InitDb = new(dataSource, connection);
+            }
+            
         }
 
 
         //Should actually not access player - best way to return info?
         public void Save(Player player)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -44,10 +49,31 @@ namespace SoftwareExam.DataBase {
                 }
             }
         }
+        
+        // This shouldn't break layering, but needs way to parse adventurers later
+        public void Save(ArrayList SaveArray)
+        {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
+                connection.Open();
+
+                using (SqliteCommand command = connection.CreateCommand()) {
+                    command.CommandText = @"
+                        INSERT INTO players (player_id, player_name, copper, silver, gold)
+                        VALUES ($playerId, $playerName, $copper, $silver, $gold)
+                    ";
+                    command.Parameters.AddWithValue("$playerId", SaveArray[0]);
+                    command.Parameters.AddWithValue("$playerName", SaveArray[1]);
+                    command.Parameters.AddWithValue("$copper", SaveArray[2]);
+                    command.Parameters.AddWithValue("$silver", SaveArray[3]);
+                    command.Parameters.AddWithValue("$gold", SaveArray[4]);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
 
         public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -82,7 +108,7 @@ namespace SoftwareExam.DataBase {
 
         public string[] RetrieveAllPlayerNames()
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -114,7 +140,7 @@ namespace SoftwareExam.DataBase {
 
         public void Delete(int id)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {

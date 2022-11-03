@@ -26,6 +26,7 @@ namespace TestSoftwareExam
         [Test]
         public void TestRetrievePlayer()
         {
+
             //Expected
             Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
             databaseAccess.Save(tempPlayer);
@@ -44,6 +45,7 @@ namespace TestSoftwareExam
         [TestCase(3, "three", 5, 5, 100)]
         public void TestRetriveAllPlayerNames(int id, string name, int copper, int silver, int gold)
         {
+
             Player player = new(id, name, new Currency(copper, silver, gold));
             databaseAccess.Save(player);
 
@@ -53,6 +55,7 @@ namespace TestSoftwareExam
                 Console.WriteLine("Player name: " + playerName);
             }
 
+            Assert.That(playerNames, Does.Contain(name));
         }
 
     }

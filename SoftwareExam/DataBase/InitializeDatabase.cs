@@ -9,18 +9,20 @@ namespace SoftwareExam.DataBase
 {
     public class InitializeDatabase
     {
-        private readonly string _dataSource;
 
-        public InitializeDatabase(string dataSource)
+        private readonly string _dataSource;
+        SqliteConnection Connection;
+
+        public InitializeDatabase(string dataSource, SqliteConnection connection)
         {
             _dataSource = dataSource;
-            init();
+            Connection = connection;
+            Init();
         }
 
-        public void init()
+        public void Init()
         {
             if (!CheckIfDatabaseExists()) {
-                CreateDb();
                 CreateTablePlayer();
                 CreateTableAdventurers();
                 CreateTableDecorators();
@@ -35,20 +37,11 @@ namespace SoftwareExam.DataBase
             return false;
         }
 
-        public void CreateDb()
-        {
-            using (SqliteConnection connection = new(DataSource)) {
-                connection.Open();
-            }
-        }
 
         public void CreateTablePlayer()
         {
-            using (SqliteConnection connection = new(DataSource)) {
-                connection.Open();
-
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
+            using (SqliteCommand command = Connection.CreateCommand()) {
+                command.CommandText = @"
                         CREATE TABLE IF NOT EXISTS players
                         (
                             player_id INTEGER NOT NULL PRIMARY KEY,
@@ -58,18 +51,14 @@ namespace SoftwareExam.DataBase
                             gold INTEGER NOT NULL
                         )
                     ";
-                    command.ExecuteNonQuery();
-                }
+                command.ExecuteNonQuery();
             }
         }
 
         public void CreateTableAdventurers()
         {
-            using (SqliteConnection connection = new(DataSource)) {
-                connection.Open();
-
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
+            using (SqliteCommand command = Connection.CreateCommand()) {
+                command.CommandText = @"
                         CREATE TABLE IF NOT EXISTS adventurers
                         (
                             adventurer_id INTEGER NOT NULL PRIMARY KEY,
@@ -82,18 +71,14 @@ namespace SoftwareExam.DataBase
                             FOREIGN KEY(player_id) REFERENCES player_id(players)
                         )
                     ";
-                    command.ExecuteNonQuery();
-                }
+                command.ExecuteNonQuery();
             }
         }
 
         private void CreateTableDecorators()
         {
-            using (SqliteConnection connection = new(DataSource)) {
-                connection.Open();
-
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
+            using (SqliteCommand command = Connection.CreateCommand()) {
+                command.CommandText = @"
                         CREATE TABLE IF NOT EXISTS decorators
                         (
                             decorator_id INTEGER NOT NULL,
@@ -102,8 +87,7 @@ namespace SoftwareExam.DataBase
                             FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
                         )
                      ";
-                    command.ExecuteNonQuery();
-                }
+                command.ExecuteNonQuery();
             }
         }
 
