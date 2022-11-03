@@ -21,14 +21,18 @@ namespace SoftwareExam.DataBase {
 
         public DataBaseAccess(string dataSource)
         {
-            InitDb = new(dataSource);
+            using (SqliteConnection connection = new(dataSource)) {
+                connection.Open();
+                InitDb = new(dataSource, connection);
+            }
+            
         }
 
 
         //Should actually not access player - best way to return info?
         public void Save(Player player)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -49,7 +53,7 @@ namespace SoftwareExam.DataBase {
         // This shouldn't break layering, but needs way to parse adventurers later
         public void Save(ArrayList SaveArray)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -69,7 +73,7 @@ namespace SoftwareExam.DataBase {
 
         public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -104,7 +108,7 @@ namespace SoftwareExam.DataBase {
 
         public string[] RetrieveAllPlayerNames()
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
@@ -136,7 +140,7 @@ namespace SoftwareExam.DataBase {
 
         public void Delete(int id)
         {
-            using (SqliteConnection connection = new SqliteConnection(InitDb.DataSource)) {
+            using (SqliteConnection connection = new (InitDb.DataSource)) {
                 connection.Open();
 
                 using (SqliteCommand command = connection.CreateCommand()) {
