@@ -40,22 +40,36 @@ namespace TestSoftwareExam
             Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
         }
 
-        [TestCase(1, "one", 5, 5, 100)]
-        [TestCase(2, "two", 5, 5, 100)]
-        [TestCase(3, "three", 5, 5, 100)]
-        public void TestRetriveAllPlayerNames(int id, string name, int copper, int silver, int gold)
+        [Test]
+        public void TestRetriveAllPlayerNames()
         {
+            string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase2.db");
 
-            Player player = new(id, name, new Currency(copper, silver, gold));
-            databaseAccess.Save(player);
+            try {
+                if (File.Exists(databasePath)) {
+                    File.Delete(databasePath);
+                }
+            } catch (IOException e) { }
 
-            string[] playerNames = databaseAccess.RetrieveAllPlayerNames();
+            DataBaseAccess databaseAccess2 = new("Data Source = testDatabase2.db");
+
+
+            Player player1 = new(1, "one", new Currency(5, 5, 100));
+            Player player2 = new(2, "two", new Currency(5, 5, 100));
+            Player player3 = new(3, "three", new Currency(5, 5, 100));
+            databaseAccess2.Save(player1);
+            databaseAccess2.Save(player2);
+            databaseAccess2.Save(player3);
+
+            string[] playerNames = databaseAccess2.RetrieveAllPlayerNames();
 
             foreach (string playerName in playerNames) {
                 Console.WriteLine("Player name: " + playerName);
             }
 
-            Assert.That(playerNames, Does.Contain(name));
+            Assert.That(playerNames, Does.Contain("one"));
+            Assert.That(playerNames, Does.Contain("two"));
+            Assert.That(playerNames, Does.Contain("three"));
         }
 
     }
