@@ -39,7 +39,7 @@ namespace TestSoftwareExam
             Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
         }
 
-        [TestCase(1, "one", 5, 5, 100)]
+        //[TestCase(1, "one", 5, 5, 100)]
         [TestCase(2, "two", 5, 5, 100)]
         [TestCase(3, "three", 5, 5, 100)]
         public void TestRetriveAllPlayerNames(int id, string name, int copper, int silver, int gold)

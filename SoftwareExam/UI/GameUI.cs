@@ -152,9 +152,7 @@ namespace SoftwareExam.UI {
         }
 
         private void TavernMenu() {
-            Console.Clear();
-            // This function must be done in GameManager, it breaks layering, cannot access adventurer
-            
+            Console.Clear();            
 
             Console.WriteLine(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
 
