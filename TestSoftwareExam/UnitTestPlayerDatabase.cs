@@ -11,21 +11,37 @@ namespace TestSoftwareExam
         public void Setup()
         {
             //Ask about SetUp. Does not run on 2nd test????????? Lock?
-            string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase.db");
+
+            //string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase.db");
+
+            //try {
+            //    if (File.Exists(databasePath)) {
+            //        File.Delete(databasePath);
+            //    }
+            //}
+            //catch (IOException e) {}
+
+            //databaseAccess = new("Data Source = testDatabase.db");
+        }
+
+        private void Prepare(string db) {
+
+            string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, db);
 
             try {
                 if (File.Exists(databasePath)) {
                     File.Delete(databasePath);
                 }
-            }
-            catch (IOException e) {}
+            } catch (IOException e) { }
 
-            databaseAccess = new("Data Source = testDatabase.db");
+            databaseAccess = new("Data Source = " + db);
+
         }
 
         [Test]
         public void TestRetrievePlayer()
         {
+            Prepare("testDatabase1.db");
 
             //Expected
             Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
@@ -43,25 +59,17 @@ namespace TestSoftwareExam
         [Test]
         public void TestRetriveAllPlayerNames()
         {
-            string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase2.db");
-
-            try {
-                if (File.Exists(databasePath)) {
-                    File.Delete(databasePath);
-                }
-            } catch (IOException e) { }
-
-            DataBaseAccess databaseAccess2 = new("Data Source = testDatabase2.db");
+            Prepare("testDatabase2.db");
 
 
             Player player1 = new(1, "one", new Currency(5, 5, 100));
             Player player2 = new(2, "two", new Currency(5, 5, 100));
             Player player3 = new(3, "three", new Currency(5, 5, 100));
-            databaseAccess2.Save(player1);
-            databaseAccess2.Save(player2);
-            databaseAccess2.Save(player3);
+            databaseAccess.Save(player1);
+            databaseAccess.Save(player2);
+            databaseAccess.Save(player3);
 
-            string[] playerNames = databaseAccess2.RetrieveAllPlayerNames();
+            string[] playerNames = databaseAccess.RetrieveAllPlayerNames();
 
             foreach (string playerName in playerNames) {
                 Console.WriteLine("Player name: " + playerName);
