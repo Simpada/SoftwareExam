@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -99,13 +100,21 @@ namespace SoftwareExam.CoreProgram {
 
         public void SaveGame() {
 
-            ArrayList SaveArray = new();
+            ArrayList SaveArray = new() {
+                Player.Id,
+                Player.PlayerName,
+                Player.Balance.Copper,
+                Player.Balance.Silver,
+                Player.Balance.Gold
+            };
 
-            SaveArray.Add(Player.Id);
-            SaveArray.Add(Player.PlayerName);
-            SaveArray.Add(Player.Balance.Copper);
-            SaveArray.Add(Player.Balance.Silver);
-            SaveArray.Add(Player.Balance.Gold);
+            foreach (Adventurer adventurer in Player.Adventurers) {
+                foreach(BaseDecoratedAdventurer item in adventurer.Equipment) {
+                    Console.WriteLine(adventurer.Name + item.GetEquipmentDescription());
+                }
+            }
+
+            Thread.Sleep(4000);
 
             // Must also loop to add adventurers
 

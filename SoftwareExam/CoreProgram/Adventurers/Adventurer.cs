@@ -1,4 +1,4 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorator;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,8 +18,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public Currency Value { get; set; } = new Currency();
 
-
-        private List<BaseDecoratedAdventurer> Equipment = new();
+        public List<BaseDecoratedAdventurer> Equipment = new();
         private readonly Random Random = new();
 
         public Adventurer() {
@@ -58,16 +57,36 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public abstract string GetEquipmentDescription();
 
-        public void ReEquip() {
+        public Adventurer ReEquip() {
 
-            // This function will apply all equipment anew to a DecoratedAdventurer
+            Adventurer CoreAdventurer = FindBase(Equipment[^1]);
 
+            // This doesn't work because am stupid
+            foreach (var Item in Equipment) {
+                CoreAdventurer = Item.AddItem(CoreAdventurer);
+            }
+
+
+            return CoreAdventurer;
         }
+
+        private Adventurer FindBase(BaseDecoratedAdventurer DecoratedAdventurer) {
+
+            if (DecoratedAdventurer.BaseAdventurer is BaseDecoratedAdventurer) {
+                return FindBase(DecoratedAdventurer);
+            } else {
+                return DecoratedAdventurer.BaseAdventurer;
+            }
+
+        } 
 
         private string PickOne(string[] alternatives) {
             return alternatives[Random.Next(alternatives.Length)];
         }
 
+        public void AddEquipment(BaseDecoratedAdventurer Item) {
+            Equipment.Add(Item);
+        }
 
     }
 }

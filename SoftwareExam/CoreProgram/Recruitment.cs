@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,24 @@ namespace SoftwareExam.CoreProgram {
             }
 
             if (CheckBalance(balance)) {
-                return Factory.CreateAdventurer();
+                return DressAdventurer(Factory.CreateAdventurer());
             } else {
                 return null;
-            }
-
-            
+            }            
         }
+
+        private static Adventurer DressAdventurer(Adventurer Adventurer) {
+
+            Adventurer.AddEquipment(new BasicHat(Adventurer));
+            Adventurer.AddEquipment(new BasicArmor(Adventurer));
+            Adventurer.AddEquipment(new BasicWeapon(Adventurer));
+            Adventurer.AddEquipment(new BasicOffHand(Adventurer));
+            Adventurer.AddEquipment(new BasicTrinket(Adventurer));
+
+            //Adventurer = Adventurer.ReEquip();
+
+            return Adventurer;
+        }
+
     }
 }
