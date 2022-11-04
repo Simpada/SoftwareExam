@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SoftwareExam.CoreProgram {
 
     public class Currency : IComparable{
@@ -27,8 +21,9 @@ namespace SoftwareExam.CoreProgram {
             _copper = 0;
         }
 
-        //Currency conversion
-        #region
+
+        #region Currency conversion
+
         public Currency Add(Currency currency)
         {
             int tempCopper = _copper + currency._copper;
@@ -129,8 +124,8 @@ namespace SoftwareExam.CoreProgram {
         }
 
 
-        //Operator overloading
-        #region
+        #region Operator overloading
+
         public static Currency operator +(Currency currency1, Currency currency2)
         {
             return currency1.Add(currency2);
@@ -177,8 +172,9 @@ namespace SoftwareExam.CoreProgram {
         }
         #endregion
 
-        //Properties
-        #region
+
+        #region Properties
+
         public int Gold
         {
             get
