@@ -8,6 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     internal class BasicArmor : BaseDecoratedAdventurer{
         public BasicArmor(Adventurer Adventurer) : base(Adventurer) {
         }
+
         public override void EditStats() {
             
         }

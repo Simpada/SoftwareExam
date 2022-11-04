@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     internal class BasicOffHand : BaseDecoratedAdventurer {
-
         public BasicOffHand(Adventurer Adventurer) : base(Adventurer) {
         }
+
         public override void EditStats() {
             
         }

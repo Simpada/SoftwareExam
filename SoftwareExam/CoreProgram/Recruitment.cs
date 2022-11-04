@@ -22,9 +22,7 @@ namespace SoftwareExam.CoreProgram {
             } else {
                 return false;
             }
-
         }
-
 
         public Adventurer? RecruitAdventurer(int type, Currency balance) {
 
@@ -39,24 +37,12 @@ namespace SoftwareExam.CoreProgram {
             }
 
             if (CheckBalance(balance)) {
-                return DressAdventurer(Factory.CreateAdventurer());
+                Adventurer NewAdventurer = Factory.CreateAdventurer();
+                NewAdventurer.GetStartingGear();
+                return Adventurer.EquipGear(NewAdventurer); 
             } else {
                 return null;
             }            
         }
-
-        private static Adventurer DressAdventurer(Adventurer Adventurer) {
-
-            Adventurer.AddEquipment(new BasicHat(Adventurer));
-            Adventurer.AddEquipment(new BasicArmor(Adventurer));
-            Adventurer.AddEquipment(new BasicWeapon(Adventurer));
-            Adventurer.AddEquipment(new BasicOffHand(Adventurer));
-            Adventurer.AddEquipment(new BasicTrinket(Adventurer));
-
-            //Adventurer = Adventurer.ReEquip();
-
-            return Adventurer;
-        }
-
     }
 }

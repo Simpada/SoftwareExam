@@ -11,13 +11,13 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             BaseAdventurer = Adventurer;
-            AddEquipment(this);
-        }
-
-        public BaseDecoratedAdventurer AddItem (Adventurer Adventurer) {
-            BaseAdventurer = Adventurer;
-            Adventurer.AddEquipment(this);
-            return this;
+            Health = BaseAdventurer.Health;
+            Damage = BaseAdventurer.Damage;
+            Luck = BaseAdventurer.Luck;
+            Name = BaseAdventurer.Name;
+            Class = BaseAdventurer.Class;
+            Value = BaseAdventurer.Value;
+            Equipment = BaseAdventurer.Equipment;
         }
 
         public abstract void EditStats();

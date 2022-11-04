@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers {
     public abstract class Adventurer {
-
+        
         public int Health { get; set; }
         public int Damage { get; set; }
         public int Luck { get; set; }
@@ -18,7 +18,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public Currency Value { get; set; } = new Currency();
 
-        public List<BaseDecoratedAdventurer> Equipment = new();
+        public List<BaseDecoratedAdventurer> Equipment { get; set; } = new();
         private readonly Random Random = new();
 
         public Adventurer() {
@@ -57,28 +57,20 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public abstract string GetEquipmentDescription();
 
-        public Adventurer ReEquip() {
+        public void GetStartingGear() {
 
-            Adventurer CoreAdventurer = FindBase(Equipment[^1]);
+            BaseDecoratedAdventurer Hat = new BasicHat(this);
+            BaseDecoratedAdventurer Armor = new BasicArmor(Hat);
+            BaseDecoratedAdventurer Weapon = new BasicWeapon(Armor);
+            BaseDecoratedAdventurer OffHand = new BasicOffHand(Weapon);
+            BaseDecoratedAdventurer Trinket = new BasicTrinket(OffHand);
 
-            // This doesn't work because am stupid
-            foreach (var Item in Equipment) {
-                CoreAdventurer = Item.AddItem(CoreAdventurer);
-            }
-
-
-            return CoreAdventurer;
+            Equipment.Add(Hat);
+            Equipment.Add(Armor);
+            Equipment.Add(Weapon);
+            Equipment.Add(OffHand);
+            Equipment.Add(Trinket);
         }
-
-        private Adventurer FindBase(BaseDecoratedAdventurer DecoratedAdventurer) {
-
-            if (DecoratedAdventurer.BaseAdventurer is BaseDecoratedAdventurer) {
-                return FindBase(DecoratedAdventurer);
-            } else {
-                return DecoratedAdventurer.BaseAdventurer;
-            }
-
-        } 
 
         private string PickOne(string[] alternatives) {
             return alternatives[Random.Next(alternatives.Length)];
@@ -88,5 +80,31 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             Equipment.Add(Item);
         }
 
+        public static Adventurer EquipGear(Adventurer Adventurer) {
+
+            Adventurer CoreAdventurer = FindBase(Adventurer.Equipment[^1]);
+
+            List<BaseDecoratedAdventurer> Gear = CoreAdventurer.Equipment;
+
+
+            // This doesn't work because am stupid
+            foreach (var Item in Adventurer.Equipment) {
+                Item.BaseAdventurer = CoreAdventurer;
+                CoreAdventurer = Item;
+            }
+
+            CoreAdventurer.Equipment = Gear;
+
+            return CoreAdventurer;
+        }
+        
+        private static Adventurer FindBase(BaseDecoratedAdventurer DecoratedAdventurer) {
+
+            if (DecoratedAdventurer.BaseAdventurer is BaseDecoratedAdventurer adventurer) {
+                return FindBase(adventurer);
+            } else {
+                return DecoratedAdventurer.BaseAdventurer;
+            }
+        }
     }
 }

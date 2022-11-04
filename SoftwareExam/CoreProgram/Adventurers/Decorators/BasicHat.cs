@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public class BasicHat : BaseDecoratedAdventurer {
-
         public BasicHat(Adventurer Adventurer) : base(Adventurer) {
         }
 
