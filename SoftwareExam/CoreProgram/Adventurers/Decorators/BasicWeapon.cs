@@ -15,9 +15,5 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         public override string GetEquipmentDescription() {
             return "There's nothing special about this weapon.";
         }
-
-        public override string ToString() {
-            return base.ToString();
-        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -114,16 +115,37 @@ namespace SoftwareExam.CoreProgram {
                 }
             }
 
+            #region Test Code
+
+            Console.WriteLine(Player.Adventurers[0].Health);
+
+            Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
+
+            foreach (BaseDecoratedAdventurer item in Player.Adventurers[0].Equipment) {
+                Console.WriteLine(Player.Adventurers[0].Name + " " + item.GetEquipmentDescription());
+            }
+
+            Console.WriteLine(Player.Adventurers[0].Health);
+
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
+
+            //foreach (BaseDecoratedAdventurer item in Player.Adventurers[0].Equipment) {
+            //    Console.WriteLine(Player.Adventurers[0].Name + " " + item.GetEquipmentDescription());
+            //}
+            //Console.WriteLine(Player.Adventurers[0].Health);
+
             Thread.Sleep(4000);
+
+            #endregion
 
             // Must also loop to add adventurers
 
-            
+
             //DataBaseAccess.Save(SaveArray);
 
         }
-        
-        public void LoadGame(int id) {
+
+        public void LoadGame(int Id) {
 
             //DataBaseAccess.GetPlayerById(id ,out int playerId, out string playerName, out int copper, out int silver, out int gold);
             //Player = new(playerId, playerName, new Currency(copper, silver, gold));

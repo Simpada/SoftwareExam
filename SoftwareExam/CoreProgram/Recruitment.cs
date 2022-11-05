@@ -12,7 +12,6 @@ namespace SoftwareExam.CoreProgram {
 
         private AdventurerFactory? Factory;
 
-
         public Currency Price { get; set; } = new(0, 5, 0);
 
         public bool CheckBalance(Currency balance) {
@@ -38,8 +37,7 @@ namespace SoftwareExam.CoreProgram {
 
             if (CheckBalance(balance)) {
                 Adventurer NewAdventurer = Factory.CreateAdventurer();
-                NewAdventurer.GetStartingGear();
-                return Adventurer.EquipGear(NewAdventurer); 
+                return NewAdventurer.GetStartingGear(); 
             } else {
                 return null;
             }            

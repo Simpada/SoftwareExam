@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public class BasicHat : BaseDecoratedAdventurer {
+
         public BasicHat(Adventurer Adventurer) : base(Adventurer) {
+            Id = 200;
         }
 
         public override void EditStats() {
@@ -17,8 +19,5 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
             return "There's nothing special about this hat.";
         }
 
-        public override string ToString() {
-            return base.ToString();
-        }
     }
 }

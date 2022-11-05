@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public abstract class BaseDecoratedAdventurer : Adventurer {
 
+        internal int Id = 0;
+
         public Adventurer BaseAdventurer { get; set; }
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
@@ -18,13 +20,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
             Class = BaseAdventurer.Class;
             Value = BaseAdventurer.Value;
             Equipment = BaseAdventurer.Equipment;
+            SymbolArray = BaseAdventurer.SymbolArray;
         }
 
         public abstract void EditStats();
-
-        public override string ToString() {
-            return BaseAdventurer.ToString();
-        }
-
     }
 }

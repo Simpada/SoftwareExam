@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
-    internal class BasicArmor : BaseDecoratedAdventurer{
+    public class BasicArmor : BaseDecoratedAdventurer{
+
         public BasicArmor(Adventurer Adventurer) : base(Adventurer) {
+            Id = 100;
         }
 
         public override void EditStats() {
@@ -15,10 +17,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public override string GetEquipmentDescription() {
             return "There's nothing special about this armor.";
-        }
-
-        public override string ToString() {
-            return base.ToString();
         }
     }
 }

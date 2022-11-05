@@ -16,6 +16,8 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         public string Name { get; set; } = "";
         public string Class { get; set; } = "";
 
+        public string[] SymbolArray = new string[6];
+
         public Currency Value { get; set; } = new Currency();
 
         public List<BaseDecoratedAdventurer> Equipment { get; set; } = new();
@@ -42,7 +44,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
                 new string[] {
                     "Dumb",
                     "Hairy",
-                    "Icomprehensible",
+                    "Incomprehensible",
                     "Mass Murderer",
                     "Obnoxious",
                     "Rude",
@@ -53,11 +55,18 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             return $"{name} the {title}";
         }
 
-        public abstract override string ToString();
+        public override string ToString() {
+            return @$"    |{SymbolArray[0]} 
+    |{SymbolArray[1]}Name:   {Name}
+    |{SymbolArray[2]}Class:  {Class}
+    |{SymbolArray[3]}Health: {Health}
+    |{SymbolArray[4]}Damage: {Damage}
+    |{SymbolArray[5]}Luck:   {Luck}";
+        }
 
         public abstract string GetEquipmentDescription();
 
-        public void GetStartingGear() {
+        public Adventurer GetStartingGear() {
 
             BaseDecoratedAdventurer Hat = new BasicHat(this);
             BaseDecoratedAdventurer Armor = new BasicArmor(Hat);
@@ -70,41 +79,71 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             Equipment.Add(Weapon);
             Equipment.Add(OffHand);
             Equipment.Add(Trinket);
-        }
 
+            return Adventurer.EquipGear(this);
+        }
+        
         private string PickOne(string[] alternatives) {
             return alternatives[Random.Next(alternatives.Length)];
         }
 
-        public void AddEquipment(BaseDecoratedAdventurer Item) {
-            Equipment.Add(Item);
+        public void InheritStats(Adventurer BaseAdventurer) {
+
+            Health = BaseAdventurer.Health;
+            Damage = BaseAdventurer.Damage; 
+            Luck = BaseAdventurer.Luck;
+
         }
 
-        public static Adventurer EquipGear(Adventurer Adventurer) {
+        public static Adventurer EquipGear(Adventurer OldAdventurer) {
 
-            Adventurer CoreAdventurer = FindBase(Adventurer.Equipment[^1]);
+            Adventurer NewAdventurer = FindBase(OldAdventurer.Equipment[^1]);
 
-            List<BaseDecoratedAdventurer> Gear = CoreAdventurer.Equipment;
+            List<BaseDecoratedAdventurer> Gear = NewAdventurer.Equipment;
 
-
-            // This doesn't work because am stupid
-            foreach (var Item in Adventurer.Equipment) {
-                Item.BaseAdventurer = CoreAdventurer;
-                CoreAdventurer = Item;
+            foreach (var Item in OldAdventurer.Equipment) {
+                Item.BaseAdventurer = NewAdventurer;
+                Item.InheritStats(NewAdventurer);
+                Item.EditStats();
+                NewAdventurer = Item;
             }
 
-            CoreAdventurer.Equipment = Gear;
+            NewAdventurer.Equipment = Gear;
 
-            return CoreAdventurer;
+            return NewAdventurer;
         }
         
-        private static Adventurer FindBase(BaseDecoratedAdventurer DecoratedAdventurer) {
+        private static Adventurer FindBase(BaseDecoratedAdventurer ParentAdventurer) {
 
-            if (DecoratedAdventurer.BaseAdventurer is BaseDecoratedAdventurer adventurer) {
-                return FindBase(adventurer);
+            if (ParentAdventurer.BaseAdventurer is BaseDecoratedAdventurer DecoratedAdventurer) {
+                return FindBase(DecoratedAdventurer);
             } else {
-                return DecoratedAdventurer.BaseAdventurer;
+                return ParentAdventurer.BaseAdventurer;
             }
+        }
+
+        public static Adventurer AddNewItem(BaseDecoratedAdventurer NewItem) {
+
+            Adventurer ChangingAdventurer = NewItem.BaseAdventurer;
+
+            int ItemType = NewItem.Id;
+            if (ItemType >= 100) ItemType /= 100;
+            if (ItemType >= 10) ItemType /= 10;
+
+            foreach (BaseDecoratedAdventurer OldItem in ChangingAdventurer.Equipment) {
+
+                int EquippedItemType = OldItem.Id;
+                if (EquippedItemType >= 100) EquippedItemType /= 100;
+                if (EquippedItemType >= 10) EquippedItemType /= 10;
+
+                if (ItemType == EquippedItemType) {
+                    ChangingAdventurer.Equipment.Remove(OldItem);
+                    break;
+                }
+            }
+            ChangingAdventurer.Equipment.Add(NewItem);
+
+            return Adventurer.EquipGear(ChangingAdventurer);
         }
     }
 }
