@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
-    internal class HatPlateHelmet : BaseDecoratedAdventurer {
+    internal class HatPlateHelmet : BasicHat {
         public HatPlateHelmet(Adventurer Adventurer) : base(Adventurer) {
+            AllowedClasses = new string[] { "Warrior" };
             Id = 201;
         }
 

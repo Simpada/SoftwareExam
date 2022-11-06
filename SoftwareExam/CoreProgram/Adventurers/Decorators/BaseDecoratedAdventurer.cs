@@ -9,6 +9,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         internal int Id = 0;
 
+        public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
+
         public Adventurer BaseAdventurer { get; set; }
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
