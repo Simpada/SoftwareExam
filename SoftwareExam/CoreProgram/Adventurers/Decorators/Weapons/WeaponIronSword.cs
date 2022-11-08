@@ -8,6 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
     internal class WeaponIronSword : BasicWeapon {
         public WeaponIronSword(Adventurer Adventurer) : base(Adventurer) {
             AllowedClasses = new string[] { "Warrior", "Rogue" };
+            Id = 501;
         }
 
         public override void EditStats() {

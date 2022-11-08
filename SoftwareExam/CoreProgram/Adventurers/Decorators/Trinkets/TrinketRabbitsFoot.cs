@@ -8,6 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
     internal class TrinketRabbitsFoot : BasicTrinket {
 
         public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
+            Id = 401;
         }
 
         public override void EditStats() {

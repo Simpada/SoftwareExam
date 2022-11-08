@@ -10,6 +10,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
 
         public ArmorPlateArmor(Adventurer Adventurer) : base(Adventurer) {
             AllowedClasses = new string[] {"Warrior"};
+            Id = 101;
         }
 
         public override void EditStats() {
