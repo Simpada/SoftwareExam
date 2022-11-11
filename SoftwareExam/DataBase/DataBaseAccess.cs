@@ -24,9 +24,40 @@ namespace SoftwareExam.DataBase {
             }
         }
 
+        public void Save(Player player)
+        {
+            if (CheckIfPlayerExists(player.Id)) {
+                Delete(player.Id);
+            }
+            Add(player);
+        }
+
+        //Used to check if there is a player for overwriting a saved game.
+        public bool CheckIfPlayerExists(int id)
+        {
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT player_name
+                FROM players
+                WHERE player_id = @id
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         //Should actually not access player - best way to return info?
-        public void Save(Player player)
+        public void Add(Player player)
         {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
@@ -43,9 +74,9 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@gold", player.Balance.Gold);
             command.ExecuteNonQuery();
         }
-        
+
         // This shouldn't break layering, but needs way to parse adventurers later
-        public void Save(ArrayList SaveArray)
+        public void Add(ArrayList SaveArray)
         {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
@@ -92,6 +123,31 @@ namespace SoftwareExam.DataBase {
                 copper = 0;
                 silver = 0;
                 gold = 0;
+            }
+        }
+
+        //Only for testing
+        public string GetPlayernameById(int id)
+        {
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT player_name
+                FROM players
+                WHERE player_id = @id;
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                return reader.GetString(0);
+                //should also retrieve adventurer list later.
+            }
+            else {
+                return "";
             }
         }
 
@@ -154,5 +210,7 @@ namespace SoftwareExam.DataBase {
             //command.Parameters.AddWithValue("@table", table);
             command.ExecuteNonQuery();
         }
+
+
     }
 }

@@ -67,5 +67,22 @@ namespace TestSoftwareExam
             Assert.That(playerNames, Does.Contain("two"));
             Assert.That(playerNames, Does.Contain("three"));
         }
+
+        [Test]
+        public void TestOverwriteSave()
+        {
+            Prepare("testDatabase3.db");
+
+            Player originalPlayer = new(1, "Original", new Currency(1, 1, 1));
+            Player newPlayer = new(1, "New player", new Currency(1, 1, 1));
+
+            DatabaseAccess.Save(originalPlayer);
+            DatabaseAccess.Save(newPlayer);
+
+            Player playerResult = new();
+            playerResult.PlayerName = DatabaseAccess.GetPlayernameById(1);
+
+            Assert.That(newPlayer.PlayerName, Is.EqualTo(playerResult.PlayerName));
+        }
     }
 }
