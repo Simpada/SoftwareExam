@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers {
     public abstract class Adventurer {
 
+        public int Id { get; set; }
         public int Health { get; set; }
         public int Damage { get; set; }
         public int Luck { get; set; }

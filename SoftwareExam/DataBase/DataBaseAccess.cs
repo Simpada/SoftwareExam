@@ -24,9 +24,40 @@ namespace SoftwareExam.DataBase {
             }
         }
 
+        public void Save(Player player)
+        {
+            if (CheckIfPlayerExists(player.Id)) {
+                Delete(player.Id);
+            }
+            Add(player);
+        }
+
+        //Used to check if there is a player for overwriting a saved game.
+        public bool CheckIfPlayerExists(int id)
+        {
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT player_name
+                FROM players
+                WHERE player_id = @id
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
 
         //Should actually not access player - best way to return info?
-        public void Save(Player player)
+        public void Add(Player player)
         {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
@@ -42,25 +73,34 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@silver", player.Balance.Silver);
             command.Parameters.AddWithValue("@gold", player.Balance.Gold);
             command.ExecuteNonQuery();
-        }
-        
-        // This shouldn't break layering, but needs way to parse adventurers later
-        public void Save(ArrayList SaveArray)
-        {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
 
-            using SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                INSERT INTO players (player_id, player_name, copper, silver, gold)
-                VALUES (@playerId, @playerName, @copper, @silver, @gold)
-            ";
-            command.Parameters.AddWithValue("@playerId", SaveArray[0]);
-            command.Parameters.AddWithValue("@playerName", SaveArray[1]);
-            command.Parameters.AddWithValue("@copper", SaveArray[2]);
-            command.Parameters.AddWithValue("@silver", SaveArray[3]);
-            command.Parameters.AddWithValue("@gold", SaveArray[4]);
-            command.ExecuteNonQuery();
+            int numOfAdventurers = player.Adventurers.Count;
+            if (numOfAdventurers > 0) {
+
+                for (int i = 0; i < numOfAdventurers; i++) {
+                    command.CommandText = @"
+                        INSERT INTO adventurers (adventurer_id, adventurer_name, class, health, damage, luck, player_id)
+                        VALUES (@adventurerId, @adventurerName, @class, @health, @damage, @luck, @playerId)
+                    ";
+                    command.Parameters.AddWithValue("@adventurerId", player.Adventurers[i].Id);
+                    command.Parameters.AddWithValue("@adventurerName", player.Adventurers[i].Name);
+                    command.Parameters.AddWithValue("@class", player.Adventurers[i].Class);
+                    command.Parameters.AddWithValue("@health", player.Adventurers[i].Health);
+                    command.Parameters.AddWithValue("@damage", player.Adventurers[i].Damage);
+                    command.Parameters.AddWithValue("@luck", player.Adventurers[i].Luck);
+                    command.Parameters.AddWithValue("@playerId", player.Id);
+                    command.ExecuteNonQuery();
+
+                    for (var j = 0; i < 5; i++) {
+                        command.CommandText = @"
+                            INSERT INTO decorators (decorator_id, adventurer_id)
+                            VALUES (@decoratorId, @adventurerId)
+                        ";
+                        command.Parameters.AddWithValue("@decoratorId", j);
+                        command.Parameters.AddWithValue("@adventurerId", player.Adventurers[i].Id);
+                    }
+                }
+            }
         }
 
         public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
@@ -92,6 +132,31 @@ namespace SoftwareExam.DataBase {
                 copper = 0;
                 silver = 0;
                 gold = 0;
+            }
+        }
+
+        //Only for testing
+        public string GetPlayernameById(int id)
+        {
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT player_name
+                FROM players
+                WHERE player_id = @id;
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                return reader.GetString(0);
+                //should also retrieve adventurer list later.
+            }
+            else {
+                return "";
             }
         }
 
@@ -154,5 +219,7 @@ namespace SoftwareExam.DataBase {
             //command.Parameters.AddWithValue("@table", table);
             command.ExecuteNonQuery();
         }
+
+
     }
 }
