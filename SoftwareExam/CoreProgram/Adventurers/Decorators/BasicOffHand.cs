@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     internal class BasicOffHand : BaseDecoratedAdventurer {
         public BasicOffHand(Adventurer Adventurer) : base(Adventurer) {
-            Id = 300;
+            ItemId = 300;
         }
 
         public override void EditStats() {

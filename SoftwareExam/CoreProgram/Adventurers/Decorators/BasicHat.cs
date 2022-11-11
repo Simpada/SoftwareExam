@@ -8,7 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public class BasicHat : BaseDecoratedAdventurer {
 
         public BasicHat(Adventurer Adventurer) : base(Adventurer) {
-            Id = 200;
+            ItemId = 200;
         }
 
         public override void EditStats() {

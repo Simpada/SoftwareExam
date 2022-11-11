@@ -8,7 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
     internal class HatPlateHelmet : BasicHat {
         public HatPlateHelmet(Adventurer Adventurer) : base(Adventurer) {
             AllowedClasses = new string[] { "Warrior" };
-            Id = 201;
+            ItemId = 201;
         }
 
         public override void EditStats() {

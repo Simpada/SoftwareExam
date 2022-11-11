@@ -120,52 +120,50 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
 
-
-        bool paused = false;
         public void SaveGame() {
 
-            ArrayList SaveArray = new() {
-                Player.Id,
-                Player.PlayerName,
-                Player.Balance.Copper,
-                Player.Balance.Silver,
-                Player.Balance.Gold
-            };
-
-            foreach (Adventurer adventurer in Player.Adventurers) {
-                foreach(BaseDecoratedAdventurer item in adventurer.Equipment) {
-                    Console.WriteLine(adventurer.Name + item.GetEquipmentDescription());
-                }
-            }
-
-            #region Test Code
-
-            if (paused) {
-                Armory.Resume();
-                paused = false;
-            } else {
-                Armory.Pause();
-                paused = true;
-            }
-
-            //Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
-            //Player.Adventurers[0] = Adventurer.AddNewItem(new ArmorPlateArmor (Player.Adventurers[0]));
-            //Player.Adventurers[0] = Adventurer.AddNewItem(new TrinketRabbitsFoot (Player.Adventurers[0]));
-
-
-            #endregion
-
-            // Must also loop to add adventurers
-
-
-            //DataBaseAccess.Save(SaveArray);
+            DataBaseAccess.Save(Player);
 
         }
 
         public void LoadGame(int Id) {
 
-            //DataBaseAccess.GetPlayerById(id ,out int playerId, out string playerName, out int copper, out int silver, out int gold);
-            //Player = new(playerId, playerName, new Currency(copper, silver, gold));
+            Player = DataBaseAccess.GetPlayerById(Id);
+
+            List<Adventurer> Adventurers = DataBaseAccess.GetAdventurers(Id);
+
+            foreach (Adventurer adventurer in Adventurers) {
+                List<int> itemCodes = DataBaseAccess.GetDecorators(adventurer.Id);
+
+                // Parse items and give to adventurers here
+
+                foreach (int itemCode in itemCodes) {
+
+                    switch (itemCode) {
+                        case 100:
+                        Adventurer.AddNewItem(new BasicArmor(adventurer));
+                        break;
+                        case 200:
+                        Adventurer.AddNewItem(new BasicHat(adventurer));
+                        break;
+                        case 300:
+                        Adventurer.AddNewItem(new BasicOffHand(adventurer));
+                        break;
+                        case 400:
+                        Adventurer.AddNewItem(new BasicTrinket(adventurer));
+                        break;
+                        case 500:
+                        Adventurer.AddNewItem(new BasicWeapon(adventurer));
+                        break;
+                    }
+
+                }
+
+
+            }
+
+
+            Player.Adventurers = Adventurers;
 
         }
 

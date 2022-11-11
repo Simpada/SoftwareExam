@@ -9,7 +9,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
 
         public OffHandWoodenShield(Adventurer Adventurer) : base(Adventurer) {
             AllowedClasses = new string[] { "Warrior" };
-            Id = 301;
+            ItemId = 301;
         }
 
         public override void EditStats() {

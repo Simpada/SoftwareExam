@@ -78,5 +78,9 @@ namespace SoftwareExam.CoreProgram
                 }
             }
         } 
+
+        public void SetCurrency(int copper, int silver, int gold) {
+            Balance = new Currency(copper, silver, gold);
+        }
     }
 }
