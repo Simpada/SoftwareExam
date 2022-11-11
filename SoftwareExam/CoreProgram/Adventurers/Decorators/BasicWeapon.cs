@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     internal class BasicWeapon : BaseDecoratedAdventurer{
         public BasicWeapon(Adventurer Adventurer) : base(Adventurer) {
+            Id = 500;
         }
         public override void EditStats() {
             
