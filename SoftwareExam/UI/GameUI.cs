@@ -129,10 +129,10 @@ namespace SoftwareExam.UI {
                 } else if (input == '4') {
                     // Access DB and save
                     Manager.SaveGame();
-                    Console.Clear();
-                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
+                    //Console.Clear();
+                    //Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
                     //Console.WriteLine(Message);
-                    Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
+                    //Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 } else if (input == '0') {
                     ExitMenu();
                     break;
@@ -253,7 +253,54 @@ namespace SoftwareExam.UI {
 
         private void ArmoryMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetArmory());
+
+            Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+
+            while (true) {
+                int AdventurerCount = Manager.GetAdventurerCount();
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    if (AdventurerCount >= 1) {
+                        
+                    } else {
+
+                    }
+                } else if (input == '2') {
+                    if (AdventurerCount >= 2) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '3') {
+                    if (AdventurerCount >= 3) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '4') {
+                    if (AdventurerCount >= 4) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '5') {
+                    if (AdventurerCount >= 5) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '0') {
+                    break;
+                } else {
+                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                    continue;
+                }
+
+                Console.Clear();
+                Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+            }
+
         }
 
 

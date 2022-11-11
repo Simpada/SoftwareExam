@@ -1,4 +1,8 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -12,12 +16,15 @@ namespace SoftwareExam.CoreProgram {
 
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
+        private readonly Armory Armory;
         private Player Player;
+        private readonly int MaxAdventurers = 5;
 
         public GameManager() {
             Player = new Player();
             DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
             Recruitment = new Recruitment();
+            Armory = new Armory();
         }
 
 
@@ -64,7 +71,7 @@ namespace SoftwareExam.CoreProgram {
         public string[] GetAllAdventurerCards() {
 
             // This sets the maximum amount of adventurers you can display
-            string[]AdventurerCards = new string[5];
+            string[]AdventurerCards = new string[MaxAdventurers];
 
             List<Adventurer> Adventurers = Player.Adventurers;
 
@@ -74,6 +81,21 @@ namespace SoftwareExam.CoreProgram {
 
             return AdventurerCards;
         }
+
+
+        public string[] GetAllItemCards() {
+
+            string[] ItemCards = new string[MaxAdventurers];
+
+            List<Adventurer> Adventurers = Player.Adventurers;
+
+            for (int i = 0; i < Adventurers.Count; i++) {
+                ItemCards[i] = Adventurers[i].GetItemCard();
+            }
+
+            return ItemCards;
+        }
+
         public void GetAdventurerSellValue(int who, out string name, out string value) {
 
             double sellMultiplier = 0.7;
@@ -97,24 +119,50 @@ namespace SoftwareExam.CoreProgram {
         }
         #endregion
 
+
+
+        bool paused = false;
         public void SaveGame() {
 
-            ArrayList SaveArray = new();
+            ArrayList SaveArray = new() {
+                Player.Id,
+                Player.PlayerName,
+                Player.Balance.Copper,
+                Player.Balance.Silver,
+                Player.Balance.Gold
+            };
 
-            SaveArray.Add(Player.Id);
-            SaveArray.Add(Player.PlayerName);
-            SaveArray.Add(Player.Balance.Copper);
-            SaveArray.Add(Player.Balance.Silver);
-            SaveArray.Add(Player.Balance.Gold);
+            foreach (Adventurer adventurer in Player.Adventurers) {
+                foreach(BaseDecoratedAdventurer item in adventurer.Equipment) {
+                    Console.WriteLine(adventurer.Name + item.GetEquipmentDescription());
+                }
+            }
+
+            #region Test Code
+
+            if (paused) {
+                Armory.Resume();
+                paused = false;
+            } else {
+                Armory.Pause();
+                paused = true;
+            }
+
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new ArmorPlateArmor (Player.Adventurers[0]));
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new TrinketRabbitsFoot (Player.Adventurers[0]));
+
+
+            #endregion
 
             // Must also loop to add adventurers
 
-            
+
             //DataBaseAccess.Save(SaveArray);
 
         }
-        
-        public void LoadGame(int id) {
+
+        public void LoadGame(int Id) {
 
             //DataBaseAccess.GetPlayerById(id ,out int playerId, out string playerName, out int copper, out int silver, out int gold);
             //Player = new(playerId, playerName, new Currency(copper, silver, gold));
@@ -126,6 +174,5 @@ namespace SoftwareExam.CoreProgram {
             return DataBaseAccess.RetrieveAllPlayerNames();
 
         }
-
     }
 }

@@ -12,23 +12,30 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             Health = 10;
             Damage = 5;
             Luck = 5;
+
+            SymbolArray = new string[] {
+                " ______  ",
+                " | __ |    ",
+                " | || |    ",
+                " | || |    ",
+                " \\ '' /    ",
+                "  \\__/     "
+            };
         }
 
         public override string GetEquipmentDescription() {
             throw new NotImplementedException();
         }
 
+    //    public override string ToString() {
 
-
-        public override string ToString() {
-
-            return @$"    | ______    
-    | | __ |    Name:   {Name}
-    | | || |    Class:  {Class}
-    | | || |    Health: {Health}
-    | \ '' /    Damage: {Damage}
-    |  \__/     Luck:   {Luck}";
-        }
+    //        return @$"    | ______    
+    //| | __ |    Name:   {Name}
+    //| | || |    Class:  {Class}
+    //| | || |    Health: {Health}
+    //| \ '' /    Damage: {Damage}
+    //|  \__/     Luck:   {Luck}";
+    //    }
 
     }
 }

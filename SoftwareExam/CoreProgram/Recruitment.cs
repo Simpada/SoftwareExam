@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace SoftwareExam.CoreProgram {
 
         private AdventurerFactory? Factory;
 
-
         public Currency Price { get; set; } = new(0, 5, 0);
 
         public bool CheckBalance(Currency balance) {
@@ -21,9 +21,7 @@ namespace SoftwareExam.CoreProgram {
             } else {
                 return false;
             }
-
         }
-
 
         public Adventurer? RecruitAdventurer(int type, Currency balance) {
 
@@ -38,12 +36,11 @@ namespace SoftwareExam.CoreProgram {
             }
 
             if (CheckBalance(balance)) {
-                return Factory.CreateAdventurer();
+                Adventurer NewAdventurer = Factory.CreateAdventurer();
+                return NewAdventurer.GetStartingGear(); 
             } else {
                 return null;
-            }
-
-            
+            }            
         }
     }
 }
