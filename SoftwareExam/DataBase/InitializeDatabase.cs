@@ -69,7 +69,9 @@ namespace SoftwareExam.DataBase
                     damaage INTEGER NOT NULL,
                     luck INTEGER NOT NULL,
                     player_id INTEGER NOT NULL,
-                    FOREIGN KEY(player_id) REFERENCES player_id(players)
+                    CONSTRAINT fk_player
+                        FOREIGN KEY(player_id) REFERENCES player_id(players)
+                        ON DELETE CASCADE
                 )
             ";
             command.ExecuteNonQuery();
@@ -87,7 +89,9 @@ namespace SoftwareExam.DataBase
                     decorator_id INTEGER NOT NULL,
                     adventurer_id INTEGER NOT NULL,
                     PRIMARY KEY (decorator_id, adventurer_id),
-                    FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
+                    CONSTRAINT fk_adventurers
+                        FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
+                        ON DELETE CASCADE
                 )
             ";
             command.ExecuteNonQuery();
