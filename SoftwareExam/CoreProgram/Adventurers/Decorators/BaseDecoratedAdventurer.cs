@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public abstract class BaseDecoratedAdventurer : Adventurer {
 
-        internal int Id = 0;
+        public int ItemId { get; set; } = 0;
 
         public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
 

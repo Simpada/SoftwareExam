@@ -62,15 +62,15 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS adventurers
                 (
-                    adventurer_id INTEGER NOT NULL AUTOINCREMENT PRIMARY KEY,
+                    adventurer_id INTEGER PRIMARY KEY,
                     adventurer_name TEXT NOT NULL,
                     class TEXT NOT NULL,
                     health INTEGER NOT NULL,
-                    damaage INTEGER NOT NULL,
+                    damage INTEGER NOT NULL,
                     luck INTEGER NOT NULL,
                     player_id INTEGER NOT NULL,
                     CONSTRAINT fk_player
-                        FOREIGN KEY(player_id) REFERENCES player_id(players)
+                        FOREIGN KEY(player_id) REFERENCES players(player_id)
                         ON DELETE CASCADE
                 )
             ";
@@ -90,7 +90,7 @@ namespace SoftwareExam.DataBase
                     adventurer_id INTEGER NOT NULL,
                     PRIMARY KEY (decorator_id, adventurer_id),
                     CONSTRAINT fk_adventurers
-                        FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
+                        FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
                         ON DELETE CASCADE
                 )
             ";

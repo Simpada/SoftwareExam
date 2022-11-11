@@ -12,7 +12,6 @@ namespace SoftwareExam.CoreProgram.Adventurers {
     public abstract class Adventurer {
 
         public int Id { get; set; }
-
         public int Health { get; set; }
         public int Damage { get; set; }
         public int Luck { get; set; }
@@ -78,7 +77,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
             foreach(var item in Equipment) {
 
-                int itemId = GetItemType(item.Id);
+                int itemId = GetItemType(item.ItemId);
 
 
                 switch (itemId) {
@@ -160,7 +159,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             return NewAdventurer;
         }
         
-        private static Adventurer FindBase(BaseDecoratedAdventurer ParentAdventurer) {
+        public static Adventurer FindBase(BaseDecoratedAdventurer ParentAdventurer) {
 
             if (ParentAdventurer.BaseAdventurer is BaseDecoratedAdventurer DecoratedAdventurer) {
                 return FindBase(DecoratedAdventurer);
@@ -173,11 +172,11 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
             Adventurer ChangingAdventurer = NewItem.BaseAdventurer;
 
-            int ItemType = GetItemType(NewItem.Id);
+            int ItemType = GetItemType(NewItem.ItemId);
 
             foreach (BaseDecoratedAdventurer OldItem in ChangingAdventurer.Equipment) {
 
-                int EquippedItemType = GetItemType(OldItem.Id);
+                int EquippedItemType = GetItemType(OldItem.ItemId);
                 
                 if (ItemType == EquippedItemType) {
                     ChangingAdventurer.Equipment.Remove(OldItem);

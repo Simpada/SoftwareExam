@@ -1,6 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
 using SoftwareExam.CoreProgram;
+using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Adventurers.Factory;
 using System.Collections;
+using System.Numerics;
+using System.Reflection.PortableExecutable;
 
 /**
  * SQLite AdoNet
@@ -74,32 +79,147 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@gold", player.Balance.Gold);
             command.ExecuteNonQuery();
 
-            int numOfAdventurers = player.Adventurers.Count;
-            if (numOfAdventurers > 0) {
+            for (int i = 0; i < player.Adventurers.Count; i++) {
+                using SqliteCommand adventurerCommand = connection.CreateCommand();
 
-                for (int i = 0; i < numOfAdventurers; i++) {
-                    command.CommandText = @"
+                // This is often risky, but we know that all adventurers in the list are always BaseDecoratedAdventurers
+                Adventurer adventurer = Adventurer.FindBase( (BaseDecoratedAdventurer) player.Adventurers[i]);
+
+                adventurerCommand.CommandText = @"
                         INSERT INTO adventurers (adventurer_name, class, health, damage, luck, player_id)
                         VALUES (@adventurerName, @class, @health, @damage, @luck, @playerId)
                     ";
-                    command.Parameters.AddWithValue("@adventurerName", player.Adventurers[i].Name);
-                    command.Parameters.AddWithValue("@class", player.Adventurers[i].Class);
-                    command.Parameters.AddWithValue("@health", player.Adventurers[i].Health);
-                    command.Parameters.AddWithValue("@damage", player.Adventurers[i].Damage);
-                    command.Parameters.AddWithValue("@luck", player.Adventurers[i].Luck);
-                    command.Parameters.AddWithValue("@playerId", player.Id);
-                    command.ExecuteNonQuery();
+                adventurerCommand.Parameters.AddWithValue("@adventurerName", adventurer.Name);
+                adventurerCommand.Parameters.AddWithValue("@class", adventurer.Class);
+                adventurerCommand.Parameters.AddWithValue("@health", adventurer.Health);
+                adventurerCommand.Parameters.AddWithValue("@damage", adventurer.Damage);
+                adventurerCommand.Parameters.AddWithValue("@luck", adventurer.Luck);
+                adventurerCommand.Parameters.AddWithValue("@playerId", player.Id);
+                adventurerCommand.ExecuteNonQuery();
 
-                    for (var j = 0; i < 5; i++) {
-                        command.CommandText = @"
+                using SqliteCommand getIdCommand = connection.CreateCommand();
+                getIdCommand.CommandText = "SELECT MAX(adventurer_id) FROM adventurers";
+                getIdCommand.ExecuteNonQuery();
+                using SqliteDataReader reader = getIdCommand.ExecuteReader();
+                int id = 0;
+                if (reader.Read()) {
+                    id = reader.GetInt32(0);
+                }
+
+                for (var j = 0; j < 5; j++) {
+                    using SqliteCommand decoratorCommand = connection.CreateCommand();
+                    decoratorCommand.CommandText = @"
                             INSERT INTO decorators (decorator_id, adventurer_id)
                             VALUES (@decoratorId, @adventurerId)
                         ";
-                        command.Parameters.AddWithValue("@decoratorId", j);
-                        command.Parameters.AddWithValue("@adventurerId", player.Adventurers[i].Id);
-                    }
+                    decoratorCommand.Parameters.AddWithValue("@decoratorId", player.Adventurers[i].Equipment[j].ItemId);
+                    decoratorCommand.Parameters.AddWithValue("@adventurerId", id);
+                    decoratorCommand.ExecuteNonQuery();
                 }
             }
+        }
+
+
+        public Player GetPlayerById(int id) {
+
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT *
+                FROM players
+                WHERE player_id = @id;
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            Player player = new();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.Read()) {
+                player.Id = reader.GetInt32(0);
+                player.PlayerName = reader.GetString(1);
+                int copper = reader.GetInt32(2);
+                int silver = reader.GetInt32(3);
+                int gold = reader.GetInt32(4);
+                player.SetCurrency(copper, silver, gold);
+            }
+
+            return player;
+        }
+
+        public List<Adventurer> GetAdventurers(int id) {
+
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT *
+                FROM adventurers
+                WHERE player_id = @id;
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            List<Adventurer> adventurers = new();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                int adventurerId = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                string adventurerClass = reader.GetString(2);
+                int health = reader.GetInt32(3);
+                int damage = reader.GetInt32(4);
+                int luck = reader.GetInt32(5);
+
+                AdventurerFactory factory = new RogueFactory();
+                switch (adventurerClass) {
+                    case "Warrior":
+                    factory = new WarriorFactory();
+                    break;
+                    case "Mage":
+                    factory = new MageFactory();
+                    break;
+                }
+                Adventurer adventurer = factory.CreateAdventurer();
+
+                adventurer.Id = adventurerId;
+                adventurer.Name = name;
+                adventurer.Health = health;
+                adventurer.Damage = damage;
+                adventurer.Luck = luck;
+
+                adventurers.Add(adventurer);
+            }
+
+            return adventurers;
+            
+        }
+
+        public List<int> GetDecorators(int id) {
+
+            using SqliteConnection connection = new(DataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT decorator_id
+                FROM decorators
+                WHERE adventurer_id = @id;
+            ";
+            command.Parameters.AddWithValue("@id", id);
+            command.ExecuteNonQuery();
+
+            List<int> itemCodes = new();
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                itemCodes.Add(reader.GetInt32(0));
+            }
+
+            return itemCodes;
         }
 
         public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
