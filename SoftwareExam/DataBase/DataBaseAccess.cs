@@ -79,10 +79,9 @@ namespace SoftwareExam.DataBase {
 
                 for (int i = 0; i < numOfAdventurers; i++) {
                     command.CommandText = @"
-                        INSERT INTO adventurers (adventurer_id, adventurer_name, class, health, damage, luck, player_id)
-                        VALUES (@adventurerId, @adventurerName, @class, @health, @damage, @luck, @playerId)
+                        INSERT INTO adventurers (adventurer_name, class, health, damage, luck, player_id)
+                        VALUES (@adventurerName, @class, @health, @damage, @luck, @playerId)
                     ";
-                    command.Parameters.AddWithValue("@adventurerId", player.Adventurers[i].Id);
                     command.Parameters.AddWithValue("@adventurerName", player.Adventurers[i].Name);
                     command.Parameters.AddWithValue("@class", player.Adventurers[i].Class);
                     command.Parameters.AddWithValue("@health", player.Adventurers[i].Health);

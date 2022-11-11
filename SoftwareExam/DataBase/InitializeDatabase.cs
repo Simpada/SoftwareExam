@@ -62,7 +62,7 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS adventurers
                 (
-                    adventurer_id INTEGER NOT NULL PRIMARY KEY,
+                    adventurer_id INTEGER NOT NULL AUTOINCREMENT PRIMARY KEY,
                     adventurer_name TEXT NOT NULL,
                     class TEXT NOT NULL,
                     health INTEGER NOT NULL,
