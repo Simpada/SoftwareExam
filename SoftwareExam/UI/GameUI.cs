@@ -253,7 +253,54 @@ namespace SoftwareExam.UI {
 
         private void ArmoryMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetArmory());
+
+            Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+
+            while (true) {
+                int AdventurerCount = Manager.GetAdventurerCount();
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    if (AdventurerCount >= 1) {
+                    
+                    } else {
+
+                    }
+                } else if (input == '2') {
+                    if (AdventurerCount >= 2) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '3') {
+                    if (AdventurerCount >= 3) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '4') {
+                    if (AdventurerCount >= 4) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '5') {
+                    if (AdventurerCount >= 5) {
+                    
+                    } else {
+                    
+                    }
+                } else if (input == '0') {
+                    break;
+                } else {
+                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+                    continue;
+                }
+
+                Console.Clear();
+                Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+            }
+
         }
 
 

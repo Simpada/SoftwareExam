@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
-    internal class PlayMenu {
+    public class PlayMenu {
 
 
         
@@ -160,10 +160,40 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmory() {
+        public string GetArmory(string[] AdventurerCards, string balance) {
+             
+
+            string[] cards = new string[AdventurerCards.Length];
+
+            for (int i = 0; i < AdventurerCards.Length; i++) {
+
+                if (string.IsNullOrEmpty(AdventurerCards[i])) {
+                    cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
+                } else {
+                    string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
+                        $"{AdventurerCards[i]}";
+                    cards[i] = TavernCard;
+                }
+            }
+
+
+            int _index = 0;
+
+            string ArmoryDisplay = "";
+            foreach (string card in cards) {
+                ArmoryDisplay += cards[_index++];
+                ArmoryDisplay += "\n    |-----------------------------------------\n";
+            }
+
 
             return $@"
+    THE GRAND ARMORY
+    [0] Return to town
 
+    Your balance is : {balance}
+                        
+    |-----------------------------------------
+{ArmoryDisplay}
 ";
         }
 

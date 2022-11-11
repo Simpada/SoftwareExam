@@ -15,6 +15,7 @@ namespace SoftwareExam.CoreProgram {
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
         private Player Player;
+        private readonly int MaxAdventurers = 5;
 
         public GameManager() {
             Player = new Player();
@@ -66,7 +67,7 @@ namespace SoftwareExam.CoreProgram {
         public string[] GetAllAdventurerCards() {
 
             // This sets the maximum amount of adventurers you can display
-            string[]AdventurerCards = new string[5];
+            string[]AdventurerCards = new string[MaxAdventurers];
 
             List<Adventurer> Adventurers = Player.Adventurers;
 
@@ -76,6 +77,13 @@ namespace SoftwareExam.CoreProgram {
 
             return AdventurerCards;
         }
+
+
+        public string GetItemCard(int adventurer) {
+
+            return Player.GetItemCard(adventurer);
+        }
+
         public void GetAdventurerSellValue(int who, out string name, out string value) {
 
             double sellMultiplier = 0.7;
@@ -157,6 +165,5 @@ namespace SoftwareExam.CoreProgram {
             return DataBaseAccess.RetrieveAllPlayerNames();
 
         }
-
     }
 }

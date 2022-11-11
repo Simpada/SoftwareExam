@@ -54,6 +54,11 @@ namespace SoftwareExam.CoreProgram
             return $"Playername: {_playerName}";
         }
 
+        public string GetItemCard(int adventurer) {
+
+            return Adventurers[adventurer].GetEquipmentDescription();
+        }
+
         //Property
         public string PlayerName
         {
