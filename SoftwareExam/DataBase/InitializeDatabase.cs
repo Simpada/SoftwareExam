@@ -9,7 +9,6 @@ namespace SoftwareExam.DataBase
 {
     public class InitializeDatabase
     {
-
         private readonly string _dataSource;
 
         public InitializeDatabase(string dataSource)
@@ -35,69 +34,67 @@ namespace SoftwareExam.DataBase
             return false;
         }
 
-
         public void CreateTablePlayer()
         {
-            using (SqliteConnection connection = new(_dataSource)) {
-                connection.Open();
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
-                        CREATE TABLE IF NOT EXISTS players
-                        (
-                            player_id INTEGER NOT NULL PRIMARY KEY,
-                            player_name TEXT NOT NULL,
-                            copper INTEGER NOT NULL,
-                            silver INTEGER NOT NULL,
-                            gold INTEGER NOT NULL
-                        )
-                    ";
-                    command.ExecuteNonQuery();
-                }
-            }
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
             
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS players
+                (
+                    player_id INTEGER NOT NULL PRIMARY KEY,
+                    player_name TEXT NOT NULL,
+                    copper INTEGER NOT NULL,
+                    silver INTEGER NOT NULL,
+                    gold INTEGER NOT NULL
+                )
+            ";
+            command.ExecuteNonQuery();
         }
 
         public void CreateTableAdventurers()
         {
-            using (SqliteConnection connection = new(_dataSource)) {
-                connection.Open();
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
-                        CREATE TABLE IF NOT EXISTS adventurers
-                        (
-                            adventurer_id INTEGER NOT NULL PRIMARY KEY,
-                            adventurer_name TEXT NOT NULL,
-                            class TEXT NOT NULL,
-                            health INTEGER NOT NULL,
-                            damaage INTEGER NOT NULL,
-                            luck INTEGER NOT NULL,
-                            player_id INTEGER NOT NULL,
-                            FOREIGN KEY(player_id) REFERENCES player_id(players)
-                        )
-                    ";
-                    command.ExecuteNonQuery();
-                }
-            }
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS adventurers
+                (
+                    adventurer_id INTEGER NOT NULL PRIMARY KEY,
+                    adventurer_name TEXT NOT NULL,
+                    class TEXT NOT NULL,
+                    health INTEGER NOT NULL,
+                    damaage INTEGER NOT NULL,
+                    luck INTEGER NOT NULL,
+                    player_id INTEGER NOT NULL,
+                    CONSTRAINT fk_player
+                        FOREIGN KEY(player_id) REFERENCES player_id(players)
+                        ON DELETE CASCADE
+                )
+            ";
+            command.ExecuteNonQuery();
         }
 
         private void CreateTableDecorators()
         {
-            using (SqliteConnection connection = new(_dataSource)) {
-                connection.Open();
-                using (SqliteCommand command = connection.CreateCommand()) {
-                    command.CommandText = @"
-                        CREATE TABLE IF NOT EXISTS decorators
-                        (
-                            decorator_id INTEGER NOT NULL,
-                            adventurer_id INTEGER NOT NULL,
-                            PRIMARY KEY (decorator_id, adventurer_id),
-                            FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
-                        )
-                     ";
-                    command.ExecuteNonQuery();
-                }
-            }
-            
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS decorators
+                (
+                    decorator_id INTEGER NOT NULL,
+                    adventurer_id INTEGER NOT NULL,
+                    PRIMARY KEY (decorator_id, adventurer_id),
+                    CONSTRAINT fk_adventurers
+                        FOREIGN KEY(adventurer_id) REFERENCES adventurer_id(adventurers)
+                        ON DELETE CASCADE
+                )
+            ";
+            command.ExecuteNonQuery();
         }
 
 

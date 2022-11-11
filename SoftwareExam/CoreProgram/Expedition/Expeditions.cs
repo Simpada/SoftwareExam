@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Expedition {
     internal class Expeditions {
+
+
     }
 }

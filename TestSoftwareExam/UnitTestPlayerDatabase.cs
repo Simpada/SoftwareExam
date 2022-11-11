@@ -1,32 +1,21 @@
 ﻿using SoftwareExam.CoreProgram;
 using SoftwareExam.DataBase;
 
+/*
+ * DB gets locked between tests, so could not use the same database for testing.
+ * Could not use [TestCase()] because of GitHub Actions.
+ * 
+ */
+
 namespace TestSoftwareExam
 {
     public class UnitTestPlayerDatabase
     {
         // Not true
-        private DataBaseAccess databaseAccess;
+        private DataBaseAccess DatabaseAccess;
 
-        [SetUp]
-        public void Setup()
-        {
-            //Ask about SetUp. Does not run on 2nd test????????? Lock?
-
-            //string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, "testDatabase.db");
-
-            //try {
-            //    if (File.Exists(databasePath)) {
-            //        File.Delete(databasePath);
-            //    }
-            //}
-            //catch (IOException e) {}
-
-            //databaseAccess = new("Data Source = testDatabase.db");
-        }
 
         private void Prepare(string db) {
-
             string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, db);
 
             try {
@@ -35,8 +24,7 @@ namespace TestSoftwareExam
                 }
             } catch (IOException) { }
 
-            databaseAccess = new("Data Source = " + db);
-
+            DatabaseAccess = new("Data Source = " + db);
         }
 
         [Test]
@@ -46,10 +34,10 @@ namespace TestSoftwareExam
 
             //Expected
             Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
-            databaseAccess.Save(tempPlayer);
+            DatabaseAccess.Save(tempPlayer);
 
             //Actual
-            databaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
+            DatabaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
             Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
 
 
@@ -62,15 +50,14 @@ namespace TestSoftwareExam
         {
             Prepare("testDatabase2.db");
 
-
             Player player1 = new(1, "one", new Currency(5, 5, 100));
             Player player2 = new(2, "two", new Currency(5, 5, 100));
             Player player3 = new(3, "three", new Currency(5, 5, 100));
-            databaseAccess.Save(player1);
-            databaseAccess.Save(player2);
-            databaseAccess.Save(player3);
+            DatabaseAccess.Save(player1);
+            DatabaseAccess.Save(player2);
+            DatabaseAccess.Save(player3);
 
-            string[] playerNames = databaseAccess.RetrieveAllPlayerNames();
+            string[] playerNames = DatabaseAccess.RetrieveAllPlayerNames();
 
             foreach (string playerName in playerNames) {
                 Console.WriteLine("Player name: " + playerName);
@@ -81,5 +68,21 @@ namespace TestSoftwareExam
             Assert.That(playerNames, Does.Contain("three"));
         }
 
+        [Test]
+        public void TestOverwriteSave()
+        {
+            Prepare("testDatabase3.db");
+
+            Player originalPlayer = new(1, "Original", new Currency(1, 1, 1));
+            Player newPlayer = new(1, "New player", new Currency(1, 1, 1));
+
+            DatabaseAccess.Save(originalPlayer);
+            DatabaseAccess.Save(newPlayer);
+
+            Player playerResult = new();
+            playerResult.PlayerName = DatabaseAccess.GetPlayernameById(1);
+
+            Assert.That(newPlayer.PlayerName, Is.EqualTo(playerResult.PlayerName));
+        }
     }
 }
