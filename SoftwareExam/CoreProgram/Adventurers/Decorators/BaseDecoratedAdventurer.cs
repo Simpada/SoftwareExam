@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
 
-        public Adventurer? BaseAdventurer { get; set; }
+        public Adventurer BaseAdventurer { get; set; }
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             BaseAdventurer = Adventurer;
@@ -26,5 +27,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         }
 
         public abstract void EditStats();
+
     }
 }

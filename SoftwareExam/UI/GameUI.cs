@@ -129,10 +129,10 @@ namespace SoftwareExam.UI {
                 } else if (input == '4') {
                     // Access DB and save
                     Manager.SaveGame();
-                    Console.Clear();
-                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
+                    //Console.Clear();
+                    //Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
                     //Console.WriteLine(Message);
-                    Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
+                    //Console.WriteLine(PlayMenu.GetVillage(ExpeditionLog));
                 } else if (input == '0') {
                     ExitMenu();
                     break;

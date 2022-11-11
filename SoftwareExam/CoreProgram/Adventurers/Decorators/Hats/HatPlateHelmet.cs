@@ -16,7 +16,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
         }
 
         public override string GetEquipmentDescription() {
-            return "A durable helmet that increase your health";
+            return "A durable helmet that increase your health by 2";
         }
     }
 }

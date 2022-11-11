@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -98,6 +99,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             }
 
             return @$"{ToString()}
+    |
     |___EQUIPMENT_____________________________
     |   Hat:      {Hat}
     |   Armor:    {Armor}

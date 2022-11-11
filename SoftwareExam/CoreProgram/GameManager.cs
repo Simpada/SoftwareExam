@@ -1,6 +1,8 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -14,6 +16,7 @@ namespace SoftwareExam.CoreProgram {
 
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
+        private readonly Armory Armory;
         private Player Player;
         private readonly int MaxAdventurers = 5;
 
@@ -21,6 +24,7 @@ namespace SoftwareExam.CoreProgram {
             Player = new Player();
             DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
             Recruitment = new Recruitment();
+            Armory = new Armory();
         }
 
 
@@ -115,6 +119,9 @@ namespace SoftwareExam.CoreProgram {
         }
         #endregion
 
+
+
+        bool paused = false;
         public void SaveGame() {
 
             ArrayList SaveArray = new() {
@@ -133,24 +140,18 @@ namespace SoftwareExam.CoreProgram {
 
             #region Test Code
 
-            Console.WriteLine(Player.Adventurers[0].Health);
-
-            Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
-
-            foreach (BaseDecoratedAdventurer item in Player.Adventurers[0].Equipment) {
-                Console.WriteLine(Player.Adventurers[0].Name + " " + item.GetEquipmentDescription());
+            if (paused) {
+                Armory.Resume();
+                paused = false;
+            } else {
+                Armory.Pause();
+                paused = true;
             }
 
-            Console.WriteLine(Player.Adventurers[0].Health);
-
             //Player.Adventurers[0] = Adventurer.AddNewItem(new HatPlateHelmet(Player.Adventurers[0]));
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new ArmorPlateArmor (Player.Adventurers[0]));
+            //Player.Adventurers[0] = Adventurer.AddNewItem(new TrinketRabbitsFoot (Player.Adventurers[0]));
 
-            //foreach (BaseDecoratedAdventurer item in Player.Adventurers[0].Equipment) {
-            //    Console.WriteLine(Player.Adventurers[0].Name + " " + item.GetEquipmentDescription());
-            //}
-            //Console.WriteLine(Player.Adventurers[0].Health);
-
-            Thread.Sleep(4000);
 
             #endregion
 

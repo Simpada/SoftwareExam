@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
-    public class BasicArmor : BaseDecoratedAdventurer{
+    public class BasicArmor : BaseDecoratedAdventurer {
 
         public BasicArmor(Adventurer Adventurer) : base(Adventurer) {
             Id = 100;
         }
 
         public override void EditStats() {
-            
+
         }
 
         public override string GetEquipmentDescription() {
