@@ -160,18 +160,18 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmory(string[] AdventurerCards, string balance) {
+        public string GetArmory(string[] ItemCards) {
              
 
-            string[] cards = new string[AdventurerCards.Length];
+            string[] cards = new string[ItemCards.Length];
 
-            for (int i = 0; i < AdventurerCards.Length; i++) {
+            for (int i = 0; i < ItemCards.Length; i++) {
 
-                if (string.IsNullOrEmpty(AdventurerCards[i])) {
+                if (string.IsNullOrEmpty(ItemCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
-                        $"{AdventurerCards[i]}";
+                        $"{ItemCards[i]}";
                     cards[i] = TavernCard;
                 }
             }
@@ -189,9 +189,8 @@ namespace SoftwareExam.UI {
             return $@"
     THE GRAND ARMORY
     [0] Return to town
-
-    Your balance is : {balance}
                         
+
     |-----------------------------------------
 {ArmoryDisplay}
 ";

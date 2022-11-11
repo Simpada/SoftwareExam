@@ -79,9 +79,17 @@ namespace SoftwareExam.CoreProgram {
         }
 
 
-        public string GetItemCard(int adventurer) {
+        public string[] GetAllItemCards() {
 
-            return Player.GetItemCard(adventurer);
+            string[] ItemCards = new string[MaxAdventurers];
+
+            List<Adventurer> Adventurers = Player.Adventurers;
+
+            for (int i = 0; i < Adventurers.Count; i++) {
+                ItemCards[i] = Adventurers[i].GetItemCard();
+            }
+
+            return ItemCards;
         }
 
         public void GetAdventurerSellValue(int who, out string name, out string value) {

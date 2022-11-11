@@ -98,12 +98,13 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             }
 
             return @$"{ToString()}
-    |___GEAR_________________________________
-    |  [1] Hat:     {Hat}
-    |  [2] Armor:   {Armor}
-    |  [3] Weapon:  {Weapon}
-    |  [4] Off-Hand:{OffHand}
-    |  [5] Trinket: {Trinket}";
+    |___EQUIPMENT_____________________________
+    |   Hat:      {Hat}
+    |   Armor:    {Armor}
+    |   Weapon:   {Weapon}
+    |   Off-Hand: {OffHand}
+    |   Trinket:  {Trinket}
+    |";
         }
 
         public abstract string GetEquipmentDescription();

@@ -11,7 +11,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
 
-        public Adventurer BaseAdventurer { get; set; }
+        public Adventurer? BaseAdventurer { get; set; }
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             BaseAdventurer = Adventurer;

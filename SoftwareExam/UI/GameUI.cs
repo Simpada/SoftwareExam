@@ -254,7 +254,7 @@ namespace SoftwareExam.UI {
         private void ArmoryMenu() {
             Console.Clear();
 
-            Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+            Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
 
             while (true) {
                 int AdventurerCount = Manager.GetAdventurerCount();
@@ -262,7 +262,7 @@ namespace SoftwareExam.UI {
 
                 if (input == '1') {
                     if (AdventurerCount >= 1) {
-                    
+                        
                     } else {
 
                     }
@@ -293,12 +293,12 @@ namespace SoftwareExam.UI {
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                     continue;
                 }
 
                 Console.Clear();
-                Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+                Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
             }
 
         }
