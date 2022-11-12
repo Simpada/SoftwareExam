@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
@@ -72,25 +73,28 @@ namespace SoftwareExam.UI {
         }
 
         private bool LoadSave() {
-            Console.Clear();
 
-            // This list will later be replaced with getting names from the DB
             string[] savedNames = Manager.GetPlayers();
-
-
+            Console.Clear();
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
             while (true) {
 
+                int SaveState;
+                int SaveSlot;
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
-                    Manager.LoadGame(1);
+                    SaveState = Manager.LoadGame(1);
+                    SaveSlot = 1;
                 } else if (input == '2') {
-                    Manager.LoadGame(2);
+                    SaveState = Manager.LoadGame(2);
+                    SaveSlot = 2;
                 } else if (input == '3') {
-                    Manager.LoadGame(3);
+                    SaveState = Manager.LoadGame(3);
+                    SaveSlot = 3;
                 } else if (input == '4') {
-                    Manager.LoadGame(4);
+                    SaveState = Manager.LoadGame(4);
+                    SaveSlot = 4;
                 } else if (input == '0') {
                     Console.Clear();
                     return false;
@@ -98,11 +102,78 @@ namespace SoftwareExam.UI {
                     InvalidInput(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
                     continue;
                 }
-                break;
+
+                if (SaveState >= 0) {
+                    if (Continue(SaveSlot)) {
+                        break;
+                    }
+                } else {
+                    if (NewGame(SaveSlot)) {
+                        break;
+                    }
+                }
+                savedNames = Manager.GetPlayers();
+                Console.Clear();
+                Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
             }
 
             return true;
         }
+
+        private bool Continue(int SaveFile) {
+
+
+            Console.Clear();
+
+
+            Console.WriteLine(StartMenu.GetContinue());
+
+            while (true) {
+
+                input = Console.ReadKey().KeyChar;
+                if (input == '1') {
+                    return true;
+                } else if (input == '2') {
+                    Manager.DeleteSave(SaveFile);
+                    return NewGame(SaveFile);
+                } else if (input == '3') {
+                    Manager.DeleteSave(SaveFile);
+                    return false;
+                } else if (input == '0') {
+                    Console.Clear();
+                    return false;
+                } else {
+                    InvalidInput(StartMenu.GetContinue());
+                }
+            }
+        }
+
+        private bool NewGame(int SaveFile) {
+
+            Console.Clear();
+
+            Console.Write(StartMenu.GetNewGame());
+
+            while (true) {
+                string? Name;
+
+                Name = Console.ReadLine();
+
+
+                if (Name != null && Regex.IsMatch(Name, @"^[a-zA-Z]+[a-zA-Z ]$")) {
+                    Manager.NewGame(SaveFile, Name);
+                    Manager.SaveGame();
+                    break;
+                } else if (Name == "") {
+                    return false;
+                } else {
+                    Console.WriteLine(StartMenu.GetNewGame());
+                    Console.WriteLine("\n    Invalid name!");
+                }
+            }
+            return true;
+        }
+
         #endregion
 
 

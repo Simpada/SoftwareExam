@@ -46,7 +46,7 @@ namespace SoftwareExam.CoreProgram
         {
             TaskPauseEvent.Set();
         }
-
+        
         #region Pretend this part doesn't exist
         private void InitializeItems()
         {

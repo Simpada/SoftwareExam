@@ -65,7 +65,7 @@ namespace SoftwareExam.UI {
 
         }
 
-        internal string GetSaveMenu(string name1, string name2, string name3, string name4) {
+        public string GetSaveMenu(string name1, string name2, string name3, string name4) {
 
             return $@"
      ___________________
@@ -94,5 +94,25 @@ namespace SoftwareExam.UI {
 ";
 
         }
+
+        public string GetContinue() {
+
+            return @"
+    [1] Continue
+    [2] New Game (Will delete the old save)
+    [3] Delete Save
+    [0] Cancel
+";
+        }
+
+        public string GetNewGame() {
+
+            return @"
+    Enter blank to Cancel
+
+    Enter a name that does not contain numbers or symbols
+    -: ";
+        }
+
     }
 }

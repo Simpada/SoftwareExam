@@ -11,7 +11,7 @@ namespace TestSoftwareExam
 {
     public class UnitTestPlayerDatabase
     {
-        // Not true
+        // Not true, it is never null
         private DataBaseAccess DatabaseAccess;
 
 

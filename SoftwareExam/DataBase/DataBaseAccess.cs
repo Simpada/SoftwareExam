@@ -17,14 +17,14 @@ namespace SoftwareExam.DataBase {
 
     public class DataBaseAccess {
 
-        private InitializeDatabase InitDb;
+        //private InitializeDatabase InitDb;
         private readonly string DataSource = "";
 
         public DataBaseAccess(string dataSource)
         {
             using (SqliteConnection connection = new(dataSource)) {
                 connection.Open();
-                InitDb = new(dataSource);
+                _ = new InitializeDatabase(dataSource);
                 DataSource = dataSource;
             }
         }

@@ -32,12 +32,12 @@ namespace SoftwareExam.CoreProgram
         }
 
 
-        public bool ValidateUserName(string userName)
+        public static bool ValidateUserName(string userName)
         {
             if (userName.Length <= 0 || userName.Length > 20 || userName == null) {
                 return false;
             }
-            if (!Regex.IsMatch(userName, @"^[a-zA-Z0-9 ]+$")) {
+            if (!Regex.IsMatch(userName, @"^[a-zA-Z ]+$")) {
                 return false;
             }
             return true;
