@@ -115,7 +115,6 @@ namespace SoftwareExam.UI {
                 savedNames = Manager.GetPlayers();
                 Console.Clear();
                 Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
-
             }
 
             return true;
@@ -163,6 +162,7 @@ namespace SoftwareExam.UI {
 
                 if (Name != null && Regex.IsMatch(Name, @"^[a-zA-Z]+[a-zA-Z ]$")) {
                     Manager.NewGame(SaveFile, Name);
+                    Manager.SaveGame();
                     break;
                 } else if (Name == "") {
                     return false;
@@ -171,7 +171,6 @@ namespace SoftwareExam.UI {
                     Console.WriteLine("\n    Invalid name!");
                 }
             }
-
             return true;
         }
 
