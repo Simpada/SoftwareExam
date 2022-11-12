@@ -60,7 +60,6 @@ namespace SoftwareExam.CoreProgram {
             } else {
                 Player.Balance -= Recruitment.Price;
                 Player.Adventurers.Add(adventurer);
-                Player.AvailableAdventurers++;
                 return true;
             }
         }
@@ -111,11 +110,11 @@ namespace SoftwareExam.CoreProgram {
             return Player.Adventurers[who];
         }
 
-        internal int GetAdventurerCount() {
-            return Player.Adventurers.Count();
+        public int GetAdventurerCount() {
+            return Player.Adventurers.Count;
         }
 
-        internal int GetAvailableAdventurers() {
+        public int GetAvailableAdventurers() {
             return Player.AvailableAdventurers;
         }
         #endregion

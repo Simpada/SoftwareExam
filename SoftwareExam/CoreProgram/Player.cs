@@ -10,6 +10,7 @@ namespace SoftwareExam.CoreProgram
         public Currency Balance { get; set; } = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
         public int AvailableAdventurers { get; set; } = 0;
+        private int AdventurersOnMission = 0;
 
         public Player()
         {
