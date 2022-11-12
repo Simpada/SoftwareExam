@@ -30,7 +30,5 @@ namespace SoftwareExam.CoreProgram.Expedition {
         }
 
 
-
-
     }
 }
