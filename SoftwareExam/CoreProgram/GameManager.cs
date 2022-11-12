@@ -22,7 +22,7 @@ namespace SoftwareExam.CoreProgram {
 
         public GameManager() {
             Player = new Player();
-            DataBaseAccess = new DataBaseAccess("Data Source = tempDatabase.db");
+            DataBaseAccess = new DataBaseAccess("Data Source = AdventureLeague.db");
             Recruitment = new Recruitment();
             Armory = new Armory();
         }
@@ -60,6 +60,7 @@ namespace SoftwareExam.CoreProgram {
             } else {
                 Player.Balance -= Recruitment.Price;
                 Player.Adventurers.Add(adventurer);
+                Player.AvailableAdventurers++;
                 return true;
             }
         }
@@ -126,7 +127,7 @@ namespace SoftwareExam.CoreProgram {
 
         }
 
-        public void LoadGame(int Id) {
+        public int LoadGame(int Id) {
 
             Player = DataBaseAccess.GetPlayerById(Id);
 
@@ -162,15 +163,28 @@ namespace SoftwareExam.CoreProgram {
 
             }
 
-
             Player.Adventurers = Adventurers;
 
+            return Player.Id;
         }
 
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();
 
+        }
+
+        public void DeleteSave(int saveFile) {
+            DataBaseAccess.Delete(saveFile);
+        }
+
+        public void NewGame(int saveFile, string name) {
+            Player.Id = saveFile;
+            Player.PlayerName = name;
+            Player.SetCurrency(0,5,1);
+            Player.Adventurers = new();
+            Random random = new();
+            _ = RecruitAdventurer(random.Next(3) + 1);
         }
     }
 }
