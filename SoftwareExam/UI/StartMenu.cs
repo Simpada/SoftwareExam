@@ -99,7 +99,7 @@ namespace SoftwareExam.UI {
 
             return @"
     [1] Continue
-    [2] New Game (Will overwrite the old save)
+    [2] New Game (Will delete and overwrite the old save)
     [3] Delete Save
     [0] Cancel
 ";

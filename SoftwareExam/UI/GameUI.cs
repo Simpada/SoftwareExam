@@ -135,6 +135,7 @@ namespace SoftwareExam.UI {
                 if (input == '1') {
                     return true;
                 } else if (input == '2') {
+                    Manager.DeleteSave(SaveFile);
                     return NewGame(SaveFile);
                 } else if (input == '3') {
                     Manager.DeleteSave(SaveFile);
