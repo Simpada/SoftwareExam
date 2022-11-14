@@ -12,6 +12,7 @@ namespace SoftwareExam.CoreProgram
         public List<Adventurer> Adventurers = new();
         public List<Adventure> Adventures = new();
         public int AvailableAdventurers { get; set; } = 0;
+        public List<string> Log { get; set; }
 
         public Player()
         {

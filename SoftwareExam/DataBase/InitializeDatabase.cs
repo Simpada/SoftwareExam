@@ -116,7 +116,7 @@ namespace SoftwareExam.DataBase
                     copper INTEGER NOT NULL,
                     silver INTEGER NOT NULL,
                     gold INTEGER NOT NULL,
-                    CONSTRAINT fk_exp_adventureres
+                    CONSTRAINT fk_adventureres_exp
                         FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
                         ON DELETE CASCADE
                 )
@@ -133,10 +133,10 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS logs
                 (
-                    log_id INTEGER NOT NULL PRIMARY KEY,
+                    log_id INTEGER AUTOINCREMENT NOT NULL PRIMARY KEY,
                     log_entry varchar(1000),
                     player_id INT NOT NULL,
-                    CONSTRAINT fk_players
+                    CONSTRAINT fk_players_log
                         FOREIGN KEY(player_id) REFERENCES players(player_id)
                         ON DELETE CASCADE
                 )
