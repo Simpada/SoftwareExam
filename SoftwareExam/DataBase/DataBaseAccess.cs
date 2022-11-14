@@ -115,21 +115,24 @@ namespace SoftwareExam.DataBase {
                     decoratorCommand.Parameters.AddWithValue("@decoratorId", player.Adventurers[i].Equipment[j].ItemId);
                     decoratorCommand.Parameters.AddWithValue("@adventurerId", id);
                     decoratorCommand.ExecuteNonQuery();
+                }
 
 
-                    //Check if adv out on expedition, then save.
-                    for (int k = 0; k < 5; k++) {
-                        using SqliteCommand expeditionCommand = connection.CreateCommand();
+                //Check if adv out on expedition. Have to check which adventure is out on an adventure
+                for (int k = 0; k < player.Adventures.Count; k--) {
+                    using SqliteCommand expeditionCommand = connection.CreateCommand();
 
-                        expeditionCommand.CommandText = @"
+                    expeditionCommand.CommandText = @"
                             INSERTO INTO expeditions (time, difficulty, encounters, copper, silver, gold)
-                            VALUES (@time, @difficulty, @encounters, @copper, @silver, @gold)                    
+                            VALUES (@time, @difficulty, @encounters, @copper, @silver, @gold)
                         ";
-
-
-                    }
-
-
+                    expeditionCommand.Parameters.AddWithValue("@time", player.Adventures[i].Adventurer.Id);
+                    //expeditionCommand.Parameters.AddWithValue("@difficulty", player.Adventures[i].Map.Difficulty);
+                    expeditionCommand.Parameters.AddWithValue("@encounters", player.Adventures[i].Encounters);
+                    //expeditionCommand.Parameters.AddWithValue("@copper", player.Adventures[i].Map.Currency.Copper);
+                    //expeditionCommand.Parameters.AddWithValue("@silver", player.Adventures[i].Map.Currency.Silver);
+                    //expeditionCommand.Parameters.AddWithValue("@gold", player.Adventures[i].Map.Currency.Gold);
+                    expeditionCommand.ExecuteNonQuery();
                 }
             }
         }
