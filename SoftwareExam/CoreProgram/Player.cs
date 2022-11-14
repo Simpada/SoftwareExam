@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Expedition;
 using System.Text.RegularExpressions;
 
 namespace SoftwareExam.CoreProgram
@@ -9,7 +10,9 @@ namespace SoftwareExam.CoreProgram
         private string _playerName = "";
         public Currency Balance { get; set; } = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
+        public List<Adventure> Adventures = new();
         public int AvailableAdventurers { get; set; } = 0;
+        public List<string> Log { get; set; }
 
         public Player()
         {
