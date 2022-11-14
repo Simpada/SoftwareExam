@@ -79,6 +79,20 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@gold", player.Balance.Gold);
             command.ExecuteNonQuery();
 
+
+            //Save player logs
+            for (int i = player.Log.Count; i > 0 ; i--) {
+                using SqliteCommand logsCommand = connection.CreateCommand();
+                command.CommandText = @"
+                INSERT INTO logs (log_entry, player_id)
+                VALUES (logEntry, playerId)
+            ";
+                logsCommand.Parameters.AddWithValue("@logEntry", player.Log[i]);
+                logsCommand.Parameters.AddWithValue("@playerId", player.Id);
+                logsCommand.ExecuteNonQuery();
+            }
+
+
             for (int i = 0; i < player.Adventurers.Count; i++) {
                 using SqliteCommand adventurerCommand = connection.CreateCommand();
 
@@ -96,6 +110,7 @@ namespace SoftwareExam.DataBase {
                 adventurerCommand.Parameters.AddWithValue("@luck", adventurer.Luck);
                 adventurerCommand.Parameters.AddWithValue("@playerId", player.Id);
                 adventurerCommand.ExecuteNonQuery();
+
 
                 using SqliteCommand getIdCommand = connection.CreateCommand();
                 getIdCommand.CommandText = "SELECT MAX(adventurer_id) FROM adventurers";
@@ -115,6 +130,27 @@ namespace SoftwareExam.DataBase {
                     decoratorCommand.Parameters.AddWithValue("@decoratorId", player.Adventurers[i].Equipment[j].ItemId);
                     decoratorCommand.Parameters.AddWithValue("@adventurerId", id);
                     decoratorCommand.ExecuteNonQuery();
+                }
+
+
+                //Check if adv out on expedition. Have to check which adventure is out on an adventure
+                for (int k = player.Missions.Count; k > 0; k--) {
+                    using SqliteCommand expeditionCommand = connection.CreateCommand();
+
+                    expeditionCommand.CommandText = @"
+                            INSERTO INTO expeditions (adventurer_id, time, difficulty, encounters, copper, silver, gold)
+                            VALUES (@adventurerId, @time, @difficulty, @encounters, @copper, @silver, @gold)
+                        ";
+                    expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
+                    //expeditionCommand.Parameters.AddWithValue("@time", player.Adventures[i].Map.Time);
+                    //expeditionCommand.Parameters.AddWithValue("@difficulty", player.Adventures[i].Map.Difficulty);
+                    //expeditionCommand.Parameters.AddWithValue("@encounters", player.Adventures[i].Map.Encounters.antal?);
+
+                    //Currency
+                    //expeditionCommand.Parameters.AddWithValue("@copper", player.Adventures[i].Map.Reward.Copper);
+                    //expeditionCommand.Parameters.AddWithValue("@silver", player.Adventures[i].Map.Reward.Silver);
+                    //expeditionCommand.Parameters.AddWithValue("@gold", player.Adventures[i].Map.Reward.Gold);
+                    expeditionCommand.ExecuteNonQuery();
                 }
             }
         }

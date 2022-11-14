@@ -35,7 +35,7 @@
         }
         public override string ToString() {
 
-            return $@"|
+            return $@"    |
     |   {Difficulty} MAP
     |
     |   Expedition cost: {ExpeditionCost}

@@ -3,6 +3,7 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
+using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace SoftwareExam.CoreProgram {
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
         private readonly Armory Armory;
+        private readonly Expeditions Expeditions;
         private Player Player;
         private readonly int MaxAdventurers = 5;
 
@@ -25,6 +27,7 @@ namespace SoftwareExam.CoreProgram {
             DataBaseAccess = new DataBaseAccess("Data Source = AdventureLeague.db");
             Recruitment = new Recruitment();
             Armory = new Armory();
+            Expeditions = new Expeditions();
         }
 
 
@@ -119,6 +122,14 @@ namespace SoftwareExam.CoreProgram {
         }
         #endregion
 
+
+        public string GetExpeditionMaps() {
+            return Expeditions.GetMaps();
+        }
+
+        public void PrepareExpedition(int mapNr, int adventurerNr) {
+            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr]);
+        }
 
         public void SaveGame() {
 

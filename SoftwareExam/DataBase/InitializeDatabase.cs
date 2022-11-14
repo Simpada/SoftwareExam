@@ -23,8 +23,11 @@ namespace SoftwareExam.DataBase
                 CreateTablePlayer();
                 CreateTableAdventurers();
                 CreateTableDecorators();
+                CreateTableExpeditions();
+                CreateTableLogs();
             }
         }
+
 
         public bool CheckIfDatabaseExists()
         {
@@ -62,7 +65,7 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS adventurers
                 (
-                    adventurer_id INTEGER PRIMARY KEY,
+                    adventurer_id INTEGER NOT NULL PRIMARY KEY,
                     adventurer_name TEXT NOT NULL,
                     class TEXT NOT NULL,
                     health INTEGER NOT NULL,
@@ -91,6 +94,50 @@ namespace SoftwareExam.DataBase
                     PRIMARY KEY (decorator_id, adventurer_id),
                     CONSTRAINT fk_adventurers
                         FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
+                        ON DELETE CASCADE
+                )
+            ";
+            command.ExecuteNonQuery();
+        }
+
+        private void CreateTableExpeditions()
+        {
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS expeditions
+                (
+                    adventurer_id INTEGER NOT NULL PRIMARY KEY,
+                    time DOUBLE NOT NULL,
+                    difficulty INTEGER NOT NULL,
+                    encounters INTEGER NOT NULL,
+                    copper INTEGER NOT NULL,
+                    silver INTEGER NOT NULL,
+                    gold INTEGER NOT NULL,
+                    CONSTRAINT fk_adventureres_exp
+                        FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
+                        ON DELETE CASCADE
+                )
+            ";
+            command.ExecuteNonQuery();
+        }
+
+        private void CreateTableLogs()
+        {
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                CREATE TABLE IF NOT EXISTS logs
+                (
+                    log_id INTEGER NOT NULL PRIMARY KEY,
+                    log_entry varchar(1000),
+                    player_id INT NOT NULL,
+                    CONSTRAINT fk_players_log
+                        FOREIGN KEY(player_id) REFERENCES players(player_id)
                         ON DELETE CASCADE
                 )
             ";

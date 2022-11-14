@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
     public class Expeditions {
 
         private List<Map> Maps = new();
+        private List<Mission> Missions = new();
 
         public Expeditions() {
             SetUpMaps();
@@ -35,20 +37,22 @@ namespace SoftwareExam.CoreProgram.Expedition {
             return MapDescriptions;
         }
 
-        public void SelectMap(int mapNr) {
+        public void PrepareMission(int mapNr, Adventurer adventurer) {
 
-            ReplaceMap(mapNr);
-        }
-
-        private void ReplaceMap(int mapNr) {
+            Map Destination = new();
 
             foreach (Map map in Maps) {
-                if ( (int)map.Difficulty == mapNr) {
-
+                if ((int)map.Difficulty == mapNr) {
+                    Destination = map;
+                    break;
                 }
             }
 
-        }
+            Mission Mission = new(Destination, adventurer);
+            Missions.Add(Mission);
 
+            Maps.Remove(Destination);
+            Maps.Add(Map.GetMap(mapNr));
+        }
     }
 }
