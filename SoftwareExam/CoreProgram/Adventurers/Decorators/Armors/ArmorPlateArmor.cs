@@ -8,7 +8,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     internal class ArmorPlateArmor : BasicArmor {
 
 
-        public ArmorPlateArmor(Adventurer Adventurer) : base(Adventurer) {
+        public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
             AllowedClasses = new string[] {"Warrior"};
             ItemId = 101;
         }

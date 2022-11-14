@@ -1,5 +1,4 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
