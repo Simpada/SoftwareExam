@@ -115,6 +115,21 @@ namespace SoftwareExam.DataBase {
                     decoratorCommand.Parameters.AddWithValue("@decoratorId", player.Adventurers[i].Equipment[j].ItemId);
                     decoratorCommand.Parameters.AddWithValue("@adventurerId", id);
                     decoratorCommand.ExecuteNonQuery();
+
+
+                    //Check if adv out on expedition, then save.
+                    for (int k = 0; k < 5; k++) {
+                        using SqliteCommand expeditionCommand = connection.CreateCommand();
+
+                        expeditionCommand.CommandText = @"
+                            INSERTO INTO expeditions (time, difficulty, encounters, copper, silver, gold)
+                            VALUES (@time, @difficulty, @encounters, @copper, @silver, @gold)                    
+                        ";
+
+
+                    }
+
+
                 }
             }
         }
