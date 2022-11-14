@@ -30,7 +30,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
             foreach (Map map in Maps) {
                 MapDescriptions += map.ToString();
-                MapDescriptions += "    |-----------------------------------------";
+                MapDescriptions += "\n    |-----------------------------------------";
             }
 
 

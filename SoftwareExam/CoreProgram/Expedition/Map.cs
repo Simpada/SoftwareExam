@@ -25,8 +25,8 @@
 
             Map Map = new() {
                 Difficulty = (Difficulties)difficulty,
-                ExpeditionCost = new Currency(0, 0, 3) * difficulty,
-                Reward = new Currency(copper, silver, gold),
+                Reward = Currency.Convert(new Currency(copper, silver, gold)),
+                ExpeditionCost = new Currency(0, 0, 3) * (double)difficulty,
                 Encounters = (difficulty + 1) * (Random.Next(3) + 1),
                 Location = GetLocation(Random)
             };
@@ -35,7 +35,8 @@
         }
         public override string ToString() {
 
-            return $@"    |
+            return $@"
+    |
     |   {Difficulty} MAP
     |
     |   Expedition cost: {ExpeditionCost}

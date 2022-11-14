@@ -44,13 +44,11 @@ namespace SoftwareExam.CoreProgram {
 
         public Currency Multiply(double multiplier) {
 
-            Currency temp = this;
+            int tempGold = (int)(_gold * multiplier);
+            int tempSilver = (int)(_silver * multiplier);
+            int tempCopper = (int)(_copper * multiplier);
 
-            temp.Gold = (int)(temp.Gold * multiplier);
-            temp.Silver = (int)(temp.Silver * multiplier);
-            temp.Copper = (int)(temp.Copper * multiplier);
-
-            return temp;
+            return Convert(new Currency(tempCopper, tempSilver, tempGold));
         }
 
         public static Currency Convert(Currency currency)

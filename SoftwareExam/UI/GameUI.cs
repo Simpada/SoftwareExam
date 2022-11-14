@@ -219,7 +219,11 @@ namespace SoftwareExam.UI {
             Console.Clear();
             Console.WriteLine(PlayMenu.GetGuildHouseExpeditions());
 
-            Manager.PrepareExpedition(0,0);
+            // Manager.PrepareExpedition(0,0);
+            
+            Console.WriteLine(Manager.GetExpeditionMaps());
+            Thread.Sleep(20000);
+
             // Must print the available maps, then if clicked, continue to adventurer selection
         }
 
