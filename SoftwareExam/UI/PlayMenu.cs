@@ -135,12 +135,12 @@ namespace SoftwareExam.UI {
     |   V       
     |-----------------------------------------
     |       {buyMessage[2]}
-    |   |\      
-    |   | \     
-    |   | |     Health: 5
-    |  [===]    Damage: 5
-    |   | |     Luck:   10
-    |   |_|     
+    |  |\       
+    |  | \      
+    |  | |      Health: 5
+    | [===]     Damage: 5
+    |  | |      Luck:   10
+    |  |_|     
     |-----------------------------------------
 
 ";
@@ -176,7 +176,6 @@ namespace SoftwareExam.UI {
                 }
             }
 
-
             int _index = 0;
 
             string ArmoryDisplay = "";
@@ -184,7 +183,6 @@ namespace SoftwareExam.UI {
                 ArmoryDisplay += cards[_index++];
                 ArmoryDisplay += "\n    |-----------------------------------------\n";
             }
-
 
             return $@"
     THE GRAND ARMORY
