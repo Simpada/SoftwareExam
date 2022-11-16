@@ -26,9 +26,26 @@ namespace SoftwareExam.CoreProgram.Expedition
             StartMission();
         }
 
-        private void UpdateLog() {
-            Console.WriteLine(LogMessage);
-            Player.AddLogMessage(LogMessage);
+        
+        private async void UpdateLog() {
+
+            if (Player.Log.Count >= 5) {
+                Player.AddLogMessage(LogMessage);
+
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 5);
+                for (int i = 0; i < Player.Log.Count; i++) {
+                    Console.WriteLine(new string(' ', Console.WindowWidth));
+                }
+
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 5);
+                foreach (string message in Player.Log) {
+                    Console.WriteLine(message);
+                }
+
+            } else {
+                Console.WriteLine(LogMessage);
+                Player.AddLogMessage(LogMessage);
+            }
         }
 
         private async void StartMission() {
@@ -57,8 +74,8 @@ namespace SoftwareExam.CoreProgram.Expedition
         }
 
         private async Task RunEncounter() {
-            await Task.Delay(15000);
-            LogMessage = "    - nothing happened";
+            await Task.Delay(5000);
+            LogMessage = $"    - {Adventurer.Name} wandered in circles";
         }
 
     }

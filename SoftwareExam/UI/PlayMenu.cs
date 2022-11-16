@@ -9,7 +9,7 @@ namespace SoftwareExam.UI {
     public class PlayMenu {
 
 
-        public string GetLog(string log) {
+        public static string GetLog(string log) {
             return $@"
     EXPEDITION LOG: 
 {log}";

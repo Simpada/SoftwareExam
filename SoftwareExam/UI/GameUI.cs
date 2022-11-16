@@ -15,6 +15,7 @@ namespace SoftwareExam.UI {
         private readonly PlayMenu PlayMenu;
 
         private char input;
+        private string Ui = "";
 
         public GameUI() {
             Manager = new GameManager();
@@ -176,9 +177,12 @@ namespace SoftwareExam.UI {
 
 
         // Interraction in the game menu
+        
+        public void UpdateUi() {
 
-        private string Ui; 
-        private void UpdateUi() {
+            Console.Clear();
+            Console.WriteLine(Ui);
+            Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
 
         }
 
@@ -188,7 +192,7 @@ namespace SoftwareExam.UI {
 
 
             while (true) {
-                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+                UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
@@ -206,34 +210,29 @@ namespace SoftwareExam.UI {
                 } else if (input == '4') {
                     // Access DB and save
                     Manager.SaveGame();
-                    Console.Clear();
                     Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()) +
                         "\n" +
                         PlayMenu.GetVillage();
-                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()));
-                    //Console.WriteLine(Message);
-                    Console.WriteLine(PlayMenu.GetVillage());
                 } else if (input == '0') {
                     ExitMenu();
                     break;
                 } else {
                     InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()));
-                    Console.WriteLine(PlayMenu.GetVillage());
+                    Ui += "\n" + PlayMenu.GetVillage();
                 }
             }
         }
 
-
         private void GuildMenuSelectMap() {
             Console.Clear();
 
-            Console.WriteLine(PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()));
+            Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
 
             int mapNr;
             int adventurerNr;
 
             while (true) {
-                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+                UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
 
@@ -256,9 +255,7 @@ namespace SoftwareExam.UI {
                 if (adventurerNr >= 0) {
                     break;
                 }
-                Console.Clear();
-                Console.WriteLine(PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()));
-
+                Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
             }
 
             Manager.PrepareExpedition(mapNr,adventurerNr);
@@ -268,13 +265,12 @@ namespace SoftwareExam.UI {
 
         private int GuildMenuSelectAdventurer() {
 
-            Console.Clear();
-            Console.WriteLine(PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()));
+            Ui = PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards());
 
             int adventurerNr;
 
             while (true) {
-                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+                UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
 
@@ -298,22 +294,21 @@ namespace SoftwareExam.UI {
                 if (Manager.GetAvilability(adventurerNr)) {
                     break;
                 }
-                Console.Clear();
-                Console.WriteLine(PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()));
-                Console.WriteLine("This Adventurer is unavailable");
+                Ui = PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()) +
+                    "\nThis Adventurer is unavailable";
             }
-
             return adventurerNr;
-
         }
 
         private void TavernMenu() {
-            Console.Clear();            
 
-            Console.WriteLine(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+            Ui = PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString());
+
+            
 
             while (true) {
-                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+                UpdateUi();
+
                 int AdventurerCount = Manager.GetAdventurerCount();
                 input = Console.ReadKey().KeyChar;
 
@@ -354,20 +349,19 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                Console.Clear();
-                Console.WriteLine(PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString()));
+                Ui = PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString());
             }
 
         }
 
         private void DismissAdventurer(int who) {
-            Console.Clear();
 
             Manager.GetAdventurerSellValue(who, out string name, out string value);
 
-            Console.WriteLine(PlayMenu.GetTavernDismissing(name, value));
+            Ui = PlayMenu.GetTavernDismissing(name, value);
 
             while (true) {
+                UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
 
@@ -387,9 +381,10 @@ namespace SoftwareExam.UI {
 
             Manager.CheckBalance(out bool canAfford, out string newBalance, out string cost);
             
-            Console.WriteLine(PlayMenu.GetTavernRecruiting(canAfford, newBalance, cost));
+            Ui = PlayMenu.GetTavernRecruiting(canAfford, newBalance, cost);
 
             while (true) {
+                UpdateUi();
                 
                 input = Console.ReadKey().KeyChar;
 
@@ -411,10 +406,12 @@ namespace SoftwareExam.UI {
         private void ArmoryMenu() {
             Console.Clear();
 
-            Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+            Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
 
             while (true) {
-                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+
+                UpdateUi();
+
                 int AdventurerCount = Manager.GetAdventurerCount();
                 input = Console.ReadKey().KeyChar;
 
@@ -455,15 +452,11 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                Console.Clear();
-                Console.WriteLine(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
             }
-
         }
 
-
         private void ExitMenu() {
-            Console.Clear();
             Console.WriteLine(PlayMenu.GetExitMenu());
 
             while (true) {
@@ -490,16 +483,16 @@ namespace SoftwareExam.UI {
             }
         }
         private void ResetPlayMenu() {
-            Console.Clear();
-            Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()) + "\n");
-            Console.WriteLine(PlayMenu.GetVillage());
+            Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString())+ 
+                "\n\n" +
+                PlayMenu.GetVillage();
         }
         #endregion
 
-        private static void InvalidInput(string _display) {
-            Console.Clear();
-            Console.WriteLine(_display);
-            Console.WriteLine("Invalid input");
+        private void InvalidInput(string _display) {
+            Ui = _display +
+                "\n" +
+                "Invalid input";
         }
     }
 }
