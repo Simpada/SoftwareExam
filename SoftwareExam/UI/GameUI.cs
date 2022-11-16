@@ -178,18 +178,15 @@ namespace SoftwareExam.UI {
 
         // Interraction in the game menu
         
-        public void UpdateUi() {
-
+        private void UpdateUi() {
             Console.Clear();
             Console.WriteLine(Ui);
             Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
-
         }
 
         #region
         private void PlayGame() {
             ResetPlayMenu();
-
 
             while (true) {
                 UpdateUi();
@@ -224,7 +221,6 @@ namespace SoftwareExam.UI {
         }
 
         private void GuildMenuSelectMap() {
-            Console.Clear();
 
             Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
 
@@ -303,8 +299,6 @@ namespace SoftwareExam.UI {
         private void TavernMenu() {
 
             Ui = PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString());
-
-            
 
             while (true) {
                 UpdateUi();
@@ -482,6 +476,7 @@ namespace SoftwareExam.UI {
 
             }
         }
+
         private void ResetPlayMenu() {
             Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString())+ 
                 "\n\n" +

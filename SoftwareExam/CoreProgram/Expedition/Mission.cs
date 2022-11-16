@@ -4,13 +4,17 @@ namespace SoftwareExam.CoreProgram.Expedition
 {
     public class Mission
     {
-        private Player Player;
+        private readonly Player Player;
         public Adventurer Adventurer { get; set; }
-        public Map Map { get; set; } = new();
+        public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
+        int EncounterNumber;
+        public string Destination { get; set; } = "";
         public Currency Reward;
-        public string LogMessage = "";
-        public float TimeLeft = 0;
+        private string LogMessage = "";
+        public int TimeLeft = 0;
+        private int[] WaitTimes;
+        private readonly Random Random = new();
 
         public Mission (Player player, Map map, Adventurer adventurer) {
             Player = player;
@@ -19,25 +23,27 @@ namespace SoftwareExam.CoreProgram.Expedition
             for (int i = 0; i < Map.Encounters; i++) {
                 Encounters.Add(new Encounter());
             }
+            EncounterNumber = Encounters.Count;
+            WaitTimes = new int[EncounterNumber];
             Reward = map.Reward;
+            Destination = map.Location;
 
-
+            Player.Missions.Add(this);
             Adventurer.OnMission = true;
             StartMission();
         }
-
         
-        private async void UpdateLog() {
+        private void UpdateLog() {
 
             if (Player.Log.Count >= 5) {
                 Player.AddLogMessage(LogMessage);
 
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 5);
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - Player.Log.Count);
                 for (int i = 0; i < Player.Log.Count; i++) {
                     Console.WriteLine(new string(' ', Console.WindowWidth));
                 }
 
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 5);
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - Player.Log.Count);
                 foreach (string message in Player.Log) {
                     Console.WriteLine(message);
                 }
@@ -50,19 +56,32 @@ namespace SoftwareExam.CoreProgram.Expedition
 
         private async void StartMission() {
 
-            Task Encounter = RunEncounter();
-            LogMessage = $"    - {Adventurer.Name} has headed towards {Map.Location}";
+            TimeLeft = Random.Next( Encounters.Count * 10 ) + Encounters.Count * 10;
+
+            int[] EncounterTimes = new int[Encounters.Count];
+            
+            for (int i = 0; i < Encounters.Count; i++) {
+                int time = Random.Next( TimeLeft - 10 ) + 10;
+                EncounterTimes[i] = time; 
+            }
+            Array.Sort(EncounterTimes);
+
+            
+            int lastTime = 0;
+            for (int i = 0; i < Encounters.Count; i++) {
+                int time = EncounterTimes[i] - lastTime;
+                WaitTimes[i] = time;
+                lastTime = EncounterTimes[i];
+            }
+
+            
+            LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
             UpdateLog();
 
-            while (Encounters.Count > 0) {
-
+            for (int i = 0; i < Encounters.Count; i++) {
+                Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
+                
                 await Task.WhenAny(Encounter);
-
-                // Update Player log array
-
-                Encounters.Remove(Encounters[^1]);
-                Encounter = RunEncounter();
-
                 UpdateLog();
             }
 
@@ -73,10 +92,35 @@ namespace SoftwareExam.CoreProgram.Expedition
             // Update Player Currency
         }
 
-        private async Task RunEncounter() {
-            await Task.Delay(5000);
-            LogMessage = $"    - {Adventurer.Name} wandered in circles";
-        }
+        //public async void ContinueMission() {
 
+        //    Task Encounter = RunEncounter();
+
+        //    while (Encounters.Count > 0) {
+
+        //        await Task.WhenAny(Encounter);
+
+        //        Encounter = RunEncounter();
+
+        //        Encounters.Remove(Encounters[^1]);
+
+        //        UpdateLog();
+        //    }
+
+        //    await Task.Delay(5000);
+        //    LogMessage = $"    - {Adventurer.Name} has returned!";
+        //    UpdateLog();
+        //    Adventurer.OnMission = false;
+        //    // Update Player Currency
+
+        //}
+
+        private async Task RunEncounter(Encounter encounter, int encounterTime) {
+            await Task.Delay(encounterTime * 1000);
+            TimeLeft -= encounterTime;
+            LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
+
+            EncounterNumber--;
+        }
     }
 }
