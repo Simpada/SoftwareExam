@@ -27,12 +27,16 @@ namespace SoftwareExam.CoreProgram {
             DataBaseAccess = new DataBaseAccess("Data Source = AdventureLeague.db");
             Recruitment = new Recruitment();
             Armory = new Armory();
-            Expeditions = new Expeditions();
+            Expeditions = new Expeditions(Player);
         }
 
 
         public void SetPlayer(Player player) {
             Player = player;
+        }
+
+        public string GetLogMessage() {
+            return Player.GetLogMessages();
         }
 
         public string GetBalanceString() {
@@ -140,6 +144,7 @@ namespace SoftwareExam.CoreProgram {
         public int LoadGame(int Id) {
 
             Player = DataBaseAccess.GetPlayerById(Id);
+            Expeditions.Player = Player;
 
             List<Adventurer> Adventurers = DataBaseAccess.GetAdventurers(Id);
 
@@ -169,8 +174,6 @@ namespace SoftwareExam.CoreProgram {
                     }
 
                 }
-
-
             }
 
             Player.Adventurers = Adventurers;
@@ -196,5 +199,6 @@ namespace SoftwareExam.CoreProgram {
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
         }
+
     }
 }

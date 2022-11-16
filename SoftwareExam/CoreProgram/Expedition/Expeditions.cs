@@ -10,8 +10,10 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         private List<Map> Maps = new();
         private List<Mission> Missions = new();
+        public Player Player { set; get; }
 
-        public Expeditions() {
+        public Expeditions(Player player) {
+            Player = player;
             SetUpMaps();
         }
 
@@ -48,7 +50,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 }
             }
 
-            Mission Mission = new(Destination, adventurer);
+            Mission Mission = new(Player, Destination, adventurer);
             Missions.Add(Mission);
 
             Maps.Remove(Destination);

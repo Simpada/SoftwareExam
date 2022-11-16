@@ -4,6 +4,7 @@ namespace SoftwareExam.CoreProgram.Expedition
 {
     public class Mission
     {
+        private Player Player;
         public Adventurer Adventurer { get; set; }
         public Map Map { get; set; } = new();
         public List<Encounter> Encounters { get; set; } = new();
@@ -11,7 +12,8 @@ namespace SoftwareExam.CoreProgram.Expedition
         public string LogMessage = "";
         public float TimeLeft = 0;
 
-        public Mission (Map map, Adventurer adventurer) {
+        public Mission (Player player, Map map, Adventurer adventurer) {
+            Player = player;
             Adventurer = adventurer;
             Map = map;
             for (int i = 0; i < Map.Encounters; i++) {
@@ -22,19 +24,27 @@ namespace SoftwareExam.CoreProgram.Expedition
             StartMission();
         }
 
+        private void UpdateLog() {
+            Console.WriteLine(LogMessage);
+            Player.AddLogMessage(LogMessage);
+        }
+
         private async void StartMission() {
 
             Task Encounter = RunEncounter();
+            LogMessage = $"    - {Adventurer.Name} has headed towards {Map.Location}";
+            UpdateLog();
 
             while (Encounters.Count > 0) {
 
                 await Task.WhenAny(Encounter);
 
-                Console.WriteLine(LogMessage);
                 // Update Player log array
 
                 Encounters.Remove(Encounters[^1]);
                 Encounter = RunEncounter();
+
+                UpdateLog();
             }
 
             // Update Player Currency
@@ -42,7 +52,7 @@ namespace SoftwareExam.CoreProgram.Expedition
 
         private async Task RunEncounter() {
             await Task.Delay(15000);
-            LogMessage = "nothing happened";
+            LogMessage = "    - nothing happened";
         }
 
     }

@@ -9,6 +9,12 @@ namespace SoftwareExam.UI {
     public class PlayMenu {
 
 
+        public string GetLog(string log) {
+            return $@"
+    EXPEDITION LOG: 
+{log}";
+        }
+
         
         public string GetPlayMenu(int totalAdventurers, int availableAdventurers, string balance) {
             return $@" 
@@ -27,7 +33,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetVillage(string log) {
+        public string GetVillage() {
 
             return $@"
                                                                       .
@@ -38,18 +44,17 @@ namespace SoftwareExam.UI {
     | .----. .-. |    | +-----+ .-. |    ///|\\\    /_____\    | [] .-.-. [] |
 ....| '----' |*| |....| +-----+ |*| |....///|\\\....|''#''|....|    | | |    |....
 
-
-    EXPEDITION LOG: 
-{log}
-
 ";
         }
 
 
-        public string GetGuildHouseExpeditions() {
+        public string GetGuildHouseExpeditions(string maps, string balance) {
 
             return $@"
+    THE GUILD OF ADVENTURERS
+    [0] Return to town
 
+    Your balance is : {balance}
 ";
         }
 
