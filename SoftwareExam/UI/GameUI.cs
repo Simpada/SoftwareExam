@@ -377,7 +377,6 @@ namespace SoftwareExam.UI {
         }
 
         private void RecruitAdventurer() {
-            Console.Clear();
 
             Manager.CheckBalance(out bool canAfford, out string newBalance, out string cost);
             
@@ -404,8 +403,6 @@ namespace SoftwareExam.UI {
 }
 
         private void ArmoryMenu() {
-            Console.Clear();
-
             Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
 
             while (true) {
@@ -457,6 +454,7 @@ namespace SoftwareExam.UI {
         }
 
         private void ExitMenu() {
+            Console.Clear();
             Console.WriteLine(PlayMenu.GetExitMenu());
 
             while (true) {
@@ -478,6 +476,8 @@ namespace SoftwareExam.UI {
                     Environment.Exit(0);
                 } else {
                     InvalidInput(PlayMenu.GetExitMenu());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                 }
 
             }
