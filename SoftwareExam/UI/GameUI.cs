@@ -176,9 +176,16 @@ namespace SoftwareExam.UI {
 
 
         // Interraction in the game menu
+
+        private string Ui; 
+        private void UpdateUi() {
+
+        }
+
         #region
         private void PlayGame() {
             ResetPlayMenu();
+
 
             while (true) {
                 Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
@@ -186,7 +193,7 @@ namespace SoftwareExam.UI {
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
                     // Enter Guild House
-                    GuildMenu();
+                    GuildMenuSelectMap();
                     ResetPlayMenu();
                 } else if (input == '2') {
                     // Enter Tavern
@@ -200,34 +207,104 @@ namespace SoftwareExam.UI {
                     // Access DB and save
                     Manager.SaveGame();
                     Console.Clear();
-                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
+                    Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()) +
+                        "\n" +
+                        PlayMenu.GetVillage();
+                    Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()));
                     //Console.WriteLine(Message);
                     Console.WriteLine(PlayMenu.GetVillage());
                 } else if (input == '0') {
                     ExitMenu();
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()));
+                    InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()));
                     Console.WriteLine(PlayMenu.GetVillage());
                 }
             }
         }
 
 
-        private void GuildMenu() {
+        private void GuildMenuSelectMap() {
             Console.Clear();
 
             Console.WriteLine(PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()));
 
+            int mapNr;
+            int adventurerNr;
+
             while (true) {
                 Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
-            
+
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    mapNr = 0;
+                } else if (input == '2') {
+                    mapNr = 1;
+                } else if (input == '3') {
+                    mapNr = 2;
+                } else if (input == '4') {
+                    mapNr = 3;
+                } else if (input == '0') {
+                    return;
+                } else {
+                    InvalidInput(PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()));
+                    continue;
+                }
+
+                adventurerNr = GuildMenuSelectAdventurer();
+                if (adventurerNr >= 0) {
+                    break;
+                }
+                Console.Clear();
+                Console.WriteLine(PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()));
+
             }
 
-
-            Manager.PrepareExpedition(0,0);
+            Manager.PrepareExpedition(mapNr,adventurerNr);
 
             // Must print the available maps, then if clicked, continue to adventurer selection
+        }
+
+        private int GuildMenuSelectAdventurer() {
+
+            Console.Clear();
+            Console.WriteLine(PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()));
+
+            int adventurerNr;
+
+            while (true) {
+                Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    adventurerNr = 0;
+                } else if (input == '2') {
+                    adventurerNr = 1;
+                } else if (input == '3') {
+                    adventurerNr = 2;
+                } else if (input == '4') {
+                    adventurerNr = 3;
+                } else if (input == '5') {
+                    adventurerNr = 4;
+                } else if (input == '0') {
+                    return -1;
+                } else {
+                    InvalidInput(PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()));
+                    continue;
+                }
+
+                if (Manager.GetAvilability(adventurerNr)) {
+                    break;
+                }
+                Console.Clear();
+                Console.WriteLine(PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()));
+                Console.WriteLine("This Adventurer is unavailable");
+            }
+
+            return adventurerNr;
+
         }
 
         private void TavernMenu() {
@@ -414,7 +491,7 @@ namespace SoftwareExam.UI {
         }
         private void ResetPlayMenu() {
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetAvailableAdventurers(), Manager.GetBalanceString()) + "\n");
+            Console.WriteLine(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()) + "\n");
             Console.WriteLine(PlayMenu.GetVillage());
         }
         #endregion

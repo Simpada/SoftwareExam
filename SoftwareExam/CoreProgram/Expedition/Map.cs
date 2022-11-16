@@ -37,7 +37,7 @@
 
             return $@"
     |
-    |   {Difficulty} MAP
+    |   [{(int) Difficulty + 1}] {Difficulty} MAP
     |
     |   Expedition cost: {ExpeditionCost}
     |   Expedition to {Location}

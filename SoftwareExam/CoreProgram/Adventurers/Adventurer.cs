@@ -18,6 +18,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public string Name { get; set; } = "";
         public string Class { get; set; } = "";
+        public bool OnMission { get; set; } = false;
 
         public string[] SymbolArray = new string[6];
 

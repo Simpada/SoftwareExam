@@ -16,14 +16,12 @@ namespace SoftwareExam.UI {
         }
 
         
-        public string GetPlayMenu(int totalAdventurers, int availableAdventurers, string balance) {
+        public string GetPlayMenu(int totalAdventurers, string balance) {
             return $@" 
     THE ADVENTURER'S LEAGUE   
 
     Your balance is : {balance}
     You have {totalAdventurers} adventurers
-    {availableAdventurers} are in town
-    {totalAdventurers-availableAdventurers} are on a quest
 
     [1] Enter Guild House (Plan expeditions)                
     [2] Go to The Tavern (Hire Adventurers)                 
@@ -55,21 +53,35 @@ namespace SoftwareExam.UI {
     [0] Return to town
 
     Your balance is : {balance}
+
+    Available Maps:
+{maps}
 ";
         }
 
+        public string GetGuildHouseAdventurers(string adventurerCards) {
 
-        public string GetTavern(string[] AdventurerCards, string balance) {
+           
+            return $@"
+    Available Adenturers:
+    [0] Return to guild house
 
-            string[] cards = new string[AdventurerCards.Length];
+    |-----------------------------------------
+{adventurerCards}
+";
+        }
 
-            for (int i = 0; i < AdventurerCards.Length; i++) {
+        public string GetTavern(string[] adventurerCards, string balance) {
 
-                if (string.IsNullOrEmpty(AdventurerCards[i])) {
+            string[] cards = new string[adventurerCards.Length];
+
+            for (int i = 0; i < adventurerCards.Length; i++) {
+
+                if (string.IsNullOrEmpty(adventurerCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |       [{i+1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
-                        $"{AdventurerCards[i]}";
+                        $"{adventurerCards[i]}";
                     cards[i] = TavernCard;
                 }
             }

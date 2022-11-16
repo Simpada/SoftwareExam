@@ -11,8 +11,6 @@ namespace SoftwareExam.CoreProgram
         public Currency Balance { get; set; } = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
-        public int AvailableAdventurers { get; set; } = 0;
-        private int AdventurersOnMission = 0;
         public List<string> Log { get; set; } = new();
 
         public Player()
@@ -89,13 +87,13 @@ namespace SoftwareExam.CoreProgram
         }
 
         public void AddLogMessage(string logMessage) {
-            if (Log.Count > 5) {
+            if (Log.Count >= 5) {
                 Log.RemoveAt(0);
             }
             Log.Add(logMessage);
         }
 
-        internal string GetLogMessages() {
+        public string GetLogMessages() {
             string LogMessage = "";
             for(int i = 0; i < Log.Count; i++) {
                 LogMessage += Log[i];

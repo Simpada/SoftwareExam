@@ -21,6 +21,8 @@ namespace SoftwareExam.CoreProgram.Expedition
             }
             Reward = map.Reward;
 
+
+            Adventurer.OnMission = true;
             StartMission();
         }
 
@@ -47,6 +49,10 @@ namespace SoftwareExam.CoreProgram.Expedition
                 UpdateLog();
             }
 
+            await Task.Delay(5000);
+            LogMessage = $"    - {Adventurer.Name} has returned!";
+            UpdateLog();
+            Adventurer.OnMission = false;
             // Update Player Currency
         }
 

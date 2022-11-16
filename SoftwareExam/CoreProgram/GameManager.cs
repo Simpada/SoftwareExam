@@ -78,7 +78,7 @@ namespace SoftwareExam.CoreProgram {
         public string[] GetAllAdventurerCards() {
 
             // This sets the maximum amount of adventurers you can display
-            string[]AdventurerCards = new string[MaxAdventurers];
+            string[] AdventurerCards = new string[MaxAdventurers];
 
             List<Adventurer> Adventurers = Player.Adventurers;
 
@@ -87,6 +87,30 @@ namespace SoftwareExam.CoreProgram {
             }
 
             return AdventurerCards;
+        }
+
+        public string GetAvailableAdventurerCards() {
+
+            string AvailableAdventurers = "";
+
+            for (int i = 0; i < Player.Adventurers.Count; i++) {
+                if (Player.Adventurers[i].OnMission) {
+                    AvailableAdventurers += $"    |           ON A MISSION\n";
+                } else {
+                    AvailableAdventurers += $"    |       [{i + 1}] CHOOSE ADVENTURER\n";
+                }
+                AvailableAdventurers += Player.Adventurers[i].ToString();
+                AvailableAdventurers += "\n    |-----------------------------------------\n";
+            }
+            return AvailableAdventurers;
+        }
+
+        public bool GetAvilability(int index) {
+
+            if (Player.Adventurers.Count >= index + 1) {
+                return !Player.Adventurers[index].OnMission;
+            }
+            return false;
         }
 
 
@@ -119,10 +143,6 @@ namespace SoftwareExam.CoreProgram {
 
         public int GetAdventurerCount() {
             return Player.Adventurers.Count;
-        }
-
-        public int GetAvailableAdventurers() {
-            return Player.AvailableAdventurers;
         }
         #endregion
 
@@ -199,6 +219,5 @@ namespace SoftwareExam.CoreProgram {
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
         }
-
     }
 }
