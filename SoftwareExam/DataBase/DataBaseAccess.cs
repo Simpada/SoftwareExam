@@ -81,12 +81,12 @@ namespace SoftwareExam.DataBase {
 
 
             //Save player logs
-            for (int i = player.Log.Count; i > 0 ; i--) {
+            for (int i = 0; i < player.Log.Count; i++) {
                 using SqliteCommand logsCommand = connection.CreateCommand();
-                command.CommandText = @"
-                INSERT INTO logs (log_entry, player_id)
-                VALUES (logEntry, playerId)
-            ";
+                logsCommand.CommandText = @"
+                    INSERT INTO logs (log_entry, player_id)
+                    VALUES (@logEntry, @playerId)
+                    ";
                 logsCommand.Parameters.AddWithValue("@logEntry", player.Log[i]);
                 logsCommand.Parameters.AddWithValue("@playerId", player.Id);
                 logsCommand.ExecuteNonQuery();
@@ -120,6 +120,8 @@ namespace SoftwareExam.DataBase {
                 if (reader.Read()) {
                     id = reader.GetInt32(0);
                 }
+                player.Adventurers[i].Id = id;
+
 
                 for (var j = 0; j < 5; j++) {
                     using SqliteCommand decoratorCommand = connection.CreateCommand();
@@ -131,27 +133,26 @@ namespace SoftwareExam.DataBase {
                     decoratorCommand.Parameters.AddWithValue("@adventurerId", id);
                     decoratorCommand.ExecuteNonQuery();
                 }
+            }
 
+            //Check if adv out on expedition. Have to check which adventure is out on an adventure
+            for (int i = 0; i < player.Missions.Count; i++) {
+                using SqliteCommand expeditionCommand = connection.CreateCommand();
 
-                //Check if adv out on expedition. Have to check which adventure is out on an adventure
-                for (int k = player.Missions.Count; k > 0; k--) {
-                    using SqliteCommand expeditionCommand = connection.CreateCommand();
-
-                    expeditionCommand.CommandText = @"
-                            INSERTO INTO expeditions (adventurer_id, time, difficulty, encounters, copper, silver, gold)
-                            VALUES (@adventurerId, @time, @difficulty, @encounters, @copper, @silver, @gold)
+                expeditionCommand.CommandText = @"
+                            INSERT INTO expeditions (adventurer_id, time, destination, encounters, copper, silver, gold)
+                            VALUES (@adventurerId, @time, @destination, @encounters, @copper, @silver, @gold)
                         ";
-                    expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
-                    //expeditionCommand.Parameters.AddWithValue("@time", player.Adventures[i].Map.Time);
-                    //expeditionCommand.Parameters.AddWithValue("@difficulty", player.Adventures[i].Map.Difficulty);
-                    //expeditionCommand.Parameters.AddWithValue("@encounters", player.Adventures[i].Map.Encounters.antal?);
 
-                    //Currency
-                    //expeditionCommand.Parameters.AddWithValue("@copper", player.Adventures[i].Map.Reward.Copper);
-                    //expeditionCommand.Parameters.AddWithValue("@silver", player.Adventures[i].Map.Reward.Silver);
-                    //expeditionCommand.Parameters.AddWithValue("@gold", player.Adventures[i].Map.Reward.Gold);
-                    expeditionCommand.ExecuteNonQuery();
-                }
+                expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
+                expeditionCommand.Parameters.AddWithValue("@time", player.Missions[i].TimeLeft);
+                expeditionCommand.Parameters.AddWithValue("@destination", player.Missions[i].Destination);
+                expeditionCommand.Parameters.AddWithValue("@encounters", player.Missions[i].EncounterNumber);
+
+                expeditionCommand.Parameters.AddWithValue("@copper", player.Missions[i].Reward.Copper);
+                expeditionCommand.Parameters.AddWithValue("@silver", player.Missions[i].Reward.Silver);
+                expeditionCommand.Parameters.AddWithValue("@gold", player.Missions[i].Reward.Gold);
+                expeditionCommand.ExecuteNonQuery();
             }
         }
 
