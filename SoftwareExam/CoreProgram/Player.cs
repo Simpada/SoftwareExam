@@ -8,10 +8,12 @@ namespace SoftwareExam.CoreProgram
     {
         private int _id = -1;
         private string _playerName = "";
+
+        // Needs Lock
         public Currency Balance { get; set; } = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
-        public List<string> Log { get; set; } = new();
+        public List<string> Log { get; } = new();
 
         public Player()
         {
@@ -87,6 +89,8 @@ namespace SoftwareExam.CoreProgram
         }
 
         public void AddLogMessage(string logMessage) {
+
+            //Add lock here
             if (Log.Count >= 5) {
                 Log.RemoveAt(0);
             }
@@ -94,6 +98,8 @@ namespace SoftwareExam.CoreProgram
         }
 
         public string GetLogMessages() {
+
+            //Add lock here
             string LogMessage = "";
             for(int i = 0; i < Log.Count; i++) {
                 LogMessage += Log[i];

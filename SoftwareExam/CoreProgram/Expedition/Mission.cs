@@ -10,11 +10,23 @@ namespace SoftwareExam.CoreProgram.Expedition
         public List<Encounter> Encounters { get; set; } = new();
         int EncounterNumber;
         public string Destination { get; set; } = "";
-        public Currency Reward;
+        public Currency Reward = new();
         private string LogMessage = "";
         public int TimeLeft = 0;
-        private int[] WaitTimes;
+        private readonly int[] WaitTimes;
         private readonly Random Random = new();
+
+        public Mission(Player player, Adventurer adventurer) {
+
+            Player = player;
+            Adventurer = adventurer;
+            WaitTimes = new int[EncounterNumber];
+
+            Player.Missions.Add(this);
+            Adventurer.OnMission = true;
+
+            StartMission();
+        }
 
         public Mission (Player player, Map map, Adventurer adventurer) {
             Player = player;
@@ -30,10 +42,19 @@ namespace SoftwareExam.CoreProgram.Expedition
 
             Player.Missions.Add(this);
             Adventurer.OnMission = true;
+
+            TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
             StartMission();
         }
         
         private void UpdateLog() {
+
+            /*
+            - This has a huge issue
+            It is very much not thread save, and of triggered just as a window shifts, it might get printed very wrong,
+            Must find a way to block this action unless a condition is met
+            Maybe use a ManualResetEvent? giving UI priority, so it always get to finish running
+             */
 
             if (Player.Log.Count >= 5) {
                 Player.AddLogMessage(LogMessage);
@@ -44,10 +65,11 @@ namespace SoftwareExam.CoreProgram.Expedition
                 }
 
                 Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - Player.Log.Count);
-                foreach (string message in Player.Log) {
-                    Console.WriteLine(message);
-                }
-
+                //foreach (string message in Player.Log) {
+                //    Console.WriteLine(message);
+                //}
+                Console.WriteLine(Player.GetLogMessages());
+                
             } else {
                 Console.WriteLine(LogMessage);
                 Player.AddLogMessage(LogMessage);
@@ -56,31 +78,32 @@ namespace SoftwareExam.CoreProgram.Expedition
 
         private async void StartMission() {
 
-            TimeLeft = Random.Next( Encounters.Count * 10 ) + Encounters.Count * 10;
-
             int[] EncounterTimes = new int[Encounters.Count];
-            
+
             for (int i = 0; i < Encounters.Count; i++) {
-                int time = Random.Next( TimeLeft - 10 ) + 10;
-                EncounterTimes[i] = time; 
+                int time = Random.Next(TimeLeft - 10) + 10;
+                EncounterTimes[i] = time;
             }
             Array.Sort(EncounterTimes);
 
-            
+
             int lastTime = 0;
             for (int i = 0; i < Encounters.Count; i++) {
                 int time = EncounterTimes[i] - lastTime;
+                if (time <= 0) {
+                    time = 1;
+                }
                 WaitTimes[i] = time;
                 lastTime = EncounterTimes[i];
             }
 
-            
+
             LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
             UpdateLog();
 
             for (int i = 0; i < Encounters.Count; i++) {
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
-                
+
                 await Task.WhenAny(Encounter);
                 UpdateLog();
             }
@@ -91,29 +114,6 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer.OnMission = false;
             // Update Player Currency
         }
-
-        //public async void ContinueMission() {
-
-        //    Task Encounter = RunEncounter();
-
-        //    while (Encounters.Count > 0) {
-
-        //        await Task.WhenAny(Encounter);
-
-        //        Encounter = RunEncounter();
-
-        //        Encounters.Remove(Encounters[^1]);
-
-        //        UpdateLog();
-        //    }
-
-        //    await Task.Delay(5000);
-        //    LogMessage = $"    - {Adventurer.Name} has returned!";
-        //    UpdateLog();
-        //    Adventurer.OnMission = false;
-        //    // Update Player Currency
-
-        //}
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
             await Task.Delay(encounterTime * 1000);
