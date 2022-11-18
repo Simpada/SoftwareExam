@@ -136,7 +136,7 @@ namespace SoftwareExam.DataBase {
             }
 
             //Check if adv out on expedition. Have to check which adventure is out on an adventure
-            for (int i = player.Missions.Count - 1; i >= 0; i--) {
+            for (int i = 0; i < player.Missions.Count; i++) {
                 using SqliteCommand expeditionCommand = connection.CreateCommand();
 
                 expeditionCommand.CommandText = @"
