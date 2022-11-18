@@ -168,8 +168,8 @@ namespace SoftwareExam.CoreProgram {
 
             List<Adventurer> Adventurers = DataBaseAccess.GetAdventurers(Id);
 
-            foreach (Adventurer adventurer in Adventurers) {
-                List<int> itemCodes = DataBaseAccess.GetDecorators(adventurer.Id);
+            for (int i = 0; i < Adventurers.Count; i++) {
+                List<int> itemCodes = DataBaseAccess.GetDecorators(Adventurers[i].Id);
 
                 // Parse items and give to adventurers here
 
@@ -177,23 +177,23 @@ namespace SoftwareExam.CoreProgram {
 
                     switch (itemCode) {
                         case 100:
-                        Adventurer.AddNewItem(new BasicArmor(adventurer));
+                        Adventurer.AddNewItem(new BasicArmor(Adventurers[i]));
                         break;
                         case 200:
-                        Adventurer.AddNewItem(new BasicHat(adventurer));
+                        Adventurer.AddNewItem(new BasicHat(Adventurers[i]));
                         break;
                         case 300:
-                        Adventurer.AddNewItem(new BasicOffHand(adventurer));
+                        Adventurer.AddNewItem(new BasicOffHand(Adventurers[i]));
                         break;
                         case 400:
-                        Adventurer.AddNewItem(new BasicTrinket(adventurer));
+                        Adventurer.AddNewItem(new BasicTrinket(Adventurers[i]));
                         break;
                         case 500:
-                        Adventurer.AddNewItem(new BasicWeapon(adventurer));
+                        Adventurer.AddNewItem(new BasicWeapon(Adventurers[i]));
                         break;
                     }
-
                 }
+                Adventurers[i] = Adventurer.EquipGear(Adventurers[i]);
             }
 
             Player.Adventurers = Adventurers;
@@ -204,7 +204,6 @@ namespace SoftwareExam.CoreProgram {
         public string[] GetPlayers()
         {
             return DataBaseAccess.RetrieveAllPlayerNames();
-
         }
 
         public void DeleteSave(int saveFile) {
