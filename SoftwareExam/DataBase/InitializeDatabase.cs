@@ -110,8 +110,8 @@ namespace SoftwareExam.DataBase
                 CREATE TABLE IF NOT EXISTS expeditions
                 (
                     adventurer_id INTEGER NOT NULL PRIMARY KEY,
-                    time DOUBLE NOT NULL,
-                    difficulty INTEGER NOT NULL,
+                    time INTEGER NOT NULL,
+                    destination varchar(50) NOT NULL,
                     encounters INTEGER NOT NULL,
                     copper INTEGER NOT NULL,
                     silver INTEGER NOT NULL,
@@ -133,7 +133,7 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS logs
                 (
-                    log_id INTEGER NOT NULL PRIMARY KEY,
+                    log_id INTEGER PRIMARY KEY AUTOINCREMENT,
                     log_entry varchar(1000),
                     player_id INT NOT NULL,
                     CONSTRAINT fk_players_log

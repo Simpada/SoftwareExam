@@ -8,7 +8,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         public Adventurer Adventurer { get; set; }
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
-        int EncounterNumber;
+        public int EncounterNumber { get; set; }
         public string Destination { get; set; } = "";
         public Currency Reward = new();
         private string LogMessage = "";
