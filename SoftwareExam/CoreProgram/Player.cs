@@ -8,11 +8,12 @@ namespace SoftwareExam.CoreProgram
     {
         private int _id = -1;
         private string _playerName = "";
+
+        // Needs Lock
         public Currency Balance { get; set; } = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
-        public List<Adventure> Adventures = new();
-        public int AvailableAdventurers { get; set; } = 0;
-        public List<string> Log { get; set; }
+        public List<Mission> Missions = new();
+        public List<string> Log { get; } = new();
 
         public Player()
         {
@@ -26,12 +27,13 @@ namespace SoftwareExam.CoreProgram
             Balance = balance;
         }
 
-        public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers)
+        public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers, List<string> log)
         {
             _id = id;
             _playerName = playerName;
             Balance = balance;
             Adventurers = adventurers;
+            Log = log;
         }
 
 
@@ -84,6 +86,28 @@ namespace SoftwareExam.CoreProgram
 
         public void SetCurrency(int copper, int silver, int gold) {
             Balance = new Currency(copper, silver, gold);
+        }
+
+        public void AddLogMessage(string logMessage) {
+
+            //Add lock here
+            if (Log.Count >= 5) {
+                Log.RemoveAt(0);
+            }
+            Log.Add(logMessage);
+        }
+
+        public string GetLogMessages() {
+
+            //Add lock here
+            string LogMessage = "";
+            for(int i = 0; i < Log.Count; i++) {
+                LogMessage += Log[i];
+                if (i+1 < Log.Count) {
+                    LogMessage += "\n";
+                }
+            }
+            return LogMessage;
         }
     }
 }

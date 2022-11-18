@@ -134,14 +134,14 @@ namespace SoftwareExam.DataBase {
 
 
                 //Check if adv out on expedition. Have to check which adventure is out on an adventure
-                for (int k = player.Adventures.Count; k > 0; k--) {
+                for (int k = player.Missions.Count; k > 0; k--) {
                     using SqliteCommand expeditionCommand = connection.CreateCommand();
 
                     expeditionCommand.CommandText = @"
                             INSERTO INTO expeditions (adventurer_id, time, difficulty, encounters, copper, silver, gold)
                             VALUES (@adventurerId, @time, @difficulty, @encounters, @copper, @silver, @gold)
                         ";
-                    expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Adventures[i].Adventurer.Id);
+                    expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
                     //expeditionCommand.Parameters.AddWithValue("@time", player.Adventures[i].Map.Time);
                     //expeditionCommand.Parameters.AddWithValue("@difficulty", player.Adventures[i].Map.Difficulty);
                     //expeditionCommand.Parameters.AddWithValue("@encounters", player.Adventures[i].Map.Encounters.antal?);

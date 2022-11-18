@@ -133,7 +133,7 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS logs
                 (
-                    log_id INTEGER AUTOINCREMENT NOT NULL PRIMARY KEY,
+                    log_id INTEGER NOT NULL PRIMARY KEY,
                     log_entry varchar(1000),
                     player_id INT NOT NULL,
                     CONSTRAINT fk_players_log

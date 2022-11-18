@@ -21,7 +21,7 @@ namespace SoftwareExam.CoreProgram
         private List<int> Inventory = new();
         private readonly int InventorySize = 8;
 
-        private readonly Random Random = new Random();
+        private readonly Random Random = new();
 
         private readonly int InventoryRefreshRate = 60000;
 
@@ -123,7 +123,5 @@ namespace SoftwareExam.CoreProgram
         {
 
         }
-
-
     }
 }

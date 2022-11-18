@@ -3,6 +3,7 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
+using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace SoftwareExam.CoreProgram {
         private readonly Recruitment Recruitment;
         private readonly DataBaseAccess DataBaseAccess;
         private readonly Armory Armory;
+        private readonly Expeditions Expeditions;
         private Player Player;
         private readonly int MaxAdventurers = 5;
 
@@ -25,11 +27,16 @@ namespace SoftwareExam.CoreProgram {
             DataBaseAccess = new DataBaseAccess("Data Source = AdventureLeague.db");
             Recruitment = new Recruitment();
             Armory = new Armory();
+            Expeditions = new Expeditions(Player);
         }
 
 
         public void SetPlayer(Player player) {
             Player = player;
+        }
+
+        public string GetLogMessage() {
+            return Player.GetLogMessages();
         }
 
         public string GetBalanceString() {
@@ -60,7 +67,6 @@ namespace SoftwareExam.CoreProgram {
             } else {
                 Player.Balance -= Recruitment.Price;
                 Player.Adventurers.Add(adventurer);
-                Player.AvailableAdventurers++;
                 return true;
             }
         }
@@ -72,7 +78,7 @@ namespace SoftwareExam.CoreProgram {
         public string[] GetAllAdventurerCards() {
 
             // This sets the maximum amount of adventurers you can display
-            string[]AdventurerCards = new string[MaxAdventurers];
+            string[] AdventurerCards = new string[MaxAdventurers];
 
             List<Adventurer> Adventurers = Player.Adventurers;
 
@@ -81,6 +87,30 @@ namespace SoftwareExam.CoreProgram {
             }
 
             return AdventurerCards;
+        }
+
+        public string GetAvailableAdventurerCards() {
+
+            string AvailableAdventurers = "";
+
+            for (int i = 0; i < Player.Adventurers.Count; i++) {
+                if (Player.Adventurers[i].OnMission) {
+                    AvailableAdventurers += $"    |           ON A MISSION\n";
+                } else {
+                    AvailableAdventurers += $"    |       [{i + 1}] CHOOSE ADVENTURER\n";
+                }
+                AvailableAdventurers += Player.Adventurers[i].ToString();
+                AvailableAdventurers += "\n    |-----------------------------------------\n";
+            }
+            return AvailableAdventurers;
+        }
+
+        public bool GetAvilability(int index) {
+
+            if (Player.Adventurers.Count >= index + 1) {
+                return !Player.Adventurers[index].OnMission;
+            }
+            return false;
         }
 
 
@@ -111,15 +141,19 @@ namespace SoftwareExam.CoreProgram {
             return Player.Adventurers[who];
         }
 
-        internal int GetAdventurerCount() {
-            return Player.Adventurers.Count();
-        }
-
-        internal int GetAvailableAdventurers() {
-            return Player.AvailableAdventurers;
+        public int GetAdventurerCount() {
+            return Player.Adventurers.Count;
         }
         #endregion
 
+
+        public string GetExpeditionMaps() {
+            return Expeditions.GetMaps();
+        }
+
+        public void PrepareExpedition(int mapNr, int adventurerNr) {
+            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr]);
+        }
 
         public void SaveGame() {
 
@@ -130,6 +164,7 @@ namespace SoftwareExam.CoreProgram {
         public int LoadGame(int Id) {
 
             Player = DataBaseAccess.GetPlayerById(Id);
+            Expeditions.Player = Player;
 
             List<Adventurer> Adventurers = DataBaseAccess.GetAdventurers(Id);
 
@@ -159,8 +194,6 @@ namespace SoftwareExam.CoreProgram {
                     }
 
                 }
-
-
             }
 
             Player.Adventurers = Adventurers;
