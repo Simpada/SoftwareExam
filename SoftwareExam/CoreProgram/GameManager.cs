@@ -1,18 +1,10 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram {
+namespace SoftwareExam.CoreProgram
+{
     public class GameManager {
 
         private readonly Recruitment Recruitment;
