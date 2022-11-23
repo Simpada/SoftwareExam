@@ -80,6 +80,7 @@ namespace SoftwareExam.CoreProgram
             Weapons.Add(503);
             Weapons.Add(504);
             Weapons.Add(505);
+            Weapons.Add(506);
 
         }
         #endregion
