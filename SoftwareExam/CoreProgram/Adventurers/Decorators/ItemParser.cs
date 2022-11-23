@@ -89,30 +89,35 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         public static BaseDecoratedAdventurer GetItem(int id, Adventurer adventurer) {
 
             return id switch {
+                100 => new BasicArmor(adventurer),
                 101 => new ArmorPlateArmor(adventurer),
                 102 => new ArmorElvenRobe(adventurer),
                 103 => new ArmorLeatherSuit(adventurer),
                 104 => new ArmorFourCloverSuit(adventurer),
                 105 => new ArmorOfGod(adventurer),
 
+                200 => new BasicHat(adventurer),
                 201 => new HatPlateHelmet(adventurer),
                 202 => new HatElvenTopHat(adventurer),
                 203 => new HatHarlequinCrest(adventurer),
                 204 => new HatJuggernautsHelmet(adventurer),
                 205 => new HatLeatherHat(adventurer),
 
+                300 => new BasicOffHand(adventurer),
                 301 => new OffHandWoodenShield(adventurer),
                 302 => new OffHandSteelArrows(adventurer),
                 303 => new OffHandBookOfWisdom(adventurer),
                 304 => new OffHandMythrilShield(adventurer),
                 305 => new OffHandGiantsShield(adventurer),
 
+                400 => new BasicTrinket(adventurer),
                 401 => new TrinketRabbitsFoot(adventurer),
                 402 => new TrinketTheChickens(adventurer),
                 403 => new TrinketMimir(adventurer),
                 404 => new TrinketRingOfPower(adventurer),
                 405 => new TrinketFairyDust(adventurer),
 
+                500 => new BasicWeapon(adventurer),
                 501 => new WeaponIronSword(adventurer),
                 502 => new WeaponBinosKitchenKnife(adventurer),
                 503 => new WeaponEldersStaff(adventurer),
