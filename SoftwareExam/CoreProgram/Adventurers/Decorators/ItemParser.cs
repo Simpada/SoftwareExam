@@ -86,39 +86,39 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
             };
         }
         
-        public static BaseDecoratedAdventurer GetItem(int id) {
+        public static BaseDecoratedAdventurer GetItem(int id, Adventurer adventurer) {
 
             return id switch {
-                101 => new ArmorPlateArmor(new Warrior()),
-                102 => new ArmorElvenRobe(new Warrior()),
-                103 => new ArmorLeatherSuit(new Warrior()),
-                104 => new ArmorFourCloverSuit(new Warrior()),
-                105 => new ArmorOfGod(new Warrior()),
+                101 => new ArmorPlateArmor(adventurer),
+                102 => new ArmorElvenRobe(adventurer),
+                103 => new ArmorLeatherSuit(adventurer),
+                104 => new ArmorFourCloverSuit(adventurer),
+                105 => new ArmorOfGod(adventurer),
 
-                201 => new HatPlateHelmet(new Warrior()),
-                202 => new HatElvenTopHat(new Warrior()),
-                203 => new HatHarlequinCrest(new Warrior()),
-                204 => new HatJuggernautsHelmet(new Warrior()),
-                205 => new HatLeatherHat(new Warrior()),
+                201 => new HatPlateHelmet(adventurer),
+                202 => new HatElvenTopHat(adventurer),
+                203 => new HatHarlequinCrest(adventurer),
+                204 => new HatJuggernautsHelmet(adventurer),
+                205 => new HatLeatherHat(adventurer),
 
-                301 => new OffHandWoodenShield(new Warrior()),
-                302 => new OffHandSteelArrows(new Warrior()),
-                303 => new OffHandBookOfWisdom(new Warrior()),
-                304 => new OffHandMythrilShield(new Warrior()),
-                305 => new OffHandGiantsShield(new Warrior()),
+                301 => new OffHandWoodenShield(adventurer),
+                302 => new OffHandSteelArrows(adventurer),
+                303 => new OffHandBookOfWisdom(adventurer),
+                304 => new OffHandMythrilShield(adventurer),
+                305 => new OffHandGiantsShield(adventurer),
 
-                401 => new TrinketRabbitsFoot(new Warrior()),
-                402 => new TrinketTheChickens(new Warrior()),
-                403 => new TrinketMimir(new Warrior()),
-                404 => new TrinketRingOfPower(new Warrior()),
-                405 => new TrinketFairyDust(new Warrior()),
+                401 => new TrinketRabbitsFoot(adventurer),
+                402 => new TrinketTheChickens(adventurer),
+                403 => new TrinketMimir(adventurer),
+                404 => new TrinketRingOfPower(adventurer),
+                405 => new TrinketFairyDust(adventurer),
 
-                501 => new WeaponIronSword(new Warrior()),
-                502 => new WeaponBinosKitchenKnife(new Warrior()),
-                503 => new WeaponEldersStaff(new Warrior()),
-                504 => new WeaponOrbOfDarkness(new Warrior()),
-                505 => new WeaponWindripperBow(new Warrior()),
-                506 => new WeaponSwordOfOmens(new Warrior()),
+                501 => new WeaponIronSword(adventurer),
+                502 => new WeaponBinosKitchenKnife(adventurer),
+                503 => new WeaponEldersStaff(adventurer),
+                504 => new WeaponOrbOfDarkness(adventurer),
+                505 => new WeaponWindripperBow(adventurer),
+                506 => new WeaponSwordOfOmens(adventurer),
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
