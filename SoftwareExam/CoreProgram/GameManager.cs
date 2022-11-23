@@ -190,8 +190,17 @@ namespace SoftwareExam.CoreProgram
 
             Player.Adventurers = Adventurers;
 
+            //Player.Missions = GetMissions(Id);
+
             return Player.Id;
         }
+
+        public List<Mission> GetMissions(int id)
+        {
+            return DataBaseAccess.GetMissionsForAdventurers(id);
+        }
+
+
 
         public string[] GetPlayers()
         {

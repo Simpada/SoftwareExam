@@ -7,6 +7,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         private readonly Player Player;
         private readonly LogWriter LogWriter;
         public Adventurer Adventurer { get; set; }
+        public int AdventurerID { get; set; } = -1;
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }

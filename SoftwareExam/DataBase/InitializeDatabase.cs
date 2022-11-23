@@ -23,7 +23,7 @@ namespace SoftwareExam.DataBase
                 CreateTablePlayer();
                 CreateTableAdventurers();
                 CreateTableDecorators();
-                CreateTableExpeditions();
+                CreateTableMission();
                 CreateTableLogs();
             }
         }
@@ -100,14 +100,14 @@ namespace SoftwareExam.DataBase
             command.ExecuteNonQuery();
         }
 
-        private void CreateTableExpeditions()
+        private void CreateTableMission()
         {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                CREATE TABLE IF NOT EXISTS expeditions
+                CREATE TABLE IF NOT EXISTS missions
                 (
                     adventurer_id INTEGER NOT NULL PRIMARY KEY,
                     time INTEGER NOT NULL,
@@ -116,7 +116,7 @@ namespace SoftwareExam.DataBase
                     copper INTEGER NOT NULL,
                     silver INTEGER NOT NULL,
                     gold INTEGER NOT NULL,
-                    CONSTRAINT fk_adventureres_exp
+                    CONSTRAINT fk_adventureres_ms
                         FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
                         ON DELETE CASCADE
                 )
