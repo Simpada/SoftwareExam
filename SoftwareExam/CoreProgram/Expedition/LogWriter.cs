@@ -20,9 +20,10 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         public void UpdateLog(Player player, string logMessage) {
 
-            TaskPauseEvent.WaitOne();
-
             lock (Lock) {
+
+                TaskPauseEvent.WaitOne();
+
                 if (player.Log.Count >= 5) {
                     player.AddLogMessage(logMessage);
 

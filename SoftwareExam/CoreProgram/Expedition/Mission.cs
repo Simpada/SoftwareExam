@@ -6,6 +6,7 @@ namespace SoftwareExam.CoreProgram.Expedition
     {
         private readonly Player Player;
         private readonly LogWriter LogWriter;
+        private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
@@ -130,11 +131,11 @@ namespace SoftwareExam.CoreProgram.Expedition
         }
 
         internal void Pause() {
-            throw new NotImplementedException();
+            TaskPauseEvent.Reset();
         }
 
         internal void Resume() {
-            throw new NotImplementedException();
+            TaskPauseEvent.Set();
         }
     }
 }
