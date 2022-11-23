@@ -4,10 +4,11 @@ namespace SoftwareExam.CoreProgram.Expedition
 {
     public class Mission
     {
-        private readonly Player Player;
-        private readonly LogWriter LogWriter;
+        public Player Player { set; private get; }
+        public LogWriter LogWriter { set; private get; }
         private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
+        public int AdventurerId { get; set; } = -1;
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }
@@ -16,23 +17,22 @@ namespace SoftwareExam.CoreProgram.Expedition
         private string LogMessage = "";
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
-        private readonly int[] WaitTimes;
+        private bool Terminated = false;
+
+        public CancellationTokenSource TokenSource = new();
+        private readonly CancellationToken Token;
+
+        private int[] WaitTimes;
         private readonly Random Random = new();
 
-        public Mission(Player player, Adventurer adventurer, LogWriter logWriter) {
-
-            Player = player;
-            Adventurer = adventurer;
-            WaitTimes = new int[EncounterNumber];
-
-            Player.Missions.Add(this);
-            Adventurer.OnMission = true;
-
-            StartMission();
-            LogWriter = logWriter;
+        public Mission()
+        {
+            Token = TokenSource.Token;
         }
 
         public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
+            Token = TokenSource.Token;
+
             Player = player;
             LogWriter = logWriter;
             Adventurer = adventurer;
@@ -49,39 +49,24 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer.OnMission = true;
 
             TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
-            StartMission();
+            PrepareMission(false);
         }
-        
-        //private void UpdateLog(Player player, string logMessage) {
 
-        //    /*
-        //    - This has a huge issue
-        //    It is very much not thread save, and of triggered just as a window shifts, it might get printed very wrong,
-        //    Must find a way to block this action unless a condition is met
-        //    Maybe use a ManualResetEvent? giving UI priority, so it always get to finish running
-        //     */
+        public void Start()
+        {
+            for (int i = 0; i < EncounterNumber; i++) {
+                Encounters.Add(new Encounter());
 
-        //    if (player.Log.Count >= 5) {
-        //        player.AddLogMessage(logMessage);
+            }
+            WaitTimes = new int[EncounterNumber];
+            Player.Missions.Add(this);
+            Adventurer.OnMission = true;
 
-        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-        //        for (int i = 0; i < player.Log.Count; i++) {
-        //            Console.WriteLine(new string(' ', Console.WindowWidth));
-        //        }
+            PrepareMission(true);
+        }
 
-        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-        //        //foreach (string message in Player.Log) {
-        //        //    Console.WriteLine(message);
-        //        //}
-        //        Console.WriteLine(player.GetLogMessages());
-                
-        //    } else {
-        //        Console.WriteLine(logMessage);
-        //        player.AddLogMessage(logMessage);
-        //    }
-        //}
-
-        private async void StartMission() {
+        private void PrepareMission(bool resume)
+        {
 
             int[] EncounterTimes = new int[Encounters.Count];
 
@@ -102,40 +87,72 @@ namespace SoftwareExam.CoreProgram.Expedition
                 lastTime = EncounterTimes[i];
             }
 
+            StartMission(resume);
+            //MissionTask.Start();
+        }
 
-            LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
-            LogWriter.UpdateLog(Player, LogMessage);
+        private async void StartMission(bool resume)
+        {
+            if (!resume) {
+                LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
+                LogWriter.UpdateLog(Player, LogMessage);
+            }
 
             for (int i = 0; i < Encounters.Count; i++) {
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
 
                 await Task.WhenAny(Encounter);
-                LogWriter.UpdateLog(Player, LogMessage);
+
+                if (Terminated) {
+                    break;
+                } else {
+                    LogWriter.UpdateLog(Player, LogMessage);
+                }
+
             }
 
-            await Task.Delay(5000);
-            LogMessage = $"    - {Adventurer.Name} has returned!";
-            LogWriter.UpdateLog(Player, LogMessage);
-            Adventurer.OnMission = false;
+            if (!Terminated) {
 
-            Completed = true;
-            Player.CompleteMission();
+                try {
+                    await Task.Delay(5000, Token);
+                }
+                catch (Exception e){
+                }
+                
+                LogMessage = $"    - {Adventurer.Name} has returned!";
+                LogWriter.UpdateLog(Player, LogMessage);
+                Adventurer.OnMission = false;
+
+                Completed = true;
+                Player.CompleteMission();
+            }
+
+
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
-            await Task.Delay(encounterTime * 1000);
+            try {
+                await Task.Delay(encounterTime * 1000, Token);
+            }
+            catch (Exception e) {
+            }
             TimeLeft -= encounterTime;
             LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
-
             EncounterNumber--;
         }
 
-        internal void Pause() {
+        public void Pause() {
             TaskPauseEvent.Reset();
         }
 
-        internal void Resume() {
+        public void Resume() {
             TaskPauseEvent.Set();
+        }
+
+        public void Terminate()
+        {
+            Terminated = true;
+            TokenSource.Cancel();
         }
     }
 }

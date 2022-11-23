@@ -34,6 +34,8 @@ namespace SoftwareExam.UI {
         #region
         private void MainMenu() {
             Manager.Pause();
+            Manager.Terminate();
+
             Console.Clear();
             Console.WriteLine(StartMenu.GetStartingMenu());
 
@@ -56,6 +58,7 @@ namespace SoftwareExam.UI {
                     InvalidInput(StartMenu.GetStartingMenu());
                 }
             }
+            Manager.Resume();
         }
 
         private void HowToPlay() {
@@ -104,6 +107,7 @@ namespace SoftwareExam.UI {
                 }
 
                 if (SaveState >= 0) {
+                    Manager.Pause();
                     if (Continue(SaveSlot)) {
                         break;
                     }

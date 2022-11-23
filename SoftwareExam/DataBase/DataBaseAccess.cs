@@ -3,6 +3,7 @@ using SoftwareExam.CoreProgram;
 using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
+using SoftwareExam.CoreProgram.Expedition;
 using System.Collections;
 using System.Numerics;
 using System.Reflection.PortableExecutable;
@@ -135,27 +136,28 @@ namespace SoftwareExam.DataBase {
                 }
             }
 
-            //Check if adv out on expedition. Have to check which adventure is out on an adventure
+            //Check if adv out on mission. Have to check which adventure is out on an adventure
             for (int i = 0; i < player.Missions.Count; i++) {
-                using SqliteCommand expeditionCommand = connection.CreateCommand();
+                using SqliteCommand missionCommand = connection.CreateCommand();
 
-                expeditionCommand.CommandText = @"
-                            INSERT INTO expeditions (adventurer_id, time, destination, encounters, copper, silver, gold)
-                            VALUES (@adventurerId, @time, @destination, @encounters, @copper, @silver, @gold)
+                missionCommand.CommandText = @"
+                            INSERT INTO missions (adventurer_id, time_left, destination, encounters, copper, silver, gold)
+                            VALUES (@adventurerId, @timeLeft, @destination, @encounters, @copper, @silver, @gold)
                         ";
 
-                expeditionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
-                expeditionCommand.Parameters.AddWithValue("@time", player.Missions[i].TimeLeft);
-                expeditionCommand.Parameters.AddWithValue("@destination", player.Missions[i].Destination);
-                expeditionCommand.Parameters.AddWithValue("@encounters", player.Missions[i].EncounterNumber);
-
-                expeditionCommand.Parameters.AddWithValue("@copper", player.Missions[i].Reward.Copper);
-                expeditionCommand.Parameters.AddWithValue("@silver", player.Missions[i].Reward.Silver);
-                expeditionCommand.Parameters.AddWithValue("@gold", player.Missions[i].Reward.Gold);
-                expeditionCommand.ExecuteNonQuery();
+                missionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
+                missionCommand.Parameters.AddWithValue("@timeLeft", player.Missions[i].TimeLeft);
+                missionCommand.Parameters.AddWithValue("@destination", player.Missions[i].Destination);
+                missionCommand.Parameters.AddWithValue("@encounters", player.Missions[i].EncounterNumber);
+                missionCommand.Parameters.AddWithValue("@copper", player.Missions[i].Reward.Copper);
+                missionCommand.Parameters.AddWithValue("@silver", player.Missions[i].Reward.Silver);
+                missionCommand.Parameters.AddWithValue("@gold", player.Missions[i].Reward.Gold);
+                missionCommand.ExecuteNonQuery();
             }
         }
 
+
+        //LOAD GAME
 
         public Player GetPlayerById(int id) {
 
@@ -181,8 +183,25 @@ namespace SoftwareExam.DataBase {
                 int silver = reader.GetInt32(3);
                 int gold = reader.GetInt32(4);
                 player.SetCurrency(copper, silver, gold);
+
             }
 
+            //Get all logs to load
+            using SqliteCommand logCommand = connection.CreateCommand();
+            logCommand.CommandText = @"
+                    SELECT log_entry
+                    FROM logs
+                    JOIN players
+                        ON Logs.player_id = Players.player_id
+                    WHERE Players.player_id = @id
+            ";
+            logCommand.Parameters.AddWithValue("@id", id);
+            logCommand.ExecuteNonQuery();
+
+            using SqliteDataReader logReader = logCommand.ExecuteReader();
+            while (logReader.Read()) {
+                player.AddLogMessage(logReader.GetString(0));
+            };
             return player;
         }
 
@@ -230,9 +249,9 @@ namespace SoftwareExam.DataBase {
 
                 adventurers.Add(adventurer);
             }
-
             return adventurers;
             
+
         }
 
         public List<int> GetDecorators(int id) {
@@ -259,62 +278,65 @@ namespace SoftwareExam.DataBase {
             return itemCodes;
         }
 
-        public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
+        //Triple join. But could use list from GetAdventuerers
+        public List<Mission> GetMissionsForAdventurers(int id)
         {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                SELECT *
-                FROM players
-                WHERE player_id = @id;
+                SELECT Adventurers.adventurer_id, time_left, destination, encounters, Missions.copper, Missions.silver, Missions.gold
+                FROM Missions
+                JOIN Adventurers
+                    ON Missions.adventurer_id = Adventurers.adventurer_id
+                JOIN Players
+                    ON Adventurers.player_id = Players.player_id
+                WHERE Players.player_id = @id                
             ";
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
 
-            using SqliteDataReader reader = command.ExecuteReader();
-            if (reader.Read()) {
-                playerId = reader.GetInt32(0);
-                playerName = reader.GetString(1);
-                copper = reader.GetInt32(2);
-                silver = reader.GetInt32(3);
-                gold = reader.GetInt32(4);
-                //should also retrieve adventurer list later.
-            }
-            else {
-                playerId = -1;
-                playerName = "";
-                copper = 0;
-                silver = 0;
-                gold = 0;
-            }
-        }
-
-        //Only for testing
-        public string GetPlayernameById(int id)
-        {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
-
-            using SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                SELECT player_name
-                FROM players
-                WHERE player_id = @id;
-            ";
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
+            List<Mission> missions = new();
 
             using SqliteDataReader reader = command.ExecuteReader();
-            if (reader.Read()) {
-                return reader.GetString(0);
-                //should also retrieve adventurer list later.
+            while (reader.Read()) {
+            Mission mission = new();
+
+                mission.AdventurerId = reader.GetInt32(0);
+                mission.TimeLeft = reader.GetInt32(1);
+                mission.Destination = reader.GetString(2);
+                mission.EncounterNumber = reader.GetInt32(3);
+                mission.Reward = new(reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6));
+                missions.Add(mission);
             }
-            else {
-                return "";
-            }
+            return missions;
         }
+
+        ////Only for testing
+        //public string GetPlayernameById(int id)
+        //{
+        //    using SqliteConnection connection = new(DataSource);
+        //    connection.Open();
+
+        //    using SqliteCommand command = connection.CreateCommand();
+        //    command.CommandText = @"
+        //        SELECT player_name
+        //        FROM players
+        //        WHERE player_id = @id;
+        //    ";
+        //    command.Parameters.AddWithValue("@id", id);
+        //    command.ExecuteNonQuery();
+
+        //    using SqliteDataReader reader = command.ExecuteReader();
+        //    if (reader.Read()) {
+        //        return reader.GetString(0);
+        //        //should also retrieve adventurer list later.
+        //    }
+        //    else {
+        //        return "";
+        //    }
+        //}
 
         public string[] RetrieveAllPlayerNames()
         {

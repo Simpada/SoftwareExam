@@ -166,32 +166,46 @@ namespace SoftwareExam.CoreProgram
                 // Parse items and give to adventurers here
 
                 foreach (int itemCode in itemCodes) {
-
-                    switch (itemCode) {
-                        case 100:
-                        Adventurer.AddNewItem(new BasicArmor(Adventurers[i]));
-                        break;
-                        case 200:
-                        Adventurer.AddNewItem(new BasicHat(Adventurers[i]));
-                        break;
-                        case 300:
-                        Adventurer.AddNewItem(new BasicOffHand(Adventurers[i]));
-                        break;
-                        case 400:
-                        Adventurer.AddNewItem(new BasicTrinket(Adventurers[i]));
-                        break;
-                        case 500:
-                        Adventurer.AddNewItem(new BasicWeapon(Adventurers[i]));
-                        break;
-                    }
+                    Adventurer.AddNewItem(ItemParser.GetItem(itemCode, Adventurers[i]));
                 }
                 Adventurers[i] = Adventurer.EquipGear(Adventurers[i]);
             }
 
             Player.Adventurers = Adventurers;
 
+            GetMissions(Id);
+            Console.WriteLine("Hi5");
+
             return Player.Id;
         }
+
+        public void GetMissions(int id)
+        {
+            List <Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
+
+            foreach (var Mission in missions) {
+                Mission.Player = Player;
+
+                foreach (var Adventurer in Player.Adventurers) {
+                    if (Adventurer.Id == Mission.AdventurerId) {
+                        Mission.Adventurer = Adventurer;
+                        Console.WriteLine("Hi1");
+                        break;
+                    }
+                }
+                if (Mission.Adventurer == null) {
+                    throw new Exception("Adventurer cannot be found. Saving/loading process error");
+                }
+                Console.WriteLine("Hi2");
+
+                Mission.LogWriter = Expeditions.Log;
+                Console.WriteLine("Hi3");
+
+                Task.Run(() => Mission.Start());
+            }
+        }
+
+
 
         public string[] GetPlayers()
         {
@@ -217,6 +231,15 @@ namespace SoftwareExam.CoreProgram
 
         public void Resume() {
             Expeditions.Resume();
+        }
+
+        internal void Terminate()
+        {
+            foreach (var mission in Player.Missions) {
+                mission.Terminate();
+            }
+
+            Player.TerminateMissions();
         }
     }
 }
