@@ -5,6 +5,7 @@ namespace SoftwareExam.CoreProgram.Expedition
     public class Mission
     {
         private readonly Player Player;
+        private readonly LogWriter LogWriter;
         public Adventurer Adventurer { get; set; }
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
@@ -16,7 +17,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         private readonly int[] WaitTimes;
         private readonly Random Random = new();
 
-        public Mission(Player player, Adventurer adventurer) {
+        public Mission(Player player, Adventurer adventurer, LogWriter logWriter) {
 
             Player = player;
             Adventurer = adventurer;
@@ -26,10 +27,12 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer.OnMission = true;
 
             StartMission();
+            LogWriter = logWriter;
         }
 
-        public Mission (Player player, Map map, Adventurer adventurer) {
+        public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
             Player = player;
+            LogWriter = logWriter;
             Adventurer = adventurer;
             Map = map;
             for (int i = 0; i < Map.Encounters; i++) {
@@ -47,34 +50,34 @@ namespace SoftwareExam.CoreProgram.Expedition
             StartMission();
         }
         
-        private void UpdateLog() {
+        //private void UpdateLog(Player player, string logMessage) {
 
-            /*
-            - This has a huge issue
-            It is very much not thread save, and of triggered just as a window shifts, it might get printed very wrong,
-            Must find a way to block this action unless a condition is met
-            Maybe use a ManualResetEvent? giving UI priority, so it always get to finish running
-             */
+        //    /*
+        //    - This has a huge issue
+        //    It is very much not thread save, and of triggered just as a window shifts, it might get printed very wrong,
+        //    Must find a way to block this action unless a condition is met
+        //    Maybe use a ManualResetEvent? giving UI priority, so it always get to finish running
+        //     */
 
-            if (Player.Log.Count >= 5) {
-                Player.AddLogMessage(LogMessage);
+        //    if (player.Log.Count >= 5) {
+        //        player.AddLogMessage(logMessage);
 
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - Player.Log.Count);
-                for (int i = 0; i < Player.Log.Count; i++) {
-                    Console.WriteLine(new string(' ', Console.WindowWidth));
-                }
+        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
+        //        for (int i = 0; i < player.Log.Count; i++) {
+        //            Console.WriteLine(new string(' ', Console.WindowWidth));
+        //        }
 
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - Player.Log.Count);
-                //foreach (string message in Player.Log) {
-                //    Console.WriteLine(message);
-                //}
-                Console.WriteLine(Player.GetLogMessages());
+        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
+        //        //foreach (string message in Player.Log) {
+        //        //    Console.WriteLine(message);
+        //        //}
+        //        Console.WriteLine(player.GetLogMessages());
                 
-            } else {
-                Console.WriteLine(LogMessage);
-                Player.AddLogMessage(LogMessage);
-            }
-        }
+        //    } else {
+        //        Console.WriteLine(logMessage);
+        //        player.AddLogMessage(logMessage);
+        //    }
+        //}
 
         private async void StartMission() {
 
@@ -99,18 +102,18 @@ namespace SoftwareExam.CoreProgram.Expedition
 
 
             LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
-            UpdateLog();
+            LogWriter.UpdateLog(Player, LogMessage);
 
             for (int i = 0; i < Encounters.Count; i++) {
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
 
                 await Task.WhenAny(Encounter);
-                UpdateLog();
+                LogWriter.UpdateLog(Player, LogMessage);
             }
 
             await Task.Delay(5000);
             LogMessage = $"    - {Adventurer.Name} has returned!";
-            UpdateLog();
+            LogWriter.UpdateLog(Player, LogMessage);
             Adventurer.OnMission = false;
             // Update Player Currency
         }

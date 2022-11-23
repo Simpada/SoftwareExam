@@ -11,6 +11,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
         private List<Map> Maps = new();
         private List<Mission> Missions = new();
         public Player Player { set; get; }
+        private readonly LogWriter Log = new();
 
         public Expeditions(Player player) {
             Player = player;
@@ -50,7 +51,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 }
             }
 
-            Mission Mission = new(Player, Destination, adventurer);
+            Mission Mission = new(Player, Destination, adventurer, Log);
             Missions.Add(Mission);
 
             Maps.Remove(Destination);
