@@ -14,7 +14,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public Adventurer BaseAdventurer { get; set; }
 
-        public Currency Cost { get; set; } = new();
+        public static Currency Cost { get; set; } = new();
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             BaseAdventurer = Adventurer;

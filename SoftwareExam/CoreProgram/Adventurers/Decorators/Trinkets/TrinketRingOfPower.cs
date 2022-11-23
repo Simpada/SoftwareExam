@@ -20,7 +20,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets
 
         public override string GetEquipmentDescription()
         {
-            return "Magical ring. Grants +10 damge";
+            return "Magical ring. Grants +10 damage";
         }
 
         public static string GetItemDescription()

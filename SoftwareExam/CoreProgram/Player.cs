@@ -10,10 +10,12 @@ namespace SoftwareExam.CoreProgram
         private string _playerName = "";
 
         // Needs Lock
-        public Currency Balance { get; set; } = new(0, 0, 2);
+        private Currency _balance = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
+
+        private readonly object Lock = new();
 
         public Player()
         {
@@ -24,14 +26,14 @@ namespace SoftwareExam.CoreProgram
         {
             _id = id;
             _playerName = playerName;
-            Balance = balance;
+            _balance = balance;
         }
 
         public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers, List<string> log)
         {
             _id = id;
             _playerName = playerName;
-            Balance = balance;
+            _balance = balance;
             Adventurers = adventurers;
             Log = log;
         }
@@ -84,30 +86,76 @@ namespace SoftwareExam.CoreProgram
             }
         } 
 
+        public Currency Balance {
+            get {
+                return _balance;
+            }
+        }
+
         public void SetCurrency(int copper, int silver, int gold) {
-            Balance = new Currency(copper, silver, gold);
+            lock (Lock) {
+                _balance = new Currency(copper, silver, gold);
+            }
+        }
+
+        public void AlterCurrency(Currency currency, bool add) {
+            lock (Lock) {
+                if (add) {
+                    _balance += currency;
+                } else {
+                    _balance -= currency;
+
+                }
+            }
         }
 
         public void AddLogMessage(string logMessage) {
 
-            //Add lock here
-            if (Log.Count >= 5) {
-                Log.RemoveAt(0);
+            lock (Lock) { 
+                if (Log.Count >= 5) {
+                    Log.RemoveAt(0);
+                }
+                Log.Add(logMessage);
             }
-            Log.Add(logMessage);
         }
 
         public string GetLogMessages() {
 
-            //Add lock here
-            string LogMessage = "";
-            for(int i = 0; i < Log.Count; i++) {
-                LogMessage += Log[i];
-                if (i+1 < Log.Count) {
-                    LogMessage += "\n";
+            lock (Lock) {
+                string LogMessage = "";
+                for(int i = 0; i < Log.Count; i++) {
+                    LogMessage += Log[i];
+                    if (i+1 < Log.Count) {
+                        LogMessage += "\n";
+                    }
+                }
+                return LogMessage;
+            }
+        }
+
+        public void CompleteMission() {
+
+            lock (Lock) { 
+                foreach(Mission mission in Missions) {
+                    if (mission.Completed) {
+                        AlterCurrency(mission.Reward, true);
+                        Missions.Remove(mission);
+                    }            
                 }
             }
-            return LogMessage;
         }
+
+        public void ResumePause(bool pause) {
+            lock (Lock) {
+                foreach (Mission mission in Missions) {
+                    if (pause) {
+                        mission.Pause();
+                    } else {
+                        mission.Resume();
+                    }
+                }
+            }
+        }
+
     }
 }
