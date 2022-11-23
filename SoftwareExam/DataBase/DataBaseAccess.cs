@@ -157,6 +157,8 @@ namespace SoftwareExam.DataBase {
         }
 
 
+
+
         public Player GetPlayerById(int id) {
 
             using SqliteConnection connection = new(DataSource);
@@ -181,7 +183,25 @@ namespace SoftwareExam.DataBase {
                 int silver = reader.GetInt32(3);
                 int gold = reader.GetInt32(4);
                 player.SetCurrency(copper, silver, gold);
+
             }
+
+            //Get all logs to load
+            using SqliteCommand logCommand = connection.CreateCommand();
+            logCommand.CommandText = @"
+                    SELCET log_entry
+                    FROM logs
+                    JOIN players
+                        ON Logs.player_id = Player.player_id
+                    WHERE player_id = @id
+            ";
+            logCommand.Parameters.AddWithValue("@id", id);
+            logCommand.ExecuteNonQuery();
+
+            using SqliteDataReader logReader = command.ExecuteReader();
+            while (logReader.Read()) {
+                player.AddLogMessage(reader.GetString(1));
+            };
 
             return player;
         }
@@ -258,63 +278,31 @@ namespace SoftwareExam.DataBase {
 
             return itemCodes;
         }
+        
+        ////Only for testing
+        //public string GetPlayernameById(int id)
+        //{
+        //    using SqliteConnection connection = new(DataSource);
+        //    connection.Open();
 
-        public void GetPlayerById(int id, out int playerId, out string playerName, out int copper, out int silver, out int gold)
-        {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
+        //    using SqliteCommand command = connection.CreateCommand();
+        //    command.CommandText = @"
+        //        SELECT player_name
+        //        FROM players
+        //        WHERE player_id = @id;
+        //    ";
+        //    command.Parameters.AddWithValue("@id", id);
+        //    command.ExecuteNonQuery();
 
-            using SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                SELECT *
-                FROM players
-                WHERE player_id = @id;
-            ";
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
-
-            using SqliteDataReader reader = command.ExecuteReader();
-            if (reader.Read()) {
-                playerId = reader.GetInt32(0);
-                playerName = reader.GetString(1);
-                copper = reader.GetInt32(2);
-                silver = reader.GetInt32(3);
-                gold = reader.GetInt32(4);
-                //should also retrieve adventurer list later.
-            }
-            else {
-                playerId = -1;
-                playerName = "";
-                copper = 0;
-                silver = 0;
-                gold = 0;
-            }
-        }
-
-        //Only for testing
-        public string GetPlayernameById(int id)
-        {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
-
-            using SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                SELECT player_name
-                FROM players
-                WHERE player_id = @id;
-            ";
-            command.Parameters.AddWithValue("@id", id);
-            command.ExecuteNonQuery();
-
-            using SqliteDataReader reader = command.ExecuteReader();
-            if (reader.Read()) {
-                return reader.GetString(0);
-                //should also retrieve adventurer list later.
-            }
-            else {
-                return "";
-            }
-        }
+        //    using SqliteDataReader reader = command.ExecuteReader();
+        //    if (reader.Read()) {
+        //        return reader.GetString(0);
+        //        //should also retrieve adventurer list later.
+        //    }
+        //    else {
+        //        return "";
+        //    }
+        //}
 
         public string[] RetrieveAllPlayerNames()
         {
