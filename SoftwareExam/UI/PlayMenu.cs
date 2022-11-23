@@ -226,6 +226,7 @@ namespace SoftwareExam.UI {
     [2] Save and Go To Main Menu
     [3] Quit Game
     [4] Save and Quit Game
+    [0] Resume Game
 ";
 
         }

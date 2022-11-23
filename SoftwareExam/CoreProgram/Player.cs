@@ -15,6 +15,8 @@ namespace SoftwareExam.CoreProgram
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
 
+        private readonly object Lock = new();
+
         public Player()
         {
             //Empty
@@ -85,7 +87,20 @@ namespace SoftwareExam.CoreProgram
         } 
 
         public void SetCurrency(int copper, int silver, int gold) {
-            Balance = new Currency(copper, silver, gold);
+            lock (Lock) {
+                Balance = new Currency(copper, silver, gold);
+            }
+        }
+
+        public void AlterCurrency(Currency currency, bool add) {
+            lock (Lock) {
+                if (add) {
+                    Balance += currency;
+                } else {
+                    Balance -= currency;
+
+                }
+            }
         }
 
         public void AddLogMessage(string logMessage) {
@@ -109,5 +124,30 @@ namespace SoftwareExam.CoreProgram
             }
             return LogMessage;
         }
+
+        public void CompleteMission() {
+
+            lock (Lock) { 
+                foreach(Mission mission in Missions) {
+                    if (mission.Completed) {
+                        AlterCurrency(mission.Reward, true);
+                        Missions.Remove(mission);
+                    }            
+                }
+            }
+        }
+
+        public void ResumePause(bool pause) {
+            lock (Lock) {
+                foreach (Mission mission in Missions) {
+                    if (pause) {
+                        mission.Pause();
+                    } else {
+                        mission.Resume();
+                    }
+                }
+            }
+        }
+
     }
 }

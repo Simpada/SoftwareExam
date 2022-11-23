@@ -9,7 +9,6 @@ namespace SoftwareExam.CoreProgram.Expedition {
     public class Expeditions {
 
         private List<Map> Maps = new();
-        private List<Mission> Missions = new();
         public Player Player { set; get; }
         private readonly LogWriter Log = new();
 
@@ -51,11 +50,18 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 }
             }
 
-            Mission Mission = new(Player, Destination, adventurer, Log);
-            Missions.Add(Mission);
+            _ = new Mission(Player, Destination, adventurer, Log);
 
             Maps.Remove(Destination);
             Maps.Add(Map.GetMap(mapNr));
+        }
+
+        public void Resume() {
+            Log.Resume();
+        }
+
+        public void Pause() {
+            Log.Pause();
         }
     }
 }

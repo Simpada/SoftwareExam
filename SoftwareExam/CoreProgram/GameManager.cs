@@ -210,5 +210,13 @@ namespace SoftwareExam.CoreProgram
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
         }
+
+        public void Pause() {
+            Expeditions.Pause();
+        }
+
+        public void Resume() {
+            Expeditions.Resume();
+        }
     }
 }
