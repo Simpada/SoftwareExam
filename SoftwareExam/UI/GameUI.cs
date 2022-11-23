@@ -33,6 +33,7 @@ namespace SoftwareExam.UI {
         // Interractions in the main menu
         #region
         private void MainMenu() {
+            Manager.Pause();
             Console.Clear();
             Console.WriteLine(StartMenu.GetStartingMenu());
 
@@ -121,10 +122,7 @@ namespace SoftwareExam.UI {
 
         private bool Continue(int SaveFile) {
 
-
             Console.Clear();
-
-
             Console.WriteLine(StartMenu.GetContinue());
 
             while (true) {
@@ -179,13 +177,16 @@ namespace SoftwareExam.UI {
         // Interraction in the game menu
         
         private void UpdateUi() {
+            Manager.Pause();
             Console.Clear();
             Console.WriteLine(Ui);
             Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+            Manager.Resume();
         }
 
         #region
         private void PlayGame() {
+            Manager.Resume();
             ResetPlayMenu();
 
             while (true) {
@@ -211,8 +212,10 @@ namespace SoftwareExam.UI {
                         "\n" +
                         PlayMenu.GetVillage();
                 } else if (input == '0') {
-                    ExitMenu();
-                    break;
+                    if (ExitMenu()) {
+                        break;
+                    }
+                    ResetPlayMenu();
                 } else {
                     InvalidInput(PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()));
                     Ui += "\n" + PlayMenu.GetVillage();
@@ -447,7 +450,9 @@ namespace SoftwareExam.UI {
             }
         }
 
-        private void ExitMenu() {
+        private bool ExitMenu() {
+
+            Manager.Pause();
             Console.Clear();
             Console.WriteLine(PlayMenu.GetExitMenu());
 
@@ -456,11 +461,11 @@ namespace SoftwareExam.UI {
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
                     // Return directly to main menu
-                    return;
+                    return true;
                 } else if (input == '2') {
                     // Save first, then return to main menu
                     Manager.SaveGame();
-                    return;
+                    return true;
                 } else if (input == '3') {
                     // Exit without saving
                     Environment.Exit(0);
@@ -468,6 +473,9 @@ namespace SoftwareExam.UI {
                     // Save first, then exit
                     Manager.SaveGame();
                     Environment.Exit(0);
+                } else if (input == '0') {
+                    // Back to Game
+                    return false;
                 } else {
                     InvalidInput(PlayMenu.GetExitMenu());
                     Console.Clear();

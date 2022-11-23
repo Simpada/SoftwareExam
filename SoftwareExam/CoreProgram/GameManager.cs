@@ -57,7 +57,7 @@ namespace SoftwareExam.CoreProgram
             if (adventurer == null) {
                 return false;
             } else {
-                Player.Balance -= Recruitment.Price;
+                Player.AlterCurrency(Recruitment.Price, false);
                 Player.Adventurers.Add(adventurer);
                 return true;
             }
@@ -209,6 +209,14 @@ namespace SoftwareExam.CoreProgram
             Player.Adventurers = new();
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
+        }
+
+        public void Pause() {
+            Expeditions.Pause();
+        }
+
+        public void Resume() {
+            Expeditions.Resume();
         }
     }
 }

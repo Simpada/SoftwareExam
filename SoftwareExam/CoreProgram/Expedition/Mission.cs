@@ -6,14 +6,16 @@ namespace SoftwareExam.CoreProgram.Expedition
     {
         private readonly Player Player;
         private readonly LogWriter LogWriter;
+        private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }
         public string Destination { get; set; } = "";
-        public Currency Reward = new();
+        public Currency Reward { get; set; } = new();
         private string LogMessage = "";
-        public int TimeLeft = 0;
+        public int TimeLeft { get; set; } = 0;
+        public bool Completed { get; set; } = false;
         private readonly int[] WaitTimes;
         private readonly Random Random = new();
 
@@ -115,7 +117,9 @@ namespace SoftwareExam.CoreProgram.Expedition
             LogMessage = $"    - {Adventurer.Name} has returned!";
             LogWriter.UpdateLog(Player, LogMessage);
             Adventurer.OnMission = false;
-            // Update Player Currency
+
+            Completed = true;
+            Player.CompleteMission();
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
@@ -124,6 +128,14 @@ namespace SoftwareExam.CoreProgram.Expedition
             LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
 
             EncounterNumber--;
+        }
+
+        internal void Pause() {
+            TaskPauseEvent.Reset();
+        }
+
+        internal void Resume() {
+            TaskPauseEvent.Set();
         }
     }
 }
