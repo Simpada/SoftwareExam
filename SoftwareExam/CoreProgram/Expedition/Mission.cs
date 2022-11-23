@@ -4,11 +4,11 @@ namespace SoftwareExam.CoreProgram.Expedition
 {
     public class Mission
     {
-        private readonly Player Player;
-        private readonly LogWriter LogWriter;
+        public Player Player { set; private get; }
+        public LogWriter LogWriter { set; private get; }
         private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
-        public int AdventurerID { get; set; } = -1;
+        public int AdventurerId { get; set; } = -1;
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }
@@ -22,26 +22,12 @@ namespace SoftwareExam.CoreProgram.Expedition
         public CancellationTokenSource TokenSource = new();
         private readonly CancellationToken Token;
 
-        private readonly int[] WaitTimes;
+        private int[] WaitTimes;
         private readonly Random Random = new();
 
         public Mission()
         {
             Token = TokenSource.Token;
-            //Empty
-        }
-
-        public Mission(Player player, Adventurer adventurer, LogWriter logWriter) {
-            Token = TokenSource.Token;
-            Player = player;
-            Adventurer = adventurer;
-            WaitTimes = new int[EncounterNumber];
-
-            Player.Missions.Add(this);
-            Adventurer.OnMission = true;
-
-            PrepareMission();
-            LogWriter = logWriter;
         }
 
         public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
@@ -63,39 +49,23 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer.OnMission = true;
 
             TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
-            PrepareMission();
+            PrepareMission(false);
         }
-        
-        //private void UpdateLog(Player player, string logMessage) {
 
-        //    /*
-        //    - This has a huge issue
-        //    It is very much not thread save, and of triggered just as a window shifts, it might get printed very wrong,
-        //    Must find a way to block this action unless a condition is met
-        //    Maybe use a ManualResetEvent? giving UI priority, so it always get to finish running
-        //     */
+        public void Start()
+        {
+            for (int i = 0; i < EncounterNumber; i++) {
+                Encounters.Add(new Encounter());
 
-        //    if (player.Log.Count >= 5) {
-        //        player.AddLogMessage(logMessage);
+            }
+            WaitTimes = new int[EncounterNumber];
+            Player.Missions.Add(this);
+            Adventurer.OnMission = true;
 
-        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-        //        for (int i = 0; i < player.Log.Count; i++) {
-        //            Console.WriteLine(new string(' ', Console.WindowWidth));
-        //        }
+            PrepareMission(true);
+        }
 
-        //        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-        //        //foreach (string message in Player.Log) {
-        //        //    Console.WriteLine(message);
-        //        //}
-        //        Console.WriteLine(player.GetLogMessages());
-                
-        //    } else {
-        //        Console.WriteLine(logMessage);
-        //        player.AddLogMessage(logMessage);
-        //    }
-        //}
-
-        private void PrepareMission()
+        private void PrepareMission(bool resume)
         {
 
             int[] EncounterTimes = new int[Encounters.Count];
@@ -117,14 +87,16 @@ namespace SoftwareExam.CoreProgram.Expedition
                 lastTime = EncounterTimes[i];
             }
 
-            StartMission();
+            StartMission(resume);
             //MissionTask.Start();
         }
 
-        private async void StartMission()
+        private async void StartMission(bool resume)
         {
-            LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
-            LogWriter.UpdateLog(Player, LogMessage);
+            if (!resume) {
+                LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
+                LogWriter.UpdateLog(Player, LogMessage);
+            }
 
             for (int i = 0; i < Encounters.Count; i++) {
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
@@ -141,7 +113,12 @@ namespace SoftwareExam.CoreProgram.Expedition
 
             if (!Terminated) {
 
-                await Task.Delay(5000, Token);
+                try {
+                    await Task.Delay(5000, Token);
+                }
+                catch (Exception e){
+                }
+                
                 LogMessage = $"    - {Adventurer.Name} has returned!";
                 LogWriter.UpdateLog(Player, LogMessage);
                 Adventurer.OnMission = false;
@@ -154,7 +131,11 @@ namespace SoftwareExam.CoreProgram.Expedition
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
-            await Task.Delay(encounterTime * 1000, Token);
+            try {
+                await Task.Delay(encounterTime * 1000, Token);
+            }
+            catch (Exception e) {
+            }
             TimeLeft -= encounterTime;
             LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
             EncounterNumber--;
@@ -172,7 +153,6 @@ namespace SoftwareExam.CoreProgram.Expedition
         {
             Terminated = true;
             TokenSource.Cancel();
-            Console.WriteLine("Terminated");
         }
     }
 }

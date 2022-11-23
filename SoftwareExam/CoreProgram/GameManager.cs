@@ -173,14 +173,36 @@ namespace SoftwareExam.CoreProgram
 
             Player.Adventurers = Adventurers;
 
-            //Player.Missions = GetMissions(Id);
+            GetMissions(Id);
+            Console.WriteLine("Hi5");
 
             return Player.Id;
         }
 
-        public List<Mission> GetMissions(int id)
+        public void GetMissions(int id)
         {
-            return DataBaseAccess.GetMissionsForAdventurers(id);
+            List <Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
+
+            foreach (var Mission in missions) {
+                Mission.Player = Player;
+
+                foreach (var Adventurer in Player.Adventurers) {
+                    if (Adventurer.Id == Mission.AdventurerId) {
+                        Mission.Adventurer = Adventurer;
+                        Console.WriteLine("Hi1");
+                        break;
+                    }
+                }
+                if (Mission.Adventurer == null) {
+                    throw new Exception("Adventurer cannot be found. Saving/loading process error");
+                }
+                Console.WriteLine("Hi2");
+
+                Mission.LogWriter = Expeditions.Log;
+                Console.WriteLine("Hi3");
+
+                Task.Run(() => Mission.Start());
+            }
         }
 
 

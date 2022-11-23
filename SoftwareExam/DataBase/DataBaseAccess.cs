@@ -303,7 +303,7 @@ namespace SoftwareExam.DataBase {
             while (reader.Read()) {
             Mission mission = new();
 
-                mission.AdventurerID = reader.GetInt32(0);
+                mission.AdventurerId = reader.GetInt32(0);
                 mission.TimeLeft = reader.GetInt32(1);
                 mission.Destination = reader.GetString(2);
                 mission.EncounterNumber = reader.GetInt32(3);
