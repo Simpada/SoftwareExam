@@ -189,18 +189,18 @@ namespace SoftwareExam.DataBase {
             //Get all logs to load
             using SqliteCommand logCommand = connection.CreateCommand();
             logCommand.CommandText = @"
-                    SELCET log_entry
+                    SELECT log_entry
                     FROM logs
                     JOIN players
-                        ON Logs.player_id = Player.player_id
-                    WHERE player_id = @id
+                        ON Logs.player_id = Players.player_id
+                    WHERE Players.player_id = @id
             ";
             logCommand.Parameters.AddWithValue("@id", id);
             logCommand.ExecuteNonQuery();
 
-            using SqliteDataReader logReader = command.ExecuteReader();
+            using SqliteDataReader logReader = logCommand.ExecuteReader();
             while (logReader.Read()) {
-                player.AddLogMessage(reader.GetString(1));
+                player.AddLogMessage(logReader.GetString(0));
             };
 
             return player;
