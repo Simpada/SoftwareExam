@@ -1,5 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Expedition;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SoftwareExam.CoreProgram
@@ -84,34 +85,40 @@ namespace SoftwareExam.CoreProgram
                     _id = value;
                 }
             }
-        } 
+        }
 
-        public Currency Balance {
-            get {
+        public Currency Balance
+        {
+            get
+            {
                 return _balance;
             }
         }
 
-        public void SetCurrency(int copper, int silver, int gold) {
+        public void SetCurrency(int copper, int silver, int gold)
+        {
             lock (Lock) {
                 _balance = new Currency(copper, silver, gold);
             }
         }
 
-        public void AlterCurrency(Currency currency, bool add) {
+        public void AlterCurrency(Currency currency, bool add)
+        {
             lock (Lock) {
                 if (add) {
                     _balance += currency;
-                } else {
+                }
+                else {
                     _balance -= currency;
 
                 }
             }
         }
 
-        public void AddLogMessage(string logMessage) {
+        public void AddLogMessage(string logMessage)
+        {
 
-            lock (Lock) { 
+            lock (Lock) {
                 if (Log.Count >= 5) {
                     Log.RemoveAt(0);
                 }
@@ -119,13 +126,14 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
-        public string GetLogMessages() {
+        public string GetLogMessages()
+        {
 
             lock (Lock) {
                 string LogMessage = "";
-                for(int i = 0; i < Log.Count; i++) {
+                for (int i = 0; i < Log.Count; i++) {
                     LogMessage += Log[i];
-                    if (i+1 < Log.Count) {
+                    if (i + 1 < Log.Count) {
                         LogMessage += "\n";
                     }
                 }
@@ -133,29 +141,42 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
-        public void CompleteMission() {
+        public void CompleteMission()
+        {
 
-            lock (Lock) { 
-                foreach(Mission mission in Missions) {
+            lock (Lock) {
+                Mission? CompletedMission = null;
+                foreach (Mission mission in Missions) {
                     if (mission.Completed) {
-                        AlterCurrency(mission.Reward, true);
-                        Missions.Remove(mission);
-                    }            
+                        CompletedMission = mission;
+                        break;
+                    }
                 }
+                if (CompletedMission != null) {
+                    AlterCurrency(CompletedMission.Reward, true);
+                    Missions.Remove(CompletedMission);
+                }
+                
             }
         }
 
-        public void ResumePause(bool pause) {
+        public void ResumePause(bool pause)
+        {
             lock (Lock) {
                 foreach (Mission mission in Missions) {
                     if (pause) {
                         mission.Pause();
-                    } else {
+                    }
+                    else {
                         mission.Resume();
                     }
                 }
             }
         }
 
+        public void TerminateMissions()
+        {
+            Missions.Clear();
+        }
     }
 }

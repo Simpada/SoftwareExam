@@ -10,7 +10,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         private List<Map> Maps = new();
         public Player Player { set; get; }
-        private readonly LogWriter Log = new();
+        public LogWriter Log { get; } = new();
 
         public Expeditions(Player player) {
             Player = player;
