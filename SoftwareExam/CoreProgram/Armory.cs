@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,6 @@ namespace SoftwareExam.CoreProgram
         public void Pause()
         {
             TaskPauseEvent.Reset();
-
         }
         public void Resume()
         {
@@ -50,7 +50,6 @@ namespace SoftwareExam.CoreProgram
         #region Pretend this part doesn't exist
         private void InitializeItems()
         {
-            // huge switch to parse item id's into items with initialiser
             Armors.Add(101);
             Armors.Add(102);
             Armors.Add(103);
@@ -81,19 +80,16 @@ namespace SoftwareExam.CoreProgram
             Weapons.Add(504);
             Weapons.Add(505);
             Weapons.Add(506);
-
         }
         #endregion
 
         private void RefreshInventory()
         {
-
             while (true)
             {
-
                 TaskPauseEvent.WaitOne();
-
-                for (int i = InventorySize; i >= 0; i--)
+                Inventory.Clear();
+                for (int i = 0; i < InventorySize; i++)
                 {
                     int randomNumber = Random.Next(5);
                     switch (randomNumber)
@@ -115,14 +111,30 @@ namespace SoftwareExam.CoreProgram
                             break;
                     }
                 }
-
                 Thread.Sleep(InventoryRefreshRate);
             }
         }
 
-        public void BuyItem(Adventurer adventurer)
-        {
+        public List<string> GetItemDescriptions() {
 
+            List<string> Descriptions = new();
+
+            foreach(var item in Inventory) {
+                Descriptions.Add(ItemParser.GetItemDescription(item));
+            }
+
+            return Descriptions;
+        }
+
+
+
+        public Adventurer BuyItem(int item, Adventurer adventurer)
+        {
+            int itemId = Inventory[item];
+
+            Inventory.RemoveAt(item);
+
+            return ItemParser.GetItem(itemId, adventurer);
         }
     }
 }
