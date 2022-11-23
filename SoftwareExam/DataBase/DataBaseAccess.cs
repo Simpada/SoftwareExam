@@ -141,12 +141,12 @@ namespace SoftwareExam.DataBase {
                 using SqliteCommand missionCommand = connection.CreateCommand();
 
                 missionCommand.CommandText = @"
-                            INSERT INTO missions (adventurer_id, time, destination, encounters, copper, silver, gold)
-                            VALUES (@adventurerId, @time, @destination, @encounters, @copper, @silver, @gold)
+                            INSERT INTO missions (adventurer_id, time_left, destination, encounters, copper, silver, gold)
+                            VALUES (@adventurerId, @timeLeft, @destination, @encounters, @copper, @silver, @gold)
                         ";
 
                 missionCommand.Parameters.AddWithValue("@adventurerId", player.Missions[i].Adventurer.Id);
-                missionCommand.Parameters.AddWithValue("@time", player.Missions[i].TimeLeft);
+                missionCommand.Parameters.AddWithValue("@timeLeft", player.Missions[i].TimeLeft);
                 missionCommand.Parameters.AddWithValue("@destination", player.Missions[i].Destination);
                 missionCommand.Parameters.AddWithValue("@encounters", player.Missions[i].EncounterNumber);
                 missionCommand.Parameters.AddWithValue("@copper", player.Missions[i].Reward.Copper);
@@ -286,7 +286,7 @@ namespace SoftwareExam.DataBase {
 
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-                SELECT Adventurers.adventurer_id, time, destination, encounters, Missions.copper, Missions.silver, Missions.gold
+                SELECT Adventurers.adventurer_id, time_left, destination, encounters, Missions.copper, Missions.silver, Missions.gold
                 FROM Missions
                 JOIN Adventurers
                     ON Missions.adventurer_id = Adventurers.adventurer_id
@@ -301,15 +301,16 @@ namespace SoftwareExam.DataBase {
 
             using SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-                Mission mission = new();
+            Mission mission = new();
 
-                mission
+                mission.AdventurerID = reader.GetInt32(0);
+                mission.TimeLeft = reader.GetInt32(1);
+                mission.Destination = reader.GetString(2);
+                mission.EncounterNumber = reader.GetInt32(3);
+                mission.Reward = new(reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6));
+                missions.Add(mission);
             }
-
-
-
-
-            return null;
+            return missions;
         }
 
         ////Only for testing

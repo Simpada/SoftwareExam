@@ -17,11 +17,22 @@ namespace SoftwareExam.CoreProgram.Expedition
         private string LogMessage = "";
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
+        private bool Terminated = false;
+
+        public CancellationTokenSource TokenSource = new();
+        private readonly CancellationToken Token;
+
         private readonly int[] WaitTimes;
         private readonly Random Random = new();
 
-        public Mission(Player player, Adventurer adventurer, LogWriter logWriter) {
+        public Mission()
+        {
+            Token = TokenSource.Token;
+            //Empty
+        }
 
+        public Mission(Player player, Adventurer adventurer, LogWriter logWriter) {
+            Token = TokenSource.Token;
             Player = player;
             Adventurer = adventurer;
             WaitTimes = new int[EncounterNumber];
@@ -29,11 +40,13 @@ namespace SoftwareExam.CoreProgram.Expedition
             Player.Missions.Add(this);
             Adventurer.OnMission = true;
 
-            StartMission();
+            PrepareMission();
             LogWriter = logWriter;
         }
 
         public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
+            Token = TokenSource.Token;
+
             Player = player;
             LogWriter = logWriter;
             Adventurer = adventurer;
@@ -50,7 +63,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer.OnMission = true;
 
             TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
-            StartMission();
+            PrepareMission();
         }
         
         //private void UpdateLog(Player player, string logMessage) {
@@ -82,7 +95,8 @@ namespace SoftwareExam.CoreProgram.Expedition
         //    }
         //}
 
-        private async void StartMission() {
+        private void PrepareMission()
+        {
 
             int[] EncounterTimes = new int[Encounters.Count];
 
@@ -103,7 +117,12 @@ namespace SoftwareExam.CoreProgram.Expedition
                 lastTime = EncounterTimes[i];
             }
 
+            StartMission();
+            //MissionTask.Start();
+        }
 
+        private async void StartMission()
+        {
             LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
             LogWriter.UpdateLog(Player, LogMessage);
 
@@ -111,32 +130,49 @@ namespace SoftwareExam.CoreProgram.Expedition
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
 
                 await Task.WhenAny(Encounter);
-                LogWriter.UpdateLog(Player, LogMessage);
+
+                if (Terminated) {
+                    break;
+                } else {
+                    LogWriter.UpdateLog(Player, LogMessage);
+                }
+
             }
 
-            await Task.Delay(5000);
-            LogMessage = $"    - {Adventurer.Name} has returned!";
-            LogWriter.UpdateLog(Player, LogMessage);
-            Adventurer.OnMission = false;
+            if (!Terminated) {
 
-            Completed = true;
-            Player.CompleteMission();
+                await Task.Delay(5000, Token);
+                LogMessage = $"    - {Adventurer.Name} has returned!";
+                LogWriter.UpdateLog(Player, LogMessage);
+                Adventurer.OnMission = false;
+
+                Completed = true;
+                Player.CompleteMission();
+            }
+
+
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
-            await Task.Delay(encounterTime * 1000);
+            await Task.Delay(encounterTime * 1000, Token);
             TimeLeft -= encounterTime;
             LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
-
             EncounterNumber--;
         }
 
-        internal void Pause() {
+        public void Pause() {
             TaskPauseEvent.Reset();
         }
 
-        internal void Resume() {
+        public void Resume() {
             TaskPauseEvent.Set();
+        }
+
+        public void Terminate()
+        {
+            Terminated = true;
+            TokenSource.Cancel();
+            Console.WriteLine("Terminated");
         }
     }
 }

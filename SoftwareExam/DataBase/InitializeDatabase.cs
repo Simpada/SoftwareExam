@@ -110,7 +110,7 @@ namespace SoftwareExam.DataBase
                 CREATE TABLE IF NOT EXISTS missions
                 (
                     adventurer_id INTEGER NOT NULL PRIMARY KEY,
-                    time INTEGER NOT NULL,
+                    time_left INTEGER NOT NULL,
                     destination varchar(50) NOT NULL,
                     encounters INTEGER NOT NULL,
                     copper INTEGER NOT NULL,

@@ -166,24 +166,7 @@ namespace SoftwareExam.CoreProgram
                 // Parse items and give to adventurers here
 
                 foreach (int itemCode in itemCodes) {
-
-                    switch (itemCode) {
-                        case 100:
-                        Adventurer.AddNewItem(new BasicArmor(Adventurers[i]));
-                        break;
-                        case 200:
-                        Adventurer.AddNewItem(new BasicHat(Adventurers[i]));
-                        break;
-                        case 300:
-                        Adventurer.AddNewItem(new BasicOffHand(Adventurers[i]));
-                        break;
-                        case 400:
-                        Adventurer.AddNewItem(new BasicTrinket(Adventurers[i]));
-                        break;
-                        case 500:
-                        Adventurer.AddNewItem(new BasicWeapon(Adventurers[i]));
-                        break;
-                    }
+                    Adventurer.AddNewItem(ItemParser.GetItem(itemCode, Adventurers[i]));
                 }
                 Adventurers[i] = Adventurer.EquipGear(Adventurers[i]);
             }
@@ -226,6 +209,15 @@ namespace SoftwareExam.CoreProgram
 
         public void Resume() {
             Expeditions.Resume();
+        }
+
+        internal void Terminate()
+        {
+            foreach (var mission in Player.Missions) {
+                mission.Terminate();
+            }
+
+            Player.TerminateMissions();
         }
     }
 }
