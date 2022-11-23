@@ -10,7 +10,7 @@ namespace SoftwareExam.CoreProgram
         private string _playerName = "";
 
         // Needs Lock
-        public Currency Balance { get; set; } = new(0, 0, 2);
+        private Currency _balance = new(0, 0, 2);
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
@@ -26,14 +26,14 @@ namespace SoftwareExam.CoreProgram
         {
             _id = id;
             _playerName = playerName;
-            Balance = balance;
+            _balance = balance;
         }
 
         public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers, List<string> log)
         {
             _id = id;
             _playerName = playerName;
-            Balance = balance;
+            _balance = balance;
             Adventurers = adventurers;
             Log = log;
         }
@@ -86,18 +86,24 @@ namespace SoftwareExam.CoreProgram
             }
         } 
 
+        public Currency Balance {
+            get {
+                return _balance;
+            }
+        }
+
         public void SetCurrency(int copper, int silver, int gold) {
             lock (Lock) {
-                Balance = new Currency(copper, silver, gold);
+                _balance = new Currency(copper, silver, gold);
             }
         }
 
         public void AlterCurrency(Currency currency, bool add) {
             lock (Lock) {
                 if (add) {
-                    Balance += currency;
+                    _balance += currency;
                 } else {
-                    Balance -= currency;
+                    _balance -= currency;
 
                 }
             }

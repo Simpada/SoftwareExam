@@ -36,14 +36,14 @@ namespace SoftwareExam.CoreProgram
         }
 
         public Currency GetBalanceValue() {
-            return Player.Balance;
+            return Player._balance;
         }
 
         public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
 
-            canAfford = Recruitment.CheckBalance(Player.Balance);
+            canAfford = Recruitment.CheckBalance(Player._balance);
             cost = Recruitment.Price.ToString();
-            newBalance = (Player.Balance - Recruitment.Price).ToString();
+            newBalance = (Player._balance - Recruitment.Price).ToString();
 
         }
 
@@ -52,12 +52,12 @@ namespace SoftwareExam.CoreProgram
         public bool RecruitAdventurer(int type) {
             // Replace with push to Player object
 
-            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player.Balance);
+            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player._balance);
 
             if (adventurer == null) {
                 return false;
             } else {
-                Player.Balance -= Recruitment.Price;
+                Player._balance -= Recruitment.Price;
                 Player.Adventurers.Add(adventurer);
                 return true;
             }
