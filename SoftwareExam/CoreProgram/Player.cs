@@ -111,24 +111,26 @@ namespace SoftwareExam.CoreProgram
 
         public void AddLogMessage(string logMessage) {
 
-            //Add lock here
-            if (Log.Count >= 5) {
-                Log.RemoveAt(0);
+            lock (Lock) { 
+                if (Log.Count >= 5) {
+                    Log.RemoveAt(0);
+                }
+                Log.Add(logMessage);
             }
-            Log.Add(logMessage);
         }
 
         public string GetLogMessages() {
 
-            //Add lock here
-            string LogMessage = "";
-            for(int i = 0; i < Log.Count; i++) {
-                LogMessage += Log[i];
-                if (i+1 < Log.Count) {
-                    LogMessage += "\n";
+            lock (Lock) {
+                string LogMessage = "";
+                for(int i = 0; i < Log.Count; i++) {
+                    LogMessage += Log[i];
+                    if (i+1 < Log.Count) {
+                        LogMessage += "\n";
+                    }
                 }
+                return LogMessage;
             }
-            return LogMessage;
         }
 
         public void CompleteMission() {
