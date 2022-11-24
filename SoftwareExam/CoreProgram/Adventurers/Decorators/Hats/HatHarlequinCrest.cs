@@ -11,6 +11,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
     {
 
         public static new readonly string[] AllowedClasses = new string[] { "Rogue", "Mage" };
+        public static new readonly Currency Cost = new(0,0,8);
+
         public HatHarlequinCrest(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 203;

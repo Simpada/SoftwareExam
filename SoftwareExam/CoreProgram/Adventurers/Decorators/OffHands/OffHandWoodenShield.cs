@@ -10,6 +10,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
     internal class OffHandWoodenShield : BasicOffHand {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
+        public static new readonly Currency Cost = new(0,5,1);
+
         public OffHandWoodenShield(Adventurer adventurer) : base(adventurer) {
             ItemId = 301;
         }

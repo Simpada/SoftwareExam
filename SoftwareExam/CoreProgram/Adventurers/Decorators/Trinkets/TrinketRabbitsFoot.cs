@@ -10,6 +10,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
     internal class TrinketRabbitsFoot : BasicTrinket {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
+        public static new readonly Currency Cost = new(0,5,2);
+
         public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
             ItemId = 401;
         }

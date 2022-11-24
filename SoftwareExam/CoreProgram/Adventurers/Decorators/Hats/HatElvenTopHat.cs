@@ -12,6 +12,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
     {
 
         public static new readonly string[] AllowedClasses = new string[] { "Mage"};
+        public static new readonly Currency Cost = new(0,5,1);
+
         public HatElvenTopHat(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 202;

@@ -9,6 +9,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
     internal class WeaponIronSword : BasicWeapon {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
+        public static new readonly Currency Cost = new(0,0,1);
+
         public WeaponIronSword(Adventurer adventurer) : base(adventurer) {
             ItemId = 501;
         }

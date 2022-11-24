@@ -10,6 +10,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
     internal class HatLeatherHat : BasicHat
     {
         public static new readonly string[] AllowedClasses = new string[] { "Rogue" };
+        public static new readonly Currency Cost = new(0,0,5);
+
         public HatLeatherHat(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 205;

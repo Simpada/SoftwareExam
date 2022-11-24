@@ -178,7 +178,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmory(string[] ItemCards) {
+        public string GetArmory(string[] ItemCards, string balance) {
              
 
             string[] cards = new string[ItemCards.Length];
@@ -206,13 +206,13 @@ namespace SoftwareExam.UI {
     THE GRAND ARMORY
     [0] Return to town
                         
-
+    Balance = {balance}
     |-----------------------------------------
 {ArmoryDisplay}
 ";
         }
 
-        public string GetArmoryBrowsing(string itemCard, List<string> names, List<string> descriptions, List<string> prices) {
+        public string GetArmoryBrowsing(string itemCard, string balance, List<string> names, List<string> descriptions, List<string> prices) {
 
             string display = "";
             for (int i = 0; i < descriptions.Count; i++) {
@@ -230,6 +230,7 @@ namespace SoftwareExam.UI {
 {itemCard}
     |
     |   AVAILABLE ITEMS: 
+    |   Balance: {balance}
     |_________________________________________
 {display}
 ";

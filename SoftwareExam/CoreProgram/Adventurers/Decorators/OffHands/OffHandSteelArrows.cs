@@ -11,6 +11,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
     {
 
         public static new readonly string[] AllowedClasses = new string[] { "Rogue"};
+        public static new readonly Currency Cost = new(0,0,3);
+
         public OffHandSteelArrows(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 302;

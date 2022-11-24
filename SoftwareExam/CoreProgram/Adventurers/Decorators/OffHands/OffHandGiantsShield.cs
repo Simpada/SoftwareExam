@@ -11,6 +11,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
     {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
+        public static new readonly Currency Cost = new(0,0,10);
+
         public OffHandGiantsShield(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 305;

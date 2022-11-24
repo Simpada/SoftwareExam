@@ -9,6 +9,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     internal class ArmorPlateArmor : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
+        public static new readonly Currency Cost = new(0,0,10);
+
         public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
             ItemId = 101;
         }

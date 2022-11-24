@@ -10,6 +10,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
     internal class ArmorLeatherSuit : BasicArmor
     {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
+        public static new readonly Currency Cost = new(0,0,1);
+
 
         public ArmorLeatherSuit(Adventurer adventurer) : base(adventurer)
         {

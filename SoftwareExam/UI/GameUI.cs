@@ -404,7 +404,7 @@ namespace SoftwareExam.UI {
 }
 
         private void ArmoryMenu() {
-            Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
+            Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
 
             while (true) {
 
@@ -418,53 +418,53 @@ namespace SoftwareExam.UI {
                         ArmoryInventory(0);
                         
                     } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                         continue;
                     }
                 } else if (input == '2') {
                     if (AdventurerCount >= 2) {
                         ArmoryInventory(1);
                     } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                         continue;
                     }
                 } else if (input == '3') {
                     if (AdventurerCount >= 3) {
                         ArmoryInventory(2);
                     } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                         continue;
                     }
                 } else if (input == '4') {
                     if (AdventurerCount >= 4) {
                         ArmoryInventory(3);
                     } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                         continue;
                     }
                 } else if (input == '5') {
                     if (AdventurerCount >= 5) {
                         ArmoryInventory(4);
                     } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                         continue;
                     }
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                    InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                     continue;
                 }
                 Manager.ExitArmory();
 
-                Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
+                Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
             }
         }
 
         private void ArmoryInventory(int id) {
 
             Manager.EnterArmory(id);
-            Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+            Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetBalanceString(), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
 
 
             while (true) {
@@ -494,14 +494,14 @@ namespace SoftwareExam.UI {
                     break;
                 } else {
                     Manager.EnterArmory(id);
-                    InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
+                    InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetBalanceString(), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
                     continue;
                 }
                 if (PurchaseResult == "") {
                     PurchaseResult = "Invalid Input";
                 }
                 Manager.EnterArmory(id);
-                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()) + 
+                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetBalanceString(), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()) + 
                     $"\n    {PurchaseResult}";
             }
 

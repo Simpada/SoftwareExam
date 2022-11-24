@@ -11,6 +11,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
     {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
+        public static new readonly Currency Cost = new(3, 3, 3);
+
 
         public ArmorFourCloverSuit(Adventurer adventurer) : base(adventurer)
         {
