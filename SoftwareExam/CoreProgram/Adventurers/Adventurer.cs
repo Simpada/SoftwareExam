@@ -40,7 +40,25 @@ namespace SoftwareExam.CoreProgram.Adventurers {
                     "Frida",
                     "Ken",
                     "Percy",
-                    "William"
+                    "William",
+                    "Peter",
+                    "Argdraxadil",
+                    "Bert",
+                    "Tim",
+                    "Samuel",
+                    "Lyla",
+                    "Frey",
+                    "Samantha",
+                    "Svetlana",
+                    "Sergei",
+                    "Karl",
+                    "Pell",
+                    "Gardax",
+                    "Goth'Mog",
+                    "Sauron",
+                    "Geralt",
+                    "Mr. Samson",
+                    "Kargath"
                 });
 
             string title = PickOne(
@@ -51,7 +69,17 @@ namespace SoftwareExam.CoreProgram.Adventurers {
                     "Mass Murderer",
                     "Obnoxious",
                     "Rude",
-                    "Wanderer"
+                    "Wanderer",
+                    "Enchanter",
+                    "Beutiful",
+                    "Warrior",
+                    "Rogue",
+                    "Mage",
+                    "Unsuccessful",
+                    "Drunk",
+                    "Tall",
+                    "Short",
+                    "Sophisticated"
                 });
 
 
