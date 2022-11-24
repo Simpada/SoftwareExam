@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
-    internal class StartMenu {
+    public static class StartMenu {
 
 
-        public string GetStartingMenu() {
+        public static string GetStartingMenu() {
 
             return @"
      _____________________________________
@@ -29,7 +29,7 @@ namespace SoftwareExam.UI {
         }
 
 
-        public string GetAboutMenu() {
+        public static string GetAboutMenu() {
 
             return @"
     [1] : Return
@@ -65,7 +65,7 @@ namespace SoftwareExam.UI {
 
         }
 
-        public string GetSaveMenu(string name1, string name2, string name3, string name4) {
+        public static string GetSaveMenu(string name1, string name2, string name3, string name4) {
 
             return $@"
      ___________________
@@ -95,7 +95,7 @@ namespace SoftwareExam.UI {
 
         }
 
-        public string GetContinue() {
+        public static string GetContinue() {
 
             return @"
     [1] Continue
@@ -105,7 +105,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetNewGame() {
+        public static string GetNewGame() {
 
             return @"
     Enter blank to Cancel

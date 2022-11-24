@@ -11,16 +11,12 @@ namespace SoftwareExam.UI {
     public class GameUI {
 
         private readonly GameManager Manager;
-        private readonly StartMenu StartMenu;
-        private readonly PlayMenu PlayMenu;
 
         private char input;
         private string Ui = "";
 
         public GameUI() {
             Manager = new GameManager();
-            StartMenu = new StartMenu();
-            PlayMenu = new PlayMenu(); 
         }
 
         public void Run() {

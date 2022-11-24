@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
-    public class PlayMenu {
+    public static class PlayMenu {
 
 
         public static string GetLog(string log) {
@@ -17,7 +17,7 @@ namespace SoftwareExam.UI {
         }
 
         
-        public string GetPlayMenu(int totalAdventurers, string balance) {
+        public static string GetPlayMenu(int totalAdventurers, string balance) {
             return $@" 
     THE ADVENTURER'S LEAGUE   
 
@@ -32,7 +32,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetVillage() {
+        public static string GetVillage() {
 
             return $@"
                                                                       .
@@ -47,7 +47,7 @@ namespace SoftwareExam.UI {
         }
 
 
-        public string GetGuildHouseExpeditions(string maps, string balance) {
+        public static string GetGuildHouseExpeditions(string maps, string balance) {
 
             return $@"
     THE GUILD OF ADVENTURERS
@@ -60,7 +60,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetGuildHouseAdventurers(string adventurerCards) {
+        public static string GetGuildHouseAdventurers(string adventurerCards) {
 
            
             return $@"
@@ -72,7 +72,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetTavern(string[] adventurerCards, string balance) {
+        public static string GetTavern(string[] adventurerCards, string balance) {
 
             string[] cards = new string[adventurerCards.Length];
 
@@ -107,7 +107,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetTavernRecruiting(bool canAfford, string newBalance, string cost) {
+        public static string GetTavernRecruiting(bool canAfford, string newBalance, string cost) {
 
 
             string balanceMessage;
@@ -164,7 +164,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetTavernDismissing(string name, string profit) {
+        public static string GetTavernDismissing(string name, string profit) {
 
             return $@"
 
@@ -178,7 +178,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmory(string[] ItemCards, string balance) {
+        public static string GetArmory(string[] ItemCards, string balance) {
              
 
             string[] cards = new string[ItemCards.Length];
@@ -212,7 +212,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmoryBrowsing(string itemCard, string balance, List<string> names, List<string> descriptions, List<string> prices) {
+        public static string GetArmoryBrowsing(string itemCard, string balance, List<string> names, List<string> descriptions, List<string> prices) {
 
             string display = "";
             for (int i = 0; i < descriptions.Count; i++) {
@@ -236,8 +236,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-
-        public string GetExitMenu() {
+        public static string GetExitMenu() {
 
             return @" 
     [1] Go To Main Menu
