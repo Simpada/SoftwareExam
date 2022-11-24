@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Expedition {
     public class Expeditions {
 
-        private List<Map> Maps = new();
+        private readonly List<Map> Maps = new();
         public Player Player { set; get; }
         public LogWriter Log { get; } = new();
 
@@ -39,7 +39,25 @@ namespace SoftwareExam.CoreProgram.Expedition {
             return MapDescriptions;
         }
 
-        public void PrepareMission(int mapNr, Adventurer adventurer) {
+        public bool PurchaseMap(int mapNr, Currency balance) {
+
+            Currency cost = new();
+
+            foreach (Map map in Maps) {
+                if ((int)map.Difficulty == mapNr) {
+                    cost = map.ExpeditionCost;
+                    break;
+                }
+            }
+
+            if (balance >= cost) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public void PrepareMission(int mapNr, Adventurer adventurer, out Currency cost) {
 
             Map Destination = new();
 
@@ -50,6 +68,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 }
             }
 
+            cost = Destination.ExpeditionCost;
             _ = new Mission(Player, Destination, adventurer, Log);
 
             Maps.Remove(Destination);

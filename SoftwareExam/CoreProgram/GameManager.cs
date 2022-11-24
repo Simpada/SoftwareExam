@@ -143,8 +143,15 @@ namespace SoftwareExam.CoreProgram
             return Expeditions.GetMaps();
         }
 
+        public bool CanAffordExpedition(int mapNr) {
+
+            return Expeditions.PurchaseMap(mapNr, Player.Balance);
+        }
+
         public void PrepareExpedition(int mapNr, int adventurerNr) {
-            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr]);
+
+            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr], out Currency cost);
+            Player.AlterCurrency(cost, false);
         }
 
         public void SaveGame() {
@@ -281,5 +288,7 @@ namespace SoftwareExam.CoreProgram
         public void ExitArmory() {
             Armory.Resume();
         }
+
+
     }
 }
