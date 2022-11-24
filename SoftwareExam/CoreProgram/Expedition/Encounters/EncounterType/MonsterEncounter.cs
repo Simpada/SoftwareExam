@@ -1,4 +1,4 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
 {
     internal class MonsterEncounter : Encounter
     {
@@ -12,12 +12,14 @@
             int monsterRoll = Random.Next(20) + EncounterDamage;
             int adventurerRoll = Random.Next(20) + AdventurerDamage;
 
-            if (adventurerRoll >= monsterRoll) {
+            if (adventurerRoll >= monsterRoll)
+            {
                 reward = Reward;
                 description = Description;
                 return true;
             }
-            else {
+            else
+            {
                 reward = new();
                 description = Description;
                 return false;

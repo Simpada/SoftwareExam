@@ -1,4 +1,4 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
 {
     public abstract class Encounter
     {

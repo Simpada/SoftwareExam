@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Expedition.Encounters
+namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
 {
-    internal class TrapEncounter : Encounter
+    internal class TreasureEncounter : Encounter
     {
         public override bool RunEncounter(out Currency reward, out string description)
         {

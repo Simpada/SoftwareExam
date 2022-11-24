@@ -1,19 +1,9 @@
-﻿using SoftwareExam.CoreProgram.Expedition.Encounters.Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace SoftwareExam.CoreProgram.Expedition.Encounters
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
 {
     internal class ExplorationEncounter : Encounter
     {
         public ExplorationEncounter(string adventurerName) : base(adventurerName)
         {
-            
         }
 
         public override bool RunEncounter(out Currency reward, out string description)
@@ -35,9 +25,12 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters
 
         private string Direction()
         {
-            if (Random.Next(2) >= 1) {
+            if (Random.Next(2) >= 1)
+            {
                 return "right";
-            } else {
+            }
+            else
+            {
                 return "left";
             }
         }
