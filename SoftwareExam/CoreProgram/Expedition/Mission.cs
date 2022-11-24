@@ -1,4 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Expedition.Encounters;
+using SoftwareExam.CoreProgram.Expedition.Encounters.Factory;
+using System.Diagnostics;
 
 namespace SoftwareExam.CoreProgram.Expedition
 {
@@ -38,8 +41,27 @@ namespace SoftwareExam.CoreProgram.Expedition
             Adventurer = adventurer;
             Map = map;
             for (int i = 0; i < Map.Encounters; i++) {
-                Encounters.Add(new Encounter());
+
+                int encounterType = Random.Next(20) + Adventurer.Luck;
+                EncounterFactory encounterFactory;
+
+                switch (encounterType) {
+                    case >= 18:
+                        encounterFactory = new TreasureFactory();
+                        break;
+                    case >= 12:
+                        encounterFactory = new MonsterFactory();
+                        break;
+                    case >= 6:
+                        encounterFactory = new ExplorationFactory();
+                        break;
+                    default:
+                        encounterFactory = new TrapFactory();
+                        break;
+                }
+                Encounters.Add(encounterFactory.CreateEncounter());
             }
+
             EncounterNumber = Encounters.Count;
             WaitTimes = new int[EncounterNumber];
             Reward = map.Reward;
