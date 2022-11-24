@@ -163,10 +163,26 @@ namespace SoftwareExam.CoreProgram
             return Prices;
         }
 
+        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price) {
 
-        public Adventurer BuyItem(int item, Adventurer adventurer)
+            if (itemIndex >= DisplayInventory.Count) {
+                price = new();
+                noItem = true;
+                return false;
+            }
+
+            noItem = false;
+            price = ItemParser.GetItemCost(DisplayInventory[itemIndex]);
+
+            if (currency >= price) {
+                return true;
+            }
+            return false;
+        }
+
+        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer)
         {
-            int itemId = DisplayInventory[item];
+            int itemId = DisplayInventory[itemIndex];
 
             FullInventory.Remove(itemId);
 

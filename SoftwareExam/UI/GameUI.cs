@@ -423,28 +423,28 @@ namespace SoftwareExam.UI {
                     }
                 } else if (input == '2') {
                     if (AdventurerCount >= 2) {
-                    
+                        ArmoryInventory(1);
                     } else {
                         InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                         continue;
                     }
                 } else if (input == '3') {
                     if (AdventurerCount >= 3) {
-                    
+                        ArmoryInventory(2);
                     } else {
                         InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                         continue;
                     }
                 } else if (input == '4') {
                     if (AdventurerCount >= 4) {
-                    
+                        ArmoryInventory(3);
                     } else {
                         InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                         continue;
                     }
                 } else if (input == '5') {
                     if (AdventurerCount >= 5) {
-                    
+                        ArmoryInventory(4);
                     } else {
                         InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                         continue;
@@ -473,22 +473,23 @@ namespace SoftwareExam.UI {
 
                 input = Console.ReadKey().KeyChar;
 
+                string PurchaseResult;
                 if (input == '1') {
-                    
+                    PurchaseResult = Manager.BuyItem(0, id);
                 } else if (input == '2') {
-                    
+                    PurchaseResult = Manager.BuyItem(1, id);
                 } else if (input == '3') {
-                    
+                    PurchaseResult = Manager.BuyItem(2, id);
                 } else if (input == '4') {
-                    
+                    PurchaseResult = Manager.BuyItem(3, id);
                 } else if (input == '5') {
-                    
+                    PurchaseResult = Manager.BuyItem(4, id);
                 } else if (input == '6') {
-                    
+                    PurchaseResult = Manager.BuyItem(5, id);
                 } else if (input == '7') {
-                    
+                    PurchaseResult = Manager.BuyItem(6, id);
                 } else if (input == '8') {
-                    
+                    PurchaseResult = Manager.BuyItem(7, id);
                 } else if (input == '0') {
                     break;
                 } else {
@@ -496,8 +497,12 @@ namespace SoftwareExam.UI {
                     InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
                     continue;
                 }
+                if (PurchaseResult == "") {
+                    PurchaseResult = "Invalid Input";
+                }
                 Manager.EnterArmory(id);
-                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()) + 
+                    $"\n    {PurchaseResult}";
             }
 
         }

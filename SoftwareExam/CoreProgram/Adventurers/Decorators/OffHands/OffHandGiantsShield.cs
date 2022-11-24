@@ -10,7 +10,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
     internal class OffHandGiantsShield : BasicOffHand
     {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
         public OffHandGiantsShield(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 305;

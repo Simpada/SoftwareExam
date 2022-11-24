@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public static class ItemParser {
 
+        // The Ugly Class
 
         public static string[] GetAllowedClasses(int id) {
 

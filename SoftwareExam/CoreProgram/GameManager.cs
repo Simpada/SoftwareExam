@@ -254,6 +254,27 @@ namespace SoftwareExam.CoreProgram
             return Player.Adventurers[id].GetItemCard();
         }
 
+        public string BuyItem(int itemId, int adventurerId) {
+            bool CanAfford = Armory.CanAffordItem(itemId, Player.Balance, out bool noItem, out Currency price);
+
+            if (noItem) {
+                return "";
+            }
+
+            if (CanAfford) {
+
+                Adventurer adventurer = Player.Adventurers[adventurerId];
+
+                Player.AlterCurrency(price, false);
+                Player.Adventurers[adventurerId] = Adventurer.AddNewItem( Armory.BuyItem(itemId, adventurer) );
+                return "Purchase Successful";
+
+            } else {
+                return "You cannot afford this!";
+            }
+
+        }
+
         public void EnterArmory(int adventurerId) {
             Armory.EnterArmory(Player.Adventurers[adventurerId].Class);
         }
