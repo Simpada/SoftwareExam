@@ -3,12 +3,13 @@
     public class Encounter {
 
         private readonly Random Random = new();
-        private string Description = "";
-        private int EncounterDamage = 0;
-        private int AdventurerDamage = 0;
-        private int AdvendurerLuck = 0;
-        private Currency Reward = new();
         private readonly string AdventurerName;
+        private readonly int AdventurerDamage = 0;
+        private readonly int AdvendurerLuck = 0;
+        private readonly int EncounterDamage = 0;
+        private string Description = "";
+        private Currency Reward = new();
+        private readonly List<List<CreateEncounter>> MonsterEncounters = new List<List<CreateEncounter>>();
 
         public Encounter(int adventurerDamage, int adventurerLuck, string adventurerName, string description) {
             AdventurerDamage = adventurerDamage;
@@ -33,41 +34,13 @@
             }
         }
 
-        private void CreateMonsterEncounter(int adventurerLuck)
+        //Get encounter, put in right list depending on difficulty
+        public void GetEncounter()
         {
-            List<List<Object>> list = new List<List<Object>>()
-            {
-                new List<Object>()
-                {
-                    $"{AdventurerName} encountered a dragon.",
-                    Random.Next(6) + 5,
-                    new Currency(Random.Next(5), Random.Next(5), Random.Next(5))
-                },
-                new List<Object>()
-                {
-                    $"{AdventurerName} encountered a goblin.",
-                    Random.Next(3),
-                    new Currency(Random.Next(5), Random.Next(3), 0)
-                },
-                new List<Object>()
-                {
-                    $"{AdventurerName} encountered a slime.",
-                    Random.Next(1),
-                    new Currency(Random.Next(1), Random.Next(1), 0)
-                },
-                 new List<Object>()
-                {
-                    $"{AdventurerName} encountered an ogre.",
-                    Random.Next(3) + 3,
-                    new Currency(Random.Next(5), Random.Next(3), Random.Next(3))
-                },
-                 new List<Object>()
-                {
-                    $"{AdventurerName} encountered a lion.",
-                    Random.Next(3) ,
-                    new Currency(Random.Next(2), Random.Next(3), Random.Next(1))
-                },
-            };
+            
+
+
+            //CreateEncounter.CreateMonsterEncounter(AdvendurerLuck, AdventurerName);
         }
 
     }
