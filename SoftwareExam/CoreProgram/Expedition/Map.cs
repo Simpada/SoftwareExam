@@ -19,14 +19,17 @@
 
             Random Random = new();
 
-            int gold = (difficulty + 1) * (Random.Next(2) + 1);
-            int silver = (difficulty + 1) * (Random.Next(4) + 1);
-            int copper = (difficulty + 1) * (Random.Next(6) + 1);
+            int gold = 3 * difficulty;
+            if (gold <= 0) {
+                gold = 1;
+            }
+            int silver = 2 * difficulty;
+            int copper = 4 * difficulty;
 
             Map Map = new() {
                 Difficulty = (Difficulties)difficulty,
                 Reward = Currency.Convert(new Currency(copper, silver, gold)),
-                ExpeditionCost = new Currency(0, 0, 3) * (double)difficulty,
+                ExpeditionCost = new Currency(0, 0, 3) * difficulty,
                 Encounters = (difficulty + 1) * (Random.Next(3) + 1),
                 Location = GetLocation(Random)
             };
@@ -42,7 +45,7 @@
     |   Expedition cost: {ExpeditionCost}
     |   Expedition to {Location}
     |   
-    |   Reward: {Reward}
+    |   Reward: {Reward} + rewards earned from encounters
     |";
 
         }

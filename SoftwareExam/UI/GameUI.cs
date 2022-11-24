@@ -254,14 +254,30 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                adventurerNr = GuildMenuSelectAdventurer();
-                if (adventurerNr >= 0) {
-                    break;
+
+                if (Manager.CanAffordExpedition(mapNr)) {
+
+                    adventurerNr = GuildMenuSelectAdventurer();
+                    if (adventurerNr >= 0) {
+
+                        Manager.PrepareExpedition(mapNr, adventurerNr);
+
+                        break;
+                    }
+                } else {
+
+                    Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()) +
+                            "\n You Cannot Afford This";
+                    continue;
+
                 }
+
                 Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
             }
 
-            Manager.PrepareExpedition(mapNr,adventurerNr);
+            
+
+            
 
             // Must print the available maps, then if clicked, continue to adventurer selection
         }
