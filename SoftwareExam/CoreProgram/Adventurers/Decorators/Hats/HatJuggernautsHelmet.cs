@@ -9,9 +9,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 {
     internal class HatJuggernautsHelmet : BasicHat
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
         public HatJuggernautsHelmet(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior" };
             ItemId = 204;
         }
 
@@ -30,7 +30,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
             return new HatJuggernautsHelmet(new Mage()).GetEquipmentDescription();
         }
         public override string GetEquipmentName() {
-            return "JuggernautsHelmet";
+            return "Juggernauts Helmet";
         }
 
         public static string GetItemName() {

@@ -10,7 +10,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public int ItemId { get; set; } = 0;
 
-        public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
+        public static readonly string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
 
         public Adventurer BaseAdventurer { get; set; }
 

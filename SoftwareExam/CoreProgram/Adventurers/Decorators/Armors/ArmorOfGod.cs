@@ -9,9 +9,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
 {
     internal class ArmorOfGod : BasicArmor
     {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
+
         public ArmorOfGod(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
             ItemId = 105;
         }
 

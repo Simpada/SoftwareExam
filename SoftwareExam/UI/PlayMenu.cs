@@ -212,12 +212,13 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmoryBrowsing(string itemCard, List<string> descriptions, List<string> prices) {
+        public string GetArmoryBrowsing(string itemCard, List<string> names, List<string> descriptions, List<string> prices) {
 
             string display = "";
             for (int i = 0; i < descriptions.Count; i++) {
-                display += $"    |   [{i+1}] " + descriptions[i] 
-                    + "\n    |   Price: " + prices[i];
+                display += $"    |   [{i+1}] {names[i]}" 
+                    + $"\n    |   {descriptions[i]}" 
+                    + $"\n    |   Price:  {prices[i]}";
                 display += "\n    |-----------------------------------------\n";
             }
 

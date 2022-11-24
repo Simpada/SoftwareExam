@@ -9,6 +9,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets
 {
     internal class TrinketFairyDust : BasicTrinket
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
         public TrinketFairyDust(Adventurer adventurer) : base(adventurer)
         {
             ItemId = 405;

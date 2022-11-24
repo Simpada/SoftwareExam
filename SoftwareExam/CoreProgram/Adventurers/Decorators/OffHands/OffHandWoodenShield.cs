@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
     internal class OffHandWoodenShield : BasicOffHand {
 
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
         public OffHandWoodenShield(Adventurer adventurer) : base(adventurer) {
-            AllowedClasses = new string[] { "Warrior" };
             ItemId = 301;
         }
 

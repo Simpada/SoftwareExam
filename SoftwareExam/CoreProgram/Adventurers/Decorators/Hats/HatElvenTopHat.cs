@@ -10,9 +10,10 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 {
     internal class HatElvenTopHat : BasicHat
     {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Mage"};
         public HatElvenTopHat(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Mage" };
             ItemId = 202;
         }
 

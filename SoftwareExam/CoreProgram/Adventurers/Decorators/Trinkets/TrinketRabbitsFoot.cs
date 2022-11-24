@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
     internal class TrinketRabbitsFoot : BasicTrinket {
 
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
         public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
             ItemId = 401;
         }

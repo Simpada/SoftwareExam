@@ -9,9 +9,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
 {
     internal class OffHandMythrilShield : BasicOffHand
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
         public OffHandMythrilShield(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
             ItemId = 304;
         }
 

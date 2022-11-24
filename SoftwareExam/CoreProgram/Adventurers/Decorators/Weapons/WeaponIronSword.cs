@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
     internal class WeaponIronSword : BasicWeapon {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
         public WeaponIronSword(Adventurer adventurer) : base(adventurer) {
-            AllowedClasses = new string[] { "Warrior", "Rogue" };
             ItemId = 501;
         }
 

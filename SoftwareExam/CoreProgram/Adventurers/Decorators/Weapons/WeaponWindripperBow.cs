@@ -8,9 +8,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 {
     internal class WeaponWindripperBow : BasicWeapon
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
         public WeaponWindripperBow(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior", "Rogue" };
             ItemId = 505;
         }
 

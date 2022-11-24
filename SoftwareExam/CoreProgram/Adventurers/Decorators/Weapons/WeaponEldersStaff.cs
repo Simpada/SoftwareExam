@@ -8,9 +8,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 {
     internal class WeaponEldersStaff : BasicWeapon
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Mage" };
         public WeaponEldersStaff(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Mage" };
             ItemId = 503;
         }
 

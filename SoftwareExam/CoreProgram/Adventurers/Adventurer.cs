@@ -69,10 +69,15 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public string GetItemCard() {
 
+            string HatName = "";
             string Hat = "";
+            string ArmorName = "";
             string Armor = "";
+            string WeaponName = "";
             string Weapon = "";
+            string OffHandName = "";
             string OffHand = "";
+            string TrinketName = "";
             string Trinket = "";
 
             foreach(var item in Equipment) {
@@ -82,18 +87,23 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
                 switch (itemId) {
                     case 1:
+                    ArmorName = item.GetEquipmentName();
                     Armor = item.GetEquipmentDescription();
                     break;
                     case 2:
+                    HatName = item.GetEquipmentName();
                     Hat = item.GetEquipmentDescription();
                     break;
                     case 3:
+                    OffHandName = item.GetEquipmentName();
                     OffHand = item.GetEquipmentDescription();
                     break;
                     case 4:
+                    TrinketName = item.GetEquipmentName();
                     Trinket = item.GetEquipmentDescription();
                     break;
                     case 5:
+                    WeaponName = item.GetEquipmentName();
                     Weapon = item.GetEquipmentDescription();
                     break;
                 }
@@ -102,11 +112,20 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             return @$"{ToString()}
     |
     |___EQUIPMENT_____________________________
-    |   Hat:      {Hat}
-    |   Armor:    {Armor}
-    |   Weapon:   {Weapon}
-    |   Off-Hand: {OffHand}
-    |   Trinket:  {Trinket}
+    |   Hat:      {HatName}
+    |             {Hat}
+    |-----------------------------------------
+    |   Armor:    {ArmorName}
+    |             {Armor}
+    |-----------------------------------------
+    |   Weapon:   {WeaponName}
+    |             {Weapon}
+    |-----------------------------------------
+    |   Off-Hand: {OffHandName}
+    |             {OffHand}
+    |-----------------------------------------
+    |   Trinket:  {TrinketName}
+    |             {Trinket}
     |";
         }
 

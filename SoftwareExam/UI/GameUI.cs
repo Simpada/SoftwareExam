@@ -416,6 +416,7 @@ namespace SoftwareExam.UI {
                 if (input == '1') {
                     if (AdventurerCount >= 1) {
                         ArmoryInventory(0);
+                        
                     } else {
                         InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                         continue;
@@ -454,6 +455,7 @@ namespace SoftwareExam.UI {
                     InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
                     continue;
                 }
+                Manager.ExitArmory();
 
                 Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
             }
@@ -461,11 +463,12 @@ namespace SoftwareExam.UI {
 
         private void ArmoryInventory(int id) {
 
-            Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+            Manager.EnterArmory(id);
+            Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
 
 
             while (true) {
-
+                
                 UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
@@ -489,11 +492,12 @@ namespace SoftwareExam.UI {
                 } else if (input == '0') {
                     break;
                 } else {
-                    InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
+                    Manager.EnterArmory(id);
+                    InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
                     continue;
                 }
-
-                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+                Manager.EnterArmory(id);
+                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
             }
 
         }

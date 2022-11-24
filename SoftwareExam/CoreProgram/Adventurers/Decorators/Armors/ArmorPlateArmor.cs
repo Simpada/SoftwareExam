@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     internal class ArmorPlateArmor : BasicArmor {
 
-
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
         public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
-            AllowedClasses = new string[] {"Warrior"};
             ItemId = 101;
         }
 

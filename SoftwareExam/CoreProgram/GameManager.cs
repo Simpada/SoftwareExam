@@ -253,5 +253,12 @@ namespace SoftwareExam.CoreProgram
         public string GetItemCards(int id) {
             return Player.Adventurers[id].GetItemCard();
         }
+
+        public void EnterArmory(int adventurerId) {
+            Armory.EnterArmory(Player.Adventurers[adventurerId].Class);
+        }
+        public void ExitArmory() {
+            Armory.Resume();
+        }
     }
 }

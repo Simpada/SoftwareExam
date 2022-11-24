@@ -9,9 +9,10 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 {
     internal class HatHarlequinCrest : BasicHat
     {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Rogue", "Mage" };
         public HatHarlequinCrest(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Rogue", "Mage" };
             ItemId = 203;
         }
 

@@ -19,7 +19,8 @@ namespace SoftwareExam.CoreProgram
         private readonly List<int> Trinkets = new();
         private readonly List<int> Weapons = new();
 
-        private List<int> Inventory = new();
+        private readonly List<int> FullInventory = new();
+        private readonly List<int> DisplayInventory = new();
         private readonly int InventorySize = 8;
 
         private readonly Random Random = new();
@@ -88,26 +89,26 @@ namespace SoftwareExam.CoreProgram
             while (true)
             {
                 TaskPauseEvent.WaitOne();
-                Inventory.Clear();
+                FullInventory.Clear();
                 for (int i = 0; i < InventorySize; i++)
                 {
                     int randomNumber = Random.Next(5);
                     switch (randomNumber)
                     {
                         case 0:
-                            Inventory.Add(Armors[Random.Next(Armors.Count)]);
+                            FullInventory.Add(Armors[Random.Next(Armors.Count)]);
                             break;
                         case 1:
-                            Inventory.Add(Hats[Random.Next(Hats.Count)]);
+                            FullInventory.Add(Hats[Random.Next(Hats.Count)]);
                             break;
                         case 2:
-                            Inventory.Add(OffHands[Random.Next(OffHands.Count)]);
+                            FullInventory.Add(OffHands[Random.Next(OffHands.Count)]);
                             break;
                         case 3:
-                            Inventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
+                            FullInventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
                             break;
                         case 4:
-                            Inventory.Add(Weapons[Random.Next(Weapons.Count)]);
+                            FullInventory.Add(Weapons[Random.Next(Weapons.Count)]);
                             break;
                     }
                 }
@@ -115,11 +116,28 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+        public void EnterArmory(string adventurerClass) {
+
+            Pause();
+
+            DisplayInventory.Clear();
+
+            foreach(int itemId in FullInventory) {
+
+                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId)) {
+
+                    if (allowedClass == adventurerClass) {
+                        DisplayInventory.Add(itemId);
+                    }
+                }
+            }
+        }
+
         public List<string> GetItemNames() {
 
             List<string> Names = new();
 
-            foreach (var item in Inventory) {
+            foreach (var item in DisplayInventory) {
                 Names.Add(ItemParser.GetItemName(item));
             }
             return Names;
@@ -129,7 +147,7 @@ namespace SoftwareExam.CoreProgram
 
             List<string> Descriptions = new();
 
-            foreach(var item in Inventory) {
+            foreach(var item in DisplayInventory) {
                 Descriptions.Add(ItemParser.GetItemDescription(item));
             }
             return Descriptions;
@@ -139,7 +157,7 @@ namespace SoftwareExam.CoreProgram
 
             List<string> Prices = new();
 
-            foreach (var item in Inventory) {
+            foreach (var item in DisplayInventory) {
                 Prices.Add(ItemParser.GetItemCost(item).ToString());
             }
             return Prices;
@@ -148,9 +166,9 @@ namespace SoftwareExam.CoreProgram
 
         public Adventurer BuyItem(int item, Adventurer adventurer)
         {
-            int itemId = Inventory[item];
+            int itemId = DisplayInventory[item];
 
-            Inventory.RemoveAt(item);
+            FullInventory.Remove(itemId);
 
             return ItemParser.GetItem(itemId, adventurer);
         }

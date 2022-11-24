@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
     internal class HatPlateHelmet : BasicHat {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
         public HatPlateHelmet(Adventurer adventurer) : base(adventurer) {
-            AllowedClasses = new string[] { "Warrior" };
             ItemId = 201;
         }
 
