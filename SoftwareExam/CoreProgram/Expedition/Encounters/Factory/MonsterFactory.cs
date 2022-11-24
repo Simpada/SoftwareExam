@@ -2,13 +2,10 @@
 {
     public class MonsterFactory : EncounterFactory
     {
-        public override Encounter CreateEncounter()
+        public override Encounter CreateEncounter(string adventurerName, int adventureLuck, int adventurerDamage)
         {
-
-            return null;
+            throw new NotImplementedException();
         }
-
-
 
         public static List<object> CreateMonsterEncounter(int adventurerLuck, string adventurerName)
         {
@@ -57,5 +54,7 @@
             }
             return list;
         }
+
+
     }
 }

@@ -1,12 +1,9 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
 {
     internal class TrapEncounter : Encounter
     {
-        private readonly int AdventurerLuck;
-
-        public TrapEncounter(string adventurerName, int adventurerLuck) : base(adventurerName)
+        public TrapEncounter(string adventurerName, int adventureLuck, int adventurerDamage) : base(adventurerName, adventureLuck, adventurerDamage)
         {
-            AdventurerLuck = adventurerLuck;
         }
 
         public override bool RunEncounter(out Currency reward, out string description)
@@ -31,7 +28,6 @@
 
                 return true;
             }
-
         }
     }
 }

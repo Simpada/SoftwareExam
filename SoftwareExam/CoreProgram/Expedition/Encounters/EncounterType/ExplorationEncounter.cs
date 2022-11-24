@@ -1,15 +1,10 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Encounter
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
 {
     internal class ExplorationEncounter : Encounter
     {
-        public ExplorationEncounter(string adventurerName) : base(adventurerName)
+        public ExplorationEncounter(string adventurerName, int adventureLuck, int adventurerDamage) : base(adventurerName, adventureLuck, adventurerDamage)
         {
-        }
-
-        public override bool RunEncounter(out Currency reward, out string description)
-        {
-            reward = new();
-            description = AdventurerName + PickOne(
+            Description = AdventurerName + PickOne(
                 new string[] {
                     " saw a rabbit. It ran away.",
                     $" found a crossroad. They went {Direction()}.",
@@ -20,6 +15,12 @@
                     " stopped to flirt with a succubus.",
                     " found a stick. It was a cool stick, so they kept it."
                 });
+        }
+
+        public override bool RunEncounter(out Currency reward, out string description)
+        {
+            reward = new();
+            description = Description;            
             return true;
         }
 
