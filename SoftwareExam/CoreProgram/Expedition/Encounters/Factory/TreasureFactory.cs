@@ -4,7 +4,7 @@
     {
         public override Encounter CreateEncounter(string adventurerName, int adventureLuck, int adventurerDamage)
         {
-            throw new NotImplementedException();
+            return new TreasureEncounter(adventurerName, adventureLuck, adventurerDamage);
         }
     }
 }

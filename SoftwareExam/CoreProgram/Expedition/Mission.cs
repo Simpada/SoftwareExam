@@ -11,12 +11,14 @@ namespace SoftwareExam.CoreProgram.Expedition
         public LogWriter LogWriter { set; private get; }
         private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
+        public int AdventurerHealth { get; set; } = 0;
         public int AdventurerId { get; set; } = -1;
         public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }
         public string Destination { get; set; } = "";
         public Currency Reward { get; set; } = new();
+        public Currency CompletionReward { get; set; } = new();
         private string LogMessage = "";
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
@@ -33,14 +35,33 @@ namespace SoftwareExam.CoreProgram.Expedition
             Token = TokenSource.Token;
         }
 
-        public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
+        public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter)
+        {
             Token = TokenSource.Token;
 
             Player = player;
             LogWriter = logWriter;
             Adventurer = adventurer;
+            AdventurerHealth = Adventurer.Health;
             Map = map;
-            for (int i = 0; i < Map.Encounters; i++) {
+            EncounterNumber = Map.Encounters;
+
+            GenerateEncounters();
+
+            WaitTimes = new int[EncounterNumber];
+            CompletionReward = map.Reward;
+            Destination = map.Location;
+
+            Player.Missions.Add(this);
+            Adventurer.OnMission = true;
+
+            TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
+            PrepareMission(false);
+        }
+
+        private void GenerateEncounters()
+        {
+            for (int i = 0; i < EncounterNumber; i++) {
 
                 int encounterType = Random.Next(20) + Adventurer.Luck;
                 EncounterFactory encounterFactory;
@@ -59,27 +80,13 @@ namespace SoftwareExam.CoreProgram.Expedition
                         encounterFactory = new TrapFactory();
                         break;
                 }
-                Encounters.Add(encounterFactory.CreateEncounter());
+                Encounters.Add(encounterFactory.CreateEncounter(Adventurer.Name, Adventurer.Luck, Adventurer.Damage));
             }
-
-            EncounterNumber = Encounters.Count;
-            WaitTimes = new int[EncounterNumber];
-            Reward = map.Reward;
-            Destination = map.Location;
-
-            Player.Missions.Add(this);
-            Adventurer.OnMission = true;
-
-            TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
-            PrepareMission(false);
         }
 
         public void Start()
         {
-            for (int i = 0; i < EncounterNumber; i++) {
-                Encounters.Add(new Encounter());
-
-            }
+            GenerateEncounters();
             WaitTimes = new int[EncounterNumber];
             Player.Missions.Add(this);
             Adventurer.OnMission = true;
@@ -138,18 +145,24 @@ namespace SoftwareExam.CoreProgram.Expedition
                 try {
                     await Task.Delay(5000, Token);
                 }
-                catch (Exception e){
+                catch (Exception e) {
                 }
-                
-                LogMessage = $"    - {Adventurer.Name} has returned!";
-                LogWriter.UpdateLog(Player, LogMessage);
-                Adventurer.OnMission = false;
+                Reward += CompletionReward;
 
-                Completed = true;
-                Player.CompleteMission();
+                LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
+                CompleteMission();
             }
 
 
+        }
+
+        private void CompleteMission()
+        {
+            LogWriter.UpdateLog(Player, LogMessage);
+            Adventurer.OnMission = false;
+
+            Completed = true;
+            Player.CompleteMission();
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
@@ -159,7 +172,20 @@ namespace SoftwareExam.CoreProgram.Expedition
             catch (Exception e) {
             }
             TimeLeft -= encounterTime;
-            LogMessage = $"    - {Adventurer.Name} wandered in circles for {encounterTime} hours";
+            bool success = Encounters[EncounterNumber - 1].RunEncounter(out Currency reward, out string description);
+            LogMessage = "    - " + description;
+
+            if (success) {
+                Reward += reward;
+            }
+            else {
+                AdventurerHealth--;
+                if (AdventurerHealth <= 0) {
+                    LogMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
+                    CompleteMission();
+                    Terminate();
+                }
+            }
             EncounterNumber--;
         }
 

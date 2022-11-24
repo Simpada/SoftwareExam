@@ -16,27 +16,27 @@
              */
             switch (RollEncounter) {
                 case <= 5:
-                    Description = $"{adventurerName} encountered a slime";
+                    Description = $"{adventurerName} encountered a slime.";
                     EncounterDamage = Random.Next(3);
                     Reward = new Currency(Random.Next(4) * rewardMultiplier, Random.Next(2) * rewardMultiplier, 0);
                     break;
                 case <= 8:
-                    Description = $"{adventurerName} encountered a goblin";
+                    Description = $"{adventurerName} encountered a goblin.";
                     EncounterDamage = Random.Next(5);
                     Reward = new Currency(Random.Next(4) * rewardMultiplier, Random.Next(4) * rewardMultiplier, 0);
                     break;
                 case <= 12:
-                    Description = $"{adventurerName} encountered a lion";
+                    Description = $"{adventurerName} encountered a lion.";
                     EncounterDamage = Random.Next(7);
                     Reward = new Currency(Random.Next(3) * rewardMultiplier, Random.Next(7) * rewardMultiplier, 0);
                     break;
                 case <= 15:
-                    Description = $"{adventurerName} encountered an ogre";
+                    Description = $"{adventurerName} encountered an ogre.";
                     EncounterDamage = Random.Next(10);
                     Reward = new Currency(Random.Next(4) * rewardMultiplier, Random.Next(4) * rewardMultiplier, Random.Next(2) * rewardMultiplier);
                     break;
                 case < 20:
-                    Description = $"{adventurerName} encountered a dragon";
+                    Description = $"{adventurerName} encountered a dragon.";
                     EncounterDamage = Random.Next(15);
                     Reward = new Currency(Random.Next(8) * rewardMultiplier, Random.Next(7) * rewardMultiplier, Random.Next(4) * rewardMultiplier);
                     break;
@@ -55,14 +55,13 @@
             if (adventurerRoll >= monsterRoll)
             {
                 reward = Reward;
-                description = Description;
+                description = Description + $" {AdventurerName} slew the monster and earned {Reward}.";
                 return true;
             }
             else
             {
                 reward = new();
-                reward = Reward;
-                description = Description;
+                description = Description + $" {AdventurerName} was defeated and suffered a wound.";
                 return false;
             }
         }

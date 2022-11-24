@@ -1,9 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareExam.DataBase
 {
@@ -46,11 +41,11 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS players
                 (
-                    player_id INTEGER NOT NULL PRIMARY KEY,
+                    player_id INT NOT NULL PRIMARY KEY,
                     player_name TEXT NOT NULL,
-                    copper INTEGER NOT NULL,
-                    silver INTEGER NOT NULL,
-                    gold INTEGER NOT NULL
+                    copper INT NOT NULL,
+                    silver INT NOT NULL,
+                    gold INT NOT NULL
                 )
             ";
             command.ExecuteNonQuery();
@@ -68,10 +63,10 @@ namespace SoftwareExam.DataBase
                     adventurer_id INTEGER NOT NULL PRIMARY KEY,
                     adventurer_name TEXT NOT NULL,
                     class TEXT NOT NULL,
-                    health INTEGER NOT NULL,
-                    damage INTEGER NOT NULL,
-                    luck INTEGER NOT NULL,
-                    player_id INTEGER NOT NULL,
+                    health INT NOT NULL,
+                    damage INT NOT NULL,
+                    luck INT NOT NULL,
+                    player_id INT NOT NULL,
                     CONSTRAINT fk_player
                         FOREIGN KEY(player_id) REFERENCES players(player_id)
                         ON DELETE CASCADE
@@ -89,8 +84,8 @@ namespace SoftwareExam.DataBase
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS decorators
                 (
-                    decorator_id INTEGER NOT NULL,
-                    adventurer_id INTEGER NOT NULL,
+                    decorator_id INT NOT NULL,
+                    adventurer_id INT NOT NULL,
                     PRIMARY KEY (decorator_id, adventurer_id),
                     CONSTRAINT fk_adventurers
                         FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
@@ -110,12 +105,16 @@ namespace SoftwareExam.DataBase
                 CREATE TABLE IF NOT EXISTS missions
                 (
                     adventurer_id INTEGER NOT NULL PRIMARY KEY,
-                    time_left INTEGER NOT NULL,
+                    time_left INT NOT NULL,
                     destination varchar(50) NOT NULL,
-                    encounters INTEGER NOT NULL,
-                    copper INTEGER NOT NULL,
-                    silver INTEGER NOT NULL,
-                    gold INTEGER NOT NULL,
+                    encounters INT NOT NULL,
+                    current_adventurer_health INT NOT NULL,
+                    current_copper_reward INT NOT NULL,
+                    current_silver_reward INT NOT NULL,
+                    current_gold_reward INT NOT NULL,
+                    completion_copper_reward INT NOT NULL,
+                    completion_silver_reward INT NOT NULL,
+                    completion_gold_reward INT NOT NULL,
                     CONSTRAINT fk_adventureres_ms
                         FOREIGN KEY(adventurer_id) REFERENCES adventurers(adventurer_id)
                         ON DELETE CASCADE
