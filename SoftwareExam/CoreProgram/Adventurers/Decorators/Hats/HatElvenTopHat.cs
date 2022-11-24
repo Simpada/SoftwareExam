@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 {
     internal class HatElvenTopHat : BasicHat
     {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Mage"};
+        public static new readonly Currency Cost = new(0,5,1);
+
         public HatElvenTopHat(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Mage" };
             ItemId = 202;
         }
 
@@ -29,6 +33,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
         public static string GetItemDescription()
         {
             return new HatElvenTopHat(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Elven Top Hat";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new HatElvenTopHat(new Warrior()).GetEquipmentName();
         }
     }
 }

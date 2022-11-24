@@ -27,15 +27,19 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             throw new NotImplementedException();
         }
 
-    //    public override string ToString() {
+        public override string GetEquipmentName() {
+            throw new NotImplementedException();
+        }
 
-    //        return @$"    | ______    
-    //| | __ |    Name:   {Name}
-    //| | || |    Class:  {Class}
-    //| | || |    Health: {Health}
-    //| \ '' /    Damage: {Damage}
-    //|  \__/     Luck:   {Luck}";
-    //    }
+        //    public override string ToString() {
+
+        //        return @$"    | ______    
+        //| | __ |    Name:   {Name}
+        //| | || |    Class:  {Class}
+        //| | || |    Health: {Health}
+        //| \ '' /    Damage: {Damage}
+        //|  \__/     Luck:   {Luck}";
+        //    }
 
     }
 }

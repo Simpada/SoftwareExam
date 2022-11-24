@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
 {
     internal class ArmorLeatherSuit : BasicArmor
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
+        public static new readonly Currency Cost = new(0,0,1);
+
+
         public ArmorLeatherSuit(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new String[] { "Warrior", "Rogue" };
             ItemId = 103;
         }
 
@@ -28,6 +32,14 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
         public static string GetItemDescription()
         {
             return new ArmorLeatherSuit(new Rogue()).GetEquipmentDescription();
+        }
+        public override string GetEquipmentName() {
+            return "Leather Suit";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new ArmorLeatherSuit(new Warrior()).GetEquipmentName();
         }
     }
 }

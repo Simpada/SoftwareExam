@@ -10,11 +10,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public int ItemId { get; set; } = 0;
 
-        public string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
+        public static readonly string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
 
         public Adventurer BaseAdventurer { get; set; }
 
-        public static Currency Cost { get; set; } = new();
+        public static readonly Currency Cost = new();
 
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             Id = Adventurer.Id;

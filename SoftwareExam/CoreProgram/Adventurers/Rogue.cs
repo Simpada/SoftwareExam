@@ -27,6 +27,10 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             throw new NotImplementedException();
         }
 
+        public override string GetEquipmentName() {
+            throw new NotImplementedException();
+        }
+
         //    public override string ToString() {
         //        return @$"    |  |\      
         //|  | \      Name:   {Name}

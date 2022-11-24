@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,8 @@ namespace SoftwareExam.CoreProgram
         private readonly List<int> Trinkets = new();
         private readonly List<int> Weapons = new();
 
-        private List<int> Inventory = new();
+        private readonly List<int> FullInventory = new();
+        private readonly List<int> DisplayInventory = new();
         private readonly int InventorySize = 8;
 
         private readonly Random Random = new();
@@ -40,7 +42,6 @@ namespace SoftwareExam.CoreProgram
         public void Pause()
         {
             TaskPauseEvent.Reset();
-
         }
         public void Resume()
         {
@@ -50,7 +51,6 @@ namespace SoftwareExam.CoreProgram
         #region Pretend this part doesn't exist
         private void InitializeItems()
         {
-            // huge switch to parse item id's into items with initialiser
             Armors.Add(101);
             Armors.Add(102);
             Armors.Add(103);
@@ -81,48 +81,114 @@ namespace SoftwareExam.CoreProgram
             Weapons.Add(504);
             Weapons.Add(505);
             Weapons.Add(506);
-
         }
         #endregion
 
         private void RefreshInventory()
         {
-
             while (true)
             {
-
                 TaskPauseEvent.WaitOne();
-
-                for (int i = InventorySize; i >= 0; i--)
+                FullInventory.Clear();
+                for (int i = 0; i < InventorySize; i++)
                 {
                     int randomNumber = Random.Next(5);
                     switch (randomNumber)
                     {
                         case 0:
-                            Inventory.Add(Armors[Random.Next(Armors.Count)]);
+                            FullInventory.Add(Armors[Random.Next(Armors.Count)]);
                             break;
                         case 1:
-                            Inventory.Add(Hats[Random.Next(Hats.Count)]);
+                            FullInventory.Add(Hats[Random.Next(Hats.Count)]);
                             break;
                         case 2:
-                            Inventory.Add(OffHands[Random.Next(OffHands.Count)]);
+                            FullInventory.Add(OffHands[Random.Next(OffHands.Count)]);
                             break;
                         case 3:
-                            Inventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
+                            FullInventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
                             break;
                         case 4:
-                            Inventory.Add(Weapons[Random.Next(Weapons.Count)]);
+                            FullInventory.Add(Weapons[Random.Next(Weapons.Count)]);
                             break;
                     }
                 }
-
                 Thread.Sleep(InventoryRefreshRate);
             }
         }
 
-        public void BuyItem(Adventurer adventurer)
-        {
+        public void EnterArmory(string adventurerClass) {
 
+            Pause();
+
+            DisplayInventory.Clear();
+
+            foreach(int itemId in FullInventory) {
+
+                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId)) {
+
+                    if (allowedClass == adventurerClass) {
+                        DisplayInventory.Add(itemId);
+                    }
+                }
+            }
         }
+
+        public List<string> GetItemNames() {
+
+            List<string> Names = new();
+
+            foreach (var item in DisplayInventory) {
+                Names.Add(ItemParser.GetItemName(item));
+            }
+            return Names;
+        }
+
+        public List<string> GetItemDescriptions() {
+
+            List<string> Descriptions = new();
+
+            foreach(var item in DisplayInventory) {
+                Descriptions.Add(ItemParser.GetItemDescription(item));
+            }
+            return Descriptions;
+        }
+
+        public List<string> GetItemPrices() {
+
+            List<string> Prices = new();
+
+            foreach (var item in DisplayInventory) {
+                Prices.Add(ItemParser.GetItemCost(item).ToString());
+            }
+            return Prices;
+        }
+
+        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price) {
+
+            if (itemIndex >= DisplayInventory.Count) {
+                price = new();
+                noItem = true;
+                return false;
+            }
+
+            noItem = false;
+            price = ItemParser.GetItemCost(DisplayInventory[itemIndex]);
+
+            if (currency >= price) {
+                return true;
+            }
+            return false;
+        }
+
+        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer)
+        {
+            int itemId = DisplayInventory[itemIndex];
+
+            FullInventory.Remove(itemId);
+
+            return ItemParser.GetItem(itemId, adventurer);
+        }
+
+
     }
 }

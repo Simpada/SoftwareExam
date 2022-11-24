@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
 {
     internal class OffHandGiantsShield : BasicOffHand
     {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
+        public static new readonly Currency Cost = new(0,0,10);
+
         public OffHandGiantsShield(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
             ItemId = 305;
         }
 
@@ -29,6 +33,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
         {
             // This is kinda dumb, but it works without need for repeating code
             return new OffHandGiantsShield(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Giant's Shield";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new OffHandGiantsShield(new Warrior()).GetEquipmentName();
         }
     }
 }

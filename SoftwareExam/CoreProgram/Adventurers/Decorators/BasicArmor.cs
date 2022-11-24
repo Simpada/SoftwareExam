@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,10 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
 
         public override string GetEquipmentDescription() {
             return "There's nothing special about this armor.";
+        }
+
+        public override string GetEquipmentName() {
+            return "Basic Armor";
         }
     }
 }

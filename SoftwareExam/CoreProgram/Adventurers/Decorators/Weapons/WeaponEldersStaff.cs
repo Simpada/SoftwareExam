@@ -8,9 +8,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 {
     internal class WeaponEldersStaff : BasicWeapon
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Mage" };
+        public static new readonly Currency Cost = new(0,0,6);
+
         public WeaponEldersStaff(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Mage" };
             ItemId = 503;
         }
 
@@ -29,6 +31,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
         {
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponEldersStaff(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Elders Staff";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponEldersStaff(new Warrior()).GetEquipmentName();
         }
     }
 }

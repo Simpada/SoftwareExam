@@ -19,5 +19,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
             return "There's nothing special about this hat.";
         }
 
+        public override string GetEquipmentName() {
+            return "Basic Hat";
+        }
+
     }
 }

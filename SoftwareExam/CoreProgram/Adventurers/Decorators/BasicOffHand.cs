@@ -15,7 +15,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         }
 
         public override string GetEquipmentDescription() {
-            return "There's nothing special about this off hand.";
+            return "There's nothing special about this off-hand.";
         }
+        public override string GetEquipmentName() {
+            return "Basic Off Hand";
+        }
+
     }
 }

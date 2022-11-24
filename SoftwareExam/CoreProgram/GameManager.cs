@@ -174,7 +174,6 @@ namespace SoftwareExam.CoreProgram
             Player.Adventurers = Adventurers;
 
             GetMissions(Id);
-            Console.WriteLine("Hi5");
 
             return Player.Id;
         }
@@ -189,17 +188,14 @@ namespace SoftwareExam.CoreProgram
                 foreach (var Adventurer in Player.Adventurers) {
                     if (Adventurer.Id == Mission.AdventurerId) {
                         Mission.Adventurer = Adventurer;
-                        Console.WriteLine("Hi1");
                         break;
                     }
                 }
                 if (Mission.Adventurer == null) {
                     throw new Exception("Adventurer cannot be found. Saving/loading process error");
                 }
-                Console.WriteLine("Hi2");
 
                 Mission.LogWriter = Expeditions.Log;
-                Console.WriteLine("Hi3");
 
                 Task.Run(() => Mission.Start());
             }
@@ -233,13 +229,57 @@ namespace SoftwareExam.CoreProgram
             Expeditions.Resume();
         }
 
-        internal void Terminate()
+        public void Terminate()
         {
             foreach (var mission in Player.Missions) {
                 mission.Terminate();
             }
 
             Player.TerminateMissions();
+        }
+
+        public List<string> GetInventoryNames() {
+            return Armory.GetItemNames();
+        }
+        
+        public List<string> GetInventoryDescriptions() {
+            return Armory.GetItemDescriptions();
+        }
+
+        public List<string> GetInventoryPrices() {
+            return Armory.GetItemPrices();
+        }
+
+        public string GetItemCards(int id) {
+            return Player.Adventurers[id].GetItemCard();
+        }
+
+        public string BuyItem(int itemId, int adventurerId) {
+            bool CanAfford = Armory.CanAffordItem(itemId, Player.Balance, out bool noItem, out Currency price);
+
+            if (noItem) {
+                return "";
+            }
+
+            if (CanAfford) {
+
+                Adventurer adventurer = Player.Adventurers[adventurerId];
+
+                Player.AlterCurrency(price, false);
+                Player.Adventurers[adventurerId] = Adventurer.AddNewItem( Armory.BuyItem(itemId, adventurer) );
+                return "Purchase Successful";
+
+            } else {
+                return "You cannot afford this!";
+            }
+
+        }
+
+        public void EnterArmory(int adventurerId) {
+            Armory.EnterArmory(Player.Adventurers[adventurerId].Class);
+        }
+        public void ExitArmory() {
+            Armory.Resume();
         }
     }
 }

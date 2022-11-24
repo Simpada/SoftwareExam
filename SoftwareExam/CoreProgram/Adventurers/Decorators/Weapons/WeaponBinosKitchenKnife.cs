@@ -8,9 +8,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 {
     internal class WeaponBinosKitchenKnife : BasicWeapon
     {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
+        public static new readonly Currency Cost = new(0,0,9);
+
         public WeaponBinosKitchenKnife(Adventurer adventurer) : base(adventurer)
         {
-            AllowedClasses = new string[] { "Warrior", "Rogue" };
             ItemId = 502;
         }
 
@@ -30,6 +32,16 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponBinosKitchenKnife(new Warrior()).GetEquipmentDescription();
         }
+        
+        public override string GetEquipmentName()
+        {
+            return "Bino's Kitchen Knife";
+        }
 
+        public static string GetItemName()
+        {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponBinosKitchenKnife(new Warrior()).GetEquipmentName();
+        }
     }
 }

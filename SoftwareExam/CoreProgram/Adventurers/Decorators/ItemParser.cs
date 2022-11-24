@@ -12,6 +12,82 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public static class ItemParser {
 
+        // The Ugly Class
+
+        public static string[] GetAllowedClasses(int id) {
+
+            return id switch {
+                101 => ArmorPlateArmor.AllowedClasses,
+                102 => ArmorElvenRobe.AllowedClasses,
+                103 => ArmorLeatherSuit.AllowedClasses,
+                104 => ArmorFourCloverSuit.AllowedClasses,
+                105 => ArmorOfGod.AllowedClasses,
+
+                201 => HatPlateHelmet.AllowedClasses,
+                202 => HatElvenTopHat.AllowedClasses,
+                203 => HatHarlequinCrest.AllowedClasses,
+                204 => HatJuggernautsHelmet.AllowedClasses,
+                205 => HatLeatherHat.AllowedClasses,
+
+                301 => OffHandWoodenShield.AllowedClasses,
+                302 => OffHandSteelArrows.AllowedClasses,
+                303 => OffHandBookOfWisdom.AllowedClasses,
+                304 => OffHandMythrilShield.AllowedClasses,
+                305 => OffHandGiantsShield.AllowedClasses,
+
+                401 => TrinketRabbitsFoot.AllowedClasses,
+                402 => TrinketTheChickens.AllowedClasses,
+                403 => TrinketMimir.AllowedClasses,
+                404 => TrinketRingOfPower.AllowedClasses,
+                405 => TrinketFairyDust.AllowedClasses,
+
+                501 => WeaponIronSword.AllowedClasses,
+                502 => WeaponBinosKitchenKnife.AllowedClasses,
+                503 => WeaponEldersStaff.AllowedClasses,
+                504 => WeaponOrbOfDarkness.AllowedClasses,
+                505 => WeaponWindripperBow.AllowedClasses,
+                506 => WeaponSwordOfOmens.AllowedClasses,
+                _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
+            };
+        }
+        
+        public static string GetItemName(int id) {
+
+            return id switch {
+                101 => ArmorPlateArmor.GetItemName(),
+                102 => ArmorElvenRobe.GetItemName(),
+                103 => ArmorLeatherSuit.GetItemName(),
+                104 => ArmorFourCloverSuit.GetItemName(),
+                105 => ArmorOfGod.GetItemName(),
+
+                201 => HatPlateHelmet.GetItemName(),
+                202 => HatElvenTopHat.GetItemName(),
+                203 => HatHarlequinCrest.GetItemName(),
+                204 => HatJuggernautsHelmet.GetItemName(),
+                205 => HatLeatherHat.GetItemName(),
+
+                301 => OffHandWoodenShield.GetItemName(),
+                302 => OffHandSteelArrows.GetItemName(),
+                303 => OffHandBookOfWisdom.GetItemName(),
+                304 => OffHandMythrilShield.GetItemName(),
+                305 => OffHandGiantsShield.GetItemName(),
+
+                401 => TrinketRabbitsFoot.GetItemName(),
+                402 => TrinketTheChickens.GetItemName(),
+                403 => TrinketMimir.GetItemName(),
+                404 => TrinketRingOfPower.GetItemName(),
+                405 => TrinketFairyDust.GetItemName(),
+
+                501 => WeaponIronSword.GetItemName(),
+                502 => WeaponBinosKitchenKnife.GetItemName(),
+                503 => WeaponEldersStaff.GetItemName(),
+                504 => WeaponOrbOfDarkness.GetItemName(),
+                505 => WeaponWindripperBow.GetItemName(),
+                506 => WeaponSwordOfOmens.GetItemName(),
+                _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
+            };
+        }
+        
         public static string GetItemDescription(int id) {
 
             return id switch {

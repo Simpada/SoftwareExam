@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
     internal class WeaponIronSword : BasicWeapon {
+
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
+        public static new readonly Currency Cost = new(0,0,1);
+
         public WeaponIronSword(Adventurer adventurer) : base(adventurer) {
-            AllowedClasses = new string[] { "Warrior", "Rogue" };
             ItemId = 501;
         }
 
@@ -25,6 +28,14 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
         {
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponIronSword(new Warrior()).GetEquipmentDescription();
+        }
+        public override string GetEquipmentName() {
+            return "Iron Sword";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponIronSword(new Warrior()).GetEquipmentName();
         }
     }
 }

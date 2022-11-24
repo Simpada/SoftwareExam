@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -177,7 +178,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmory(string[] ItemCards) {
+        public string GetArmory(string[] ItemCards, string balance) {
              
 
             string[] cards = new string[ItemCards.Length];
@@ -205,16 +206,33 @@ namespace SoftwareExam.UI {
     THE GRAND ARMORY
     [0] Return to town
                         
-
+    Balance = {balance}
     |-----------------------------------------
 {ArmoryDisplay}
 ";
         }
 
-        public string GetArmoryBrowsing() {
+        public string GetArmoryBrowsing(string itemCard, string balance, List<string> names, List<string> descriptions, List<string> prices) {
+
+            string display = "";
+            for (int i = 0; i < descriptions.Count; i++) {
+                display += $"    |   [{i+1}] {names[i]}" 
+                    + $"\n    |   {descriptions[i]}" 
+                    + $"\n    |   Price:  {prices[i]}";
+                display += "\n    |-----------------------------------------\n";
+            }
 
             return $@"
+    CURRENT INVENTORY
+    [0] Return to Armory
 
+    |-----------------------------------------
+{itemCard}
+    |
+    |   AVAILABLE ITEMS: 
+    |   Balance: {balance}
+    |_________________________________________
+{display}
 ";
         }
 
