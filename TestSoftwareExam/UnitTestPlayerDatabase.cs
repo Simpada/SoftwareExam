@@ -27,23 +27,23 @@ namespace TestSoftwareExam
             DatabaseAccess = new("Data Source = " + db);
         }
 
-        [Test]
-        public void TestRetrievePlayer()
-        {
-            Prepare("testDatabase1.db");
+        //[Test]
+        //public void TestRetrievePlayer()
+        //{
+        //    Prepare("testDatabase1.db");
 
-            //Expected
-            Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
-            DatabaseAccess.Save(tempPlayer);
+        //    //Expected
+        //    Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
+        //    DatabaseAccess.Save(tempPlayer);
 
-            //Actual
-            DatabaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
-            Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
+        //    //Actual
+        //    DatabaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
+        //    Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
 
 
-            Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
-            Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
-        }
+        //    Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
+        //    Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
+        //}
 
         [Test]
         public void TestRetriveAllPlayerNames()
@@ -68,21 +68,21 @@ namespace TestSoftwareExam
             Assert.That(playerNames, Does.Contain("three"));
         }
 
-        [Test]
-        public void TestOverwriteSave()
-        {
-            Prepare("testDatabase3.db");
+        //[Test]
+        //public void TestOverwriteSave()
+        //{
+        //    Prepare("testDatabase3.db");
 
-            Player originalPlayer = new(1, "Original", new Currency(1, 1, 1));
-            Player newPlayer = new(1, "New player", new Currency(1, 1, 1));
+        //    Player originalPlayer = new(1, "Original", new Currency(1, 1, 1));
+        //    Player newPlayer = new(1, "New player", new Currency(1, 1, 1));
 
-            DatabaseAccess.Save(originalPlayer);
-            DatabaseAccess.Save(newPlayer);
+        //    DatabaseAccess.Save(originalPlayer);
+        //    DatabaseAccess.Save(newPlayer);
 
-            Player playerResult = new();
-            playerResult.PlayerName = DatabaseAccess.GetPlayernameById(1);
+        //    Player playerResult = new();
+        //    playerResult.PlayerName = DatabaseAccess.GetPlayernameById(1);
 
-            Assert.That(newPlayer.PlayerName, Is.EqualTo(playerResult.PlayerName));
-        }
+        //    Assert.That(newPlayer.PlayerName, Is.EqualTo(playerResult.PlayerName));
+        //}
     }
 }
