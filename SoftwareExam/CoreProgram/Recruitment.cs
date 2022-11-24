@@ -12,7 +12,7 @@ namespace SoftwareExam.CoreProgram {
 
         private AdventurerFactory? Factory;
 
-        public Currency Price { get; set; } = new(0, 5, 0);
+        public Currency Price { get; set; } = new(0, 0, 5);
 
         public bool CheckBalance(Currency balance) {
 

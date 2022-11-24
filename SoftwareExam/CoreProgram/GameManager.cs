@@ -222,7 +222,7 @@ namespace SoftwareExam.CoreProgram
         public void NewGame(int saveFile, string name) {
             Player.Id = saveFile;
             Player.PlayerName = name;
-            Player.SetCurrency(0,5,1);
+            Player.SetCurrency(0,0,7);
             Player.Adventurers = new();
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
