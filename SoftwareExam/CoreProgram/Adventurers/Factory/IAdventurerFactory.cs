@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Factory {
-    internal abstract class AdventurerFactory {
-
+    internal interface IAdventurerFactory {
 
         public abstract Adventurer CreateAdventurer();
 

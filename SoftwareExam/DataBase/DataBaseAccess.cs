@@ -244,7 +244,7 @@ namespace SoftwareExam.DataBase {
                 int damage = reader.GetInt32(4);
                 int luck = reader.GetInt32(5);
 
-                AdventurerFactory factory = new RogueFactory();
+                IAdventurerFactory factory = new RogueFactory();
                 switch (adventurerClass) {
                     case "Warrior":
                     factory = new WarriorFactory();

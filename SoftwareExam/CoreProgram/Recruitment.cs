@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram {
     public class Recruitment {
 
-        private AdventurerFactory? Factory;
+        private IAdventurerFactory? Factory;
 
         public Currency Price { get; set; } = new(0, 0, 5);
 
