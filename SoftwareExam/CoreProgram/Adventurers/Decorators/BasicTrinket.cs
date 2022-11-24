@@ -17,5 +17,9 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         public override string GetEquipmentDescription() {
             return "There's nothing special about this trinket.";
         }
+        public override string GetEquipmentName() {
+            return "Basic Trinket";
+        }
+
     }
 }

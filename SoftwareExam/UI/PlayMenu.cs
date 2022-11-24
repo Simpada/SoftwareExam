@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -211,10 +212,25 @@ namespace SoftwareExam.UI {
 ";
         }
 
-        public string GetArmoryBrowsing() {
+        public string GetArmoryBrowsing(string itemCard, List<string> descriptions, List<string> prices) {
+
+            string display = "";
+            for (int i = 0; i < descriptions.Count; i++) {
+                display += $"    |   [{i+1}] " + descriptions[i] 
+                    + "\n    |   Price: " + prices[i];
+                display += "\n    |-----------------------------------------\n";
+            }
 
             return $@"
+    CURRENT INVENTORY
+    [0] Return to Armory
 
+    |-----------------------------------------
+{itemCard}
+    |
+    |   AVAILABLE ITEMS: 
+    |_________________________________________
+{display}
 ";
         }
 

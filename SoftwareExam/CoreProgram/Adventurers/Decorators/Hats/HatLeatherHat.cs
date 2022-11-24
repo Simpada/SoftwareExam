@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
         public static string GetItemDescription()
         {
             return new HatLeatherHat(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Leather Hat";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new HatLeatherHat(new Warrior()).GetEquipmentName();
         }
     }
 }

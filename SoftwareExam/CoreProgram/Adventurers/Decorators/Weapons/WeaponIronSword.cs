@@ -26,5 +26,13 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponIronSword(new Warrior()).GetEquipmentDescription();
         }
+        public override string GetEquipmentName() {
+            return "Iron Sword";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponIronSword(new Warrior()).GetEquipmentName();
+        }
     }
 }

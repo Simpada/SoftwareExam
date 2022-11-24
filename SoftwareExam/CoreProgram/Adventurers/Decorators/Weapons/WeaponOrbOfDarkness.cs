@@ -30,5 +30,13 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponOrbOfDarkness(new Mage()).GetEquipmentDescription();
         }
+        public override string GetEquipmentName() {
+            return "Orb of Darkness";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponOrbOfDarkness(new Warrior()).GetEquipmentName();
+        }
     }
 }

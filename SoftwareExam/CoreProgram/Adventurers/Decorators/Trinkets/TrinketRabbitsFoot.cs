@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
+using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         {
             // This is kinda dumb, but it works without need for repeating code
             return new TrinketRabbitsFoot(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Rabbits Foot";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new TrinketRabbitsFoot(new Warrior()).GetEquipmentName();
         }
     }
 }

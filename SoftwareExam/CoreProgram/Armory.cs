@@ -115,6 +115,16 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+        public List<string> GetItemNames() {
+
+            List<string> Names = new();
+
+            foreach (var item in Inventory) {
+                Names.Add(ItemParser.GetItemName(item));
+            }
+            return Names;
+        }
+
         public List<string> GetItemDescriptions() {
 
             List<string> Descriptions = new();
@@ -122,10 +132,18 @@ namespace SoftwareExam.CoreProgram
             foreach(var item in Inventory) {
                 Descriptions.Add(ItemParser.GetItemDescription(item));
             }
-
             return Descriptions;
         }
 
+        public List<string> GetItemPrices() {
+
+            List<string> Prices = new();
+
+            foreach (var item in Inventory) {
+                Prices.Add(ItemParser.GetItemCost(item).ToString());
+            }
+            return Prices;
+        }
 
 
         public Adventurer BuyItem(int item, Adventurer adventurer)
@@ -136,5 +154,7 @@ namespace SoftwareExam.CoreProgram
 
             return ItemParser.GetItem(itemId, adventurer);
         }
+
+
     }
 }

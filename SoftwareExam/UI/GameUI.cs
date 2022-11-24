@@ -30,8 +30,8 @@ namespace SoftwareExam.UI {
             }
         }
 
-        // Interractions in the main menu
-        #region
+
+        #region Interractions in the main menu
         private void MainMenu() {
             Manager.Pause();
             Manager.Terminate();
@@ -178,7 +178,7 @@ namespace SoftwareExam.UI {
         #endregion
 
 
-        // Interraction in the game menu
+        
         
         private void UpdateUi() {
             Manager.Pause();
@@ -188,7 +188,7 @@ namespace SoftwareExam.UI {
             Manager.Resume();
         }
 
-        #region
+        #region Interraction in the game menu
         private void PlayGame() {
             Manager.Resume();
             ResetPlayMenu();
@@ -415,33 +415,38 @@ namespace SoftwareExam.UI {
 
                 if (input == '1') {
                     if (AdventurerCount >= 1) {
-                        
+                        ArmoryInventory(0);
                     } else {
-
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        continue;
                     }
                 } else if (input == '2') {
                     if (AdventurerCount >= 2) {
                     
                     } else {
-                    
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        continue;
                     }
                 } else if (input == '3') {
                     if (AdventurerCount >= 3) {
                     
                     } else {
-                    
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        continue;
                     }
                 } else if (input == '4') {
                     if (AdventurerCount >= 4) {
                     
                     } else {
-                    
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        continue;
                     }
                 } else if (input == '5') {
                     if (AdventurerCount >= 5) {
                     
                     } else {
-                    
+                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards()));
+                        continue;
                     }
                 } else if (input == '0') {
                     break;
@@ -452,6 +457,45 @@ namespace SoftwareExam.UI {
 
                 Ui = PlayMenu.GetArmory(Manager.GetAllItemCards());
             }
+        }
+
+        private void ArmoryInventory(int id) {
+
+            Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+
+
+            while (true) {
+
+                UpdateUi();
+
+                input = Console.ReadKey().KeyChar;
+
+                if (input == '1') {
+                    
+                } else if (input == '2') {
+                    
+                } else if (input == '3') {
+                    
+                } else if (input == '4') {
+                    
+                } else if (input == '5') {
+                    
+                } else if (input == '6') {
+                    
+                } else if (input == '7') {
+                    
+                } else if (input == '8') {
+                    
+                } else if (input == '0') {
+                    break;
+                } else {
+                    InvalidInput(PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()));
+                    continue;
+                }
+
+                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices());
+            }
+
         }
 
         private bool ExitMenu() {

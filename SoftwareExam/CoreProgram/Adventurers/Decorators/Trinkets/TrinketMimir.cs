@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,13 +22,22 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets
 
         public override string GetEquipmentDescription()
         {
-            return "Wise talking sevrered head. Grants +3 health and +5 luck";
+            return "Wise talking severed head. Grants +3 health and +5 luck";
         }
 
         public static string GetItemDescription()
         {
             // This is kinda dumb, but it works without need for repeating code
             return new TrinketMimir(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Mimir";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new TrinketMimir(new Warrior()).GetEquipmentName();
         }
     }
 }

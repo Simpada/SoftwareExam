@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,15 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
         {
             // This is kinda dumb, but it works without need for repeating code
             return new OffHandGiantsShield(new Mage()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Giant's Shield";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new OffHandGiantsShield(new Warrior()).GetEquipmentName();
         }
     }
 }

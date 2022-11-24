@@ -30,6 +30,16 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponBinosKitchenKnife(new Warrior()).GetEquipmentDescription();
         }
+        
+        public override string GetEquipmentName()
+        {
+            return "Bino's Kitchen Knife";
+        }
 
+        public static string GetItemName()
+        {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponBinosKitchenKnife(new Warrior()).GetEquipmentName();
+        }
     }
 }

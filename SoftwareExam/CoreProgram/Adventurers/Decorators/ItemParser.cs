@@ -12,6 +12,43 @@ using System.Threading.Tasks;
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
     public static class ItemParser {
 
+        public static string GetItemName(int id) {
+
+            return id switch {
+                101 => ArmorPlateArmor.GetItemName(),
+                102 => ArmorElvenRobe.GetItemName(),
+                103 => ArmorLeatherSuit.GetItemName(),
+                104 => ArmorFourCloverSuit.GetItemName(),
+                105 => ArmorOfGod.GetItemName(),
+
+                201 => HatPlateHelmet.GetItemName(),
+                202 => HatElvenTopHat.GetItemName(),
+                203 => HatHarlequinCrest.GetItemName(),
+                204 => HatJuggernautsHelmet.GetItemName(),
+                205 => HatLeatherHat.GetItemName(),
+
+                301 => OffHandWoodenShield.GetItemName(),
+                302 => OffHandSteelArrows.GetItemName(),
+                303 => OffHandBookOfWisdom.GetItemName(),
+                304 => OffHandMythrilShield.GetItemName(),
+                305 => OffHandGiantsShield.GetItemName(),
+
+                401 => TrinketRabbitsFoot.GetItemName(),
+                402 => TrinketTheChickens.GetItemName(),
+                403 => TrinketMimir.GetItemName(),
+                404 => TrinketRingOfPower.GetItemName(),
+                405 => TrinketFairyDust.GetItemName(),
+
+                501 => WeaponIronSword.GetItemName(),
+                502 => WeaponBinosKitchenKnife.GetItemName(),
+                503 => WeaponEldersStaff.GetItemName(),
+                504 => WeaponOrbOfDarkness.GetItemName(),
+                505 => WeaponWindripperBow.GetItemName(),
+                506 => WeaponSwordOfOmens.GetItemName(),
+                _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
+            };
+        }
+        
         public static string GetItemDescription(int id) {
 
             return id switch {

@@ -22,15 +22,22 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 
         public override string GetEquipmentDescription()
         {
-            return @"Only wielded by the Lord of the ThunderCats.
-                Chant the magical words to gain its powers.
-                Grants +15 damage and +10 luck";
+            return @"Only wielded by the Lord of the ThunderCats. Chant the magical words to gain its powers. Grants +15 damage and +10 luck";
         }
 
         public static string GetItemDescription()
         {
             // This is kinda dumb, but it works without need for repeating code
             return new WeaponSwordOfOmens(new Warrior()).GetEquipmentDescription();
+        }
+
+        public override string GetEquipmentName() {
+            return "Sword of Omens";
+        }
+
+        public static string GetItemName() {
+            // This is kinda dumb, but it works without need for repeating code
+            return new WeaponSwordOfOmens(new Warrior()).GetEquipmentName();
         }
     }
 }

@@ -111,6 +111,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         }
 
         public abstract string GetEquipmentDescription();
+        public abstract string GetEquipmentName();
 
         public Adventurer GetStartingGear() {
 
