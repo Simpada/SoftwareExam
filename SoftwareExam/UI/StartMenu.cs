@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace SoftwareExam.UI {
     public static class StartMenu {
 
-
         public static string GetStartingMenu() {
-
             return @"
      _____________________________________
     /                                     \
@@ -28,9 +26,7 @@ namespace SoftwareExam.UI {
 ";
         }
 
-
         public static string GetAboutMenu() {
-
             return @"
     [1] : Return
 
@@ -62,11 +58,9 @@ namespace SoftwareExam.UI {
 
     [1] : Return
 ";
-
         }
 
         public static string GetSaveMenu(string name1, string name2, string name3, string name4) {
-
             return $@"
      ___________________
     /                   \
@@ -92,11 +86,9 @@ namespace SoftwareExam.UI {
     
     [0] Return
 ";
-
         }
 
         public static string GetContinue() {
-
             return @"
     [1] Continue
     [2] New Game (Will delete the old save)
@@ -106,7 +98,6 @@ namespace SoftwareExam.UI {
         }
 
         public static string GetNewGame() {
-
             return @"
     Enter blank to Cancel
 

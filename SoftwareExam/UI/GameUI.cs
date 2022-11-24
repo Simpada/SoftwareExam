@@ -38,10 +38,9 @@ namespace SoftwareExam.UI {
             bool StartGame = false;
 
             while (!StartGame) {
-                
                 input = Console.ReadKey().KeyChar;
                 if (input == '1') {
-                    StartGame = LoadSave();
+                    StartGame = SelectSave();
                     if (!StartGame) {
                         Console.WriteLine(StartMenu.GetStartingMenu());
                     }
@@ -71,14 +70,13 @@ namespace SoftwareExam.UI {
             }
         }
 
-        private bool LoadSave() {
+        private bool SelectSave() {
 
             string[] savedNames = Manager.GetPlayers();
             Console.Clear();
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
             while (true) {
-
                 int SaveState;
                 int SaveSlot;
                 input = Console.ReadKey().KeyChar;
@@ -116,7 +114,6 @@ namespace SoftwareExam.UI {
                 Console.Clear();
                 Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
             }
-
             return true;
         }
 
@@ -156,7 +153,6 @@ namespace SoftwareExam.UI {
 
                 Name = Console.ReadLine();
 
-
                 if (Name != null && Regex.IsMatch(Name, @"^[a-zA-Z]+[a-zA-Z ]$")) {
                     Manager.NewGame(SaveFile, Name);
                     Manager.SaveGame();
@@ -174,17 +170,8 @@ namespace SoftwareExam.UI {
         #endregion
 
 
-        
-        
-        private void UpdateUi() {
-            Manager.Pause();
-            Console.Clear();
-            Console.WriteLine(Ui);
-            Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
-            Manager.Resume();
-        }
-
         #region Interraction in the game menu
+
         private void PlayGame() {
             Manager.Resume();
             ResetPlayMenu();
@@ -222,7 +209,48 @@ namespace SoftwareExam.UI {
                 }
             }
         }
+        private void ResetPlayMenu() {
+            Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString()) +
+                "\n\n" +
+                PlayMenu.GetVillage();
+        }
+        private bool ExitMenu() {
 
+            Manager.Pause();
+            Console.Clear();
+            Console.WriteLine(PlayMenu.GetExitMenu());
+
+            while (true) {
+
+                input = Console.ReadKey().KeyChar;
+                if (input == '1') {
+                    // Return directly to main menu
+                    return true;
+                } else if (input == '2') {
+                    // Save first, then return to main menu
+                    Manager.SaveGame();
+                    return true;
+                } else if (input == '3') {
+                    // Exit without saving
+                    Environment.Exit(0);
+                } else if (input == '4') {
+                    // Save first, then exit
+                    Manager.SaveGame();
+                    Environment.Exit(0);
+                } else if (input == '0') {
+                    // Back to Game
+                    return false;
+                } else {
+                    InvalidInput(PlayMenu.GetExitMenu());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
+                }
+
+            }
+        }
+
+
+        #region Guild Menu / Expedition UI
         private void GuildMenuSelectMap() {
 
             Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
@@ -315,6 +343,9 @@ namespace SoftwareExam.UI {
             return adventurerNr;
         }
 
+        #endregion
+
+        #region Tavern / Recruitment UI
         private void TavernMenu() {
 
             Ui = PlayMenu.GetTavern(Manager.GetAllAdventurerCards(), Manager.GetBalanceString());
@@ -413,8 +444,10 @@ namespace SoftwareExam.UI {
                 }
                 return;
             }
-}
+        }
+        #endregion
 
+        #region Armory / Purchase Items UI
         private void ArmoryMenu() {
             Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
 
@@ -518,48 +551,18 @@ namespace SoftwareExam.UI {
             }
 
         }
+        #endregion
 
-        private bool ExitMenu() {
 
+        #endregion
+
+        private void UpdateUi() {
             Manager.Pause();
             Console.Clear();
-            Console.WriteLine(PlayMenu.GetExitMenu());
-
-            while (true) {
-
-                input = Console.ReadKey().KeyChar;
-                if (input == '1') {
-                    // Return directly to main menu
-                    return true;
-                } else if (input == '2') {
-                    // Save first, then return to main menu
-                    Manager.SaveGame();
-                    return true;
-                } else if (input == '3') {
-                    // Exit without saving
-                    Environment.Exit(0);
-                } else if (input == '4') {
-                    // Save first, then exit
-                    Manager.SaveGame();
-                    Environment.Exit(0);
-                } else if (input == '0') {
-                    // Back to Game
-                    return false;
-                } else {
-                    InvalidInput(PlayMenu.GetExitMenu());
-                    Console.Clear();
-                    Console.WriteLine(Ui);
-                }
-
-            }
+            Console.WriteLine(Ui);
+            Console.WriteLine(PlayMenu.GetLog(Manager.GetLogMessage()));
+            Manager.Resume();
         }
-
-        private void ResetPlayMenu() {
-            Ui = PlayMenu.GetPlayMenu(Manager.GetAdventurerCount(), Manager.GetBalanceString())+ 
-                "\n\n" +
-                PlayMenu.GetVillage();
-        }
-        #endregion
 
         private void InvalidInput(string _display) {
             Ui = _display +

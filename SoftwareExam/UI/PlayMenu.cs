@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace SoftwareExam.UI {
     public static class PlayMenu {
 
+        #region Main Display / Log
 
         public static string GetLog(string log) {
             return $@"
     EXPEDITION LOG: 
 {log}";
         }
-
         
         public static string GetPlayMenu(int totalAdventurers, string balance) {
             return $@" 
@@ -46,7 +46,9 @@ namespace SoftwareExam.UI {
 ";
         }
 
+        #endregion
 
+        #region Guild House / Expeditions Display
         public static string GetGuildHouseExpeditions(string maps, string balance) {
 
             return $@"
@@ -71,7 +73,9 @@ namespace SoftwareExam.UI {
 {adventurerCards}
 ";
         }
+        #endregion
 
+        #region Tavern / Recruitment Display
         public static string GetTavern(string[] adventurerCards, string balance) {
 
             string[] cards = new string[adventurerCards.Length];
@@ -95,7 +99,6 @@ namespace SoftwareExam.UI {
                 MerchantDisplay += "\n    |-----------------------------------------\n";
             }
 
-
             return $@"
     YE OL' TAVERN
     [0] Return to town
@@ -108,7 +111,6 @@ namespace SoftwareExam.UI {
         }
 
         public static string GetTavernRecruiting(bool canAfford, string newBalance, string cost) {
-
 
             string balanceMessage;
             string[] buyMessage = new string[3];
@@ -165,7 +167,6 @@ namespace SoftwareExam.UI {
         }
 
         public static string GetTavernDismissing(string name, string profit) {
-
             return $@"
 
     Are you sure you want to dismiss {name}?
@@ -177,10 +178,11 @@ namespace SoftwareExam.UI {
 
 ";
         }
+        #endregion
 
+        #region Armory / Buy Gear Display
         public static string GetArmory(string[] ItemCards, string balance) {
              
-
             string[] cards = new string[ItemCards.Length];
 
             for (int i = 0; i < ItemCards.Length; i++) {
@@ -245,9 +247,8 @@ namespace SoftwareExam.UI {
     [4] Save and Quit Game
     [0] Resume Game
 ";
-
         }
-
     }
+    #endregion
 
 }
