@@ -68,7 +68,7 @@ namespace SoftwareExam.UI {
 
         private bool SelectSave() {
 
-            string[] savedNames = Manager.GetPlayers();
+            string[] savedNames = GameManager.GetPlayers();
             Console.Clear();
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
@@ -99,7 +99,6 @@ namespace SoftwareExam.UI {
                 }
 
                 if (SaveState >= 0) {
-                    Manager.Pause();
                     if (Continue(SaveSlot)) {
                         break;
                     }
@@ -108,7 +107,7 @@ namespace SoftwareExam.UI {
                         break;
                     }
                 }
-                savedNames = Manager.GetPlayers();
+                savedNames = GameManager.GetPlayers();
                 Console.Clear();
                 Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
             }
@@ -126,10 +125,10 @@ namespace SoftwareExam.UI {
                 if (input == '1') {
                     return true;
                 } else if (input == '2') {
-                    Manager.DeleteSave(SaveFile);
+                    GameManager.DeleteSave(SaveFile);
                     return NewGame(SaveFile);
                 } else if (input == '3') {
-                    Manager.DeleteSave(SaveFile);
+                    GameManager.DeleteSave(SaveFile);
                     return false;
                 } else if (input == '0') {
                     Console.Clear();
