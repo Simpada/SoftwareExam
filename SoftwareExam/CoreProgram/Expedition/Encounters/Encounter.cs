@@ -11,7 +11,6 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters
         protected string Description;
         protected Currency Reward;
 
-
         public Encounter(string adventurerName, int adventurerLuck, int adventurerDamage)
         {
             AdventurerName = adventurerName;
