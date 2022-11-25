@@ -2,7 +2,7 @@
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class BasicHat : BaseDecoratedAdventurer {
 
-        public BasicHat(Adventurer Adventurer) : base(Adventurer) {
+        public BasicHat(Adventurer adventurer) : base(adventurer) {
             ItemId = 200;
         }
         public override void EditStats() { }
