@@ -18,7 +18,7 @@ namespace SoftwareExam.CoreProgram {
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
 
-        private readonly object Lock = new();
+        private readonly object _lock = new();
 
         #region Setting and checking values
 
@@ -72,8 +72,9 @@ namespace SoftwareExam.CoreProgram {
             _balance = new Currency(copper, silver, gold);
         }
 
-        public void AlterCurrency(Currency currency, bool add) {
-            lock (Lock) {
+        public void AlterCurrency(Currency currency, bool add)
+        {
+            lock (_lock) {
                 if (add) {
                     _balance += currency;
                 } else {
@@ -83,8 +84,9 @@ namespace SoftwareExam.CoreProgram {
             }
         }
 
-        public void AddLogMessage(string logMessage) {
-            lock (Lock) {
+        public void AddLogMessage(string logMessage)
+        {
+            lock (_lock) {
                 if (Log.Count >= 5) {
                     Log.RemoveAt(0);
                 }
@@ -93,8 +95,9 @@ namespace SoftwareExam.CoreProgram {
         }
 
 
-        public string GetLogMessages() {
-            lock (Lock) {
+        public string GetLogMessages()
+        {
+            lock (_lock) {
                 string LogMessage = "";
                 for (int i = 0; i < Log.Count; i++) {
                     LogMessage += Log[i];
@@ -111,8 +114,9 @@ namespace SoftwareExam.CoreProgram {
         /// <summary>
         /// Completes a mission that the player has, removing it form the array, and granting the player its reward
         /// </summary>
-        public void CompleteMission() {
-            lock (Lock) {
+        public void CompleteMission()
+        {
+            lock (_lock) {
                 Mission? CompletedMission = null;
                 foreach (Mission mission in Missions) {
                     if (mission.Completed) {
@@ -131,8 +135,9 @@ namespace SoftwareExam.CoreProgram {
         /// Pauses or resumes all missions
         /// </summary>
         /// <param name="pause">Bool determining if its supposed to pause or resume</param>
-        public void Pause(bool pause) {
-            lock (Lock) {
+        public void Pause(bool pause)
+        {
+            lock (_lock) {
                 foreach (Mission mission in Missions) {
                     if (pause) {
                         mission.Pause();
