@@ -24,14 +24,20 @@ namespace SoftwareExam.CoreProgram.Expedition {
         /// <returns>The new Map</returns>
         public static Map GetMap(int difficulty) {
 
-            Random random = new();
+            Random Random = new();
+            
+            int gold = 4 * difficulty;
+            int silver = 0;
+            if (gold <= 0) {
+                silver = 5;
+            }
 
             Map Map = new() {
                 Difficulty = (Difficulties)difficulty,
-                Reward = Currency.Convert(new Currency(0, 40 * difficulty, 0)),
+                Reward = Currency.Convert(new Currency(0, silver, gold)),
                 ExpeditionCost = new Currency(0, 0, 3) * difficulty,
-                Encounters = (difficulty + 1) * (random.Next(4) + 2),
-                Location = GetLocation(random)
+                Encounters = (difficulty + 1) * (Random.Next(4) + 2),
+                Location = GetLocation(Random)
             };
             return Map;
         }
