@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram;
+using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.DataBase;
 
 /*
@@ -7,12 +8,10 @@ using SoftwareExam.DataBase;
  * 
  */
 
-namespace TestSoftwareExam
-{
-    public class UnitTestPlayerDatabase
-    {
+namespace TestSoftwareExam {
+    public class UnitTestPlayerDatabase {
         // Not true, it is never null
-        private DataBaseAccess DatabaseAccess;
+        private DataBaseAccess _databaseAccess;
 
 
         private void Prepare(string db) {
@@ -24,7 +23,7 @@ namespace TestSoftwareExam
                 }
             } catch (IOException) { }
 
-            DatabaseAccess = new("Data Source = " + db);
+            _databaseAccess = new("Data Source = " + db);
         }
 
         //[Test]
@@ -46,18 +45,25 @@ namespace TestSoftwareExam
         //}
 
         [Test]
-        public void TestRetriveAllPlayerNames()
-        {
+        public void TestRetriveAllPlayerNames() {
             Prepare("testDatabase2.db");
 
-            Player player1 = new(1, "one", new Currency(5, 5, 100));
-            Player player2 = new(2, "two", new Currency(5, 5, 100));
-            Player player3 = new(3, "three", new Currency(5, 5, 100));
-            DatabaseAccess.Save(player1);
-            DatabaseAccess.Save(player2);
-            DatabaseAccess.Save(player3);
+            Player player1 = new() {
+                Id = 1,
+                PlayerName = "one"};
+            Player player2 = new() {
+                Id = 2,
+                PlayerName = "two"
+            };
+            Player player3 = new() {
+                Id = 3,
+                PlayerName = "three"
+            };
+            _databaseAccess.SaveGame(player1);
+            _databaseAccess.SaveGame(player2);
+            _databaseAccess.SaveGame(player3);
 
-            string[] playerNames = DatabaseAccess.RetrieveAllPlayerNames();
+            string[] playerNames = _databaseAccess.RetrieveAllPlayerNames();
 
             foreach (string playerName in playerNames) {
                 Console.WriteLine("Player name: " + playerName);

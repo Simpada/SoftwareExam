@@ -1,12 +1,6 @@
-﻿using SoftwareExam.CoreProgram;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SoftwareExam.UI {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace SoftwareExam.UI {
     public static class PlayMenu {
 
         #region Main Display / Log
@@ -16,7 +10,7 @@ namespace SoftwareExam.UI {
     EXPEDITION LOG: 
 {log}";
         }
-        
+
         public static string GetPlayMenu(int totalAdventurers, string balance) {
             return $@" 
     THE ADVENTURER'S LEAGUE   
@@ -50,7 +44,6 @@ namespace SoftwareExam.UI {
 
         #region Guild House / Expeditions Display
         public static string GetGuildHouseExpeditions(string maps, string balance) {
-
             return $@"
     THE GUILD OF ADVENTURERS
     [0] Return to town
@@ -63,8 +56,6 @@ namespace SoftwareExam.UI {
         }
 
         public static string GetGuildHouseAdventurers(string adventurerCards) {
-
-           
             return $@"
     Available Adenturers:
     [0] Return to guild house
@@ -83,7 +74,7 @@ namespace SoftwareExam.UI {
             for (int i = 0; i < adventurerCards.Length; i++) {
 
                 if (string.IsNullOrEmpty(adventurerCards[i])) {
-                    cards[i] = $"    |\n    |\n    |\n    |       [{i+1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
+                    cards[i] = $"    |\n    |\n    |\n    |       [{i + 1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
                         $"{adventurerCards[i]}";
@@ -181,18 +172,25 @@ namespace SoftwareExam.UI {
         #endregion
 
         #region Armory / Buy Gear Display
-        public static string GetArmory(string[] ItemCards, string balance) {
-             
-            string[] cards = new string[ItemCards.Length];
+        public static string GetArmory(string[] itemCards, string balance) {
 
-            for (int i = 0; i < ItemCards.Length; i++) {
+            string[] cards = new string[itemCards.Length];
 
-                if (string.IsNullOrEmpty(ItemCards[i])) {
+            for (int i = 0; i < itemCards.Length; i++) {
+
+                if (string.IsNullOrEmpty(itemCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
                 } else {
-                    string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
-                        $"{ItemCards[i]}";
-                    cards[i] = TavernCard;
+
+                    string tavernCard;
+                    if (!itemCards[i].Contains("MISSION")) {
+                        tavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
+                        $"{itemCards[i]}";
+                    } else {
+                        tavernCard = $"{itemCards[i]}";
+                    }
+                    
+                    cards[i] = tavernCard;
                 }
             }
 
@@ -218,8 +216,8 @@ namespace SoftwareExam.UI {
 
             string display = "";
             for (int i = 0; i < descriptions.Count; i++) {
-                display += $"    |   [{i+1}] {names[i]}" 
-                    + $"\n    |   {descriptions[i]}" 
+                display += $"    |   [{i + 1}] {names[i]}"
+                    + $"\n    |   {descriptions[i]}"
                     + $"\n    |   Price:  {prices[i]}";
                 display += "\n    |-----------------------------------------\n";
             }
@@ -250,5 +248,4 @@ namespace SoftwareExam.UI {
         }
     }
     #endregion
-
 }

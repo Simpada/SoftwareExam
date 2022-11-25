@@ -1,33 +1,27 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
-    internal class OffHandWoodenShield : BasicOffHand {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class OffHandWoodenShield : BasicOffHand {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
-        public static new readonly Currency Cost = new(0,5,1);
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
+        public static new readonly Currency Cost = new(0, 5, 2);
 
         public OffHandWoodenShield(Adventurer adventurer) : base(adventurer) {
             ItemId = 301;
+
+            Value = BaseAdventurer.Value + Cost;
         }
 
         public override void EditStats() {
-            Health += 2;
+            Health += 1;
         }
 
-        public override string GetEquipmentDescription()
-        {
-            return "Regular wooden shield. Grants +2 health";
+        public override string GetEquipmentDescription() {
+            return "Regular off hand wooden shield. Grants +1 health";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new OffHandWoodenShield(new Warrior()).GetEquipmentDescription();
         }
 
@@ -36,7 +30,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new OffHandWoodenShield(new Warrior()).GetEquipmentName();
         }
     }

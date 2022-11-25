@@ -1,35 +1,27 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
-{
-    internal class OffHandMythrilShield : BasicOffHand
-    {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class OffHandMythrilShield : BasicOffHand {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0,0,12);
+        public static new readonly Currency Cost = new(0, 2, 8);
 
-        public OffHandMythrilShield(Adventurer adventurer) : base(adventurer)
-        {
+        public OffHandMythrilShield(Adventurer adventurer) : base(adventurer) {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 304;
         }
 
-        public override void EditStats()
-        {
-            Health += 10;
+        public override void EditStats() {
+            Health += 2;
+            Luck += 1;
         }
 
-        public override string GetEquipmentDescription()
-        {
-            return "Strongest shield. Grants +10 health";
+        public override string GetEquipmentDescription() {
+            return "A strong and light off hand shield. Grants +2 health, and +1 luck";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new OffHandMythrilShield(new Warrior()).GetEquipmentDescription();
         }
 
@@ -38,7 +30,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new OffHandMythrilShield(new Warrior()).GetEquipmentName();
         }
     }

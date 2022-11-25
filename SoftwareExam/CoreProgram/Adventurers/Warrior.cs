@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftwareExam.CoreProgram.Adventurers {
+﻿namespace SoftwareExam.CoreProgram.Adventurers {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Warrior : Adventurer {
 
         public Warrior() {
             Class = "Warrior";
-            Health = 10;
-            Damage = 5;
-            Luck = 5;
+            Health = 5;
+            Damage = 3;
+            Luck = 0;
 
             SymbolArray = new string[] {
                 " ______  ",
@@ -23,23 +18,14 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             };
         }
 
+        #region Necessary functions in the abstract class, but does nothing here
         public override string GetEquipmentDescription() {
-            throw new NotImplementedException();
+            return "";
         }
 
         public override string GetEquipmentName() {
-            throw new NotImplementedException();
+            return "";
         }
-
-        //    public override string ToString() {
-
-        //        return @$"    | ______    
-        //| | __ |    Name:   {Name}
-        //| | || |    Class:  {Class}
-        //| | || |    Health: {Health}
-        //| \ '' /    Damage: {Damage}
-        //|  \__/     Luck:   {Luck}";
-        //    }
-
+        #endregion
     }
 }

@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class BasicWeapon : BaseDecoratedAdventurer {
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
-    internal class BasicWeapon : BaseDecoratedAdventurer{
-        public BasicWeapon(Adventurer Adventurer) : base(Adventurer) {
+        public BasicWeapon(Adventurer adventurer) : base(adventurer) {
             ItemId = 500;
         }
-        public override void EditStats() {
-            
-        }
-
+        public override void EditStats() { }
         public override string GetEquipmentDescription() {
             return "There's nothing special about this weapon.";
         }
         public override string GetEquipmentName() {
             return "Basic Weapon";
         }
-
     }
 }

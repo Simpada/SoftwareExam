@@ -1,33 +1,27 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
-    internal class TrinketRabbitsFoot : BasicTrinket {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class TrinketRabbitsFoot : BasicTrinket {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0,5,2);
+        public static new readonly Currency Cost = new(0, 0, 2);
 
-        public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
+        public TrinketRabbitsFoot(Adventurer adventurer) : base(adventurer) {
             ItemId = 401;
+
+            Value = BaseAdventurer.Value + Cost;
         }
 
         public override void EditStats() {
-            Luck += 2;
+            Luck += 1;
         }
 
-        public override string GetEquipmentDescription()
-        {
-            return "This old smelly rabbit foot grants you +2 luck somehow";
+        public override string GetEquipmentDescription() {
+            return "This old smelly rabbit foot grants you +1 luck somehow";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new TrinketRabbitsFoot(new Mage()).GetEquipmentDescription();
         }
 
@@ -36,7 +30,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new TrinketRabbitsFoot(new Warrior()).GetEquipmentName();
         }
     }

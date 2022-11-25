@@ -1,36 +1,28 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
-{
-    internal class HatHarlequinCrest : BasicHat
-    {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class HatHarlequinCrest : BasicHat {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0,0,8);
+        public static new readonly string[] AllowedClasses = new string[] { "Mage", "Rogue"};
+        public static new readonly Currency Cost = new(0, 0, 10);
 
-        public HatHarlequinCrest(Adventurer adventurer) : base(adventurer)
-        {
+        public HatHarlequinCrest(Adventurer adventurer) : base(adventurer) {
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 203;
         }
 
-        public override void EditStats()
-        {
+        public override void EditStats() {
             Health += 1;
-            Luck += 10;
+            Damage += 1;
+            Luck += 3;
         }
 
-        public override string GetEquipmentDescription()
-        {
-            return "This hat was found on Hell difficulty in Diablo 2. Gives a lot of luck";
+        public override string GetEquipmentDescription() {
+            return "This hat was found on Hell difficulty in Diablo 2. Gives +1 health, +1 damage, and +3 luck!";
         }
 
-        public static string GetItemDescription()
-        {
+        public static string GetItemDescription() {
             return new HatHarlequinCrest(new Mage()).GetEquipmentDescription();
         }
 
@@ -39,7 +31,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new HatHarlequinCrest(new Warrior()).GetEquipmentName();
         }
     }

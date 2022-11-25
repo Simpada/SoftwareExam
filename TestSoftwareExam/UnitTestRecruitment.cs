@@ -1,26 +1,21 @@
-﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Adventurers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Economy;
 
 namespace TestSoftwareExam {
     internal class UnitTestRecruitment {
 
-        private Recruitment Recruitment;
+        private Recruitment _recruitment;
 
         [OneTimeSetUp]
         public void InitialSetUp() {
-            Recruitment = new Recruitment();
+            _recruitment = new Recruitment();
         }
 
-        [TestCase(1, "Warrior", 10, 5, 5)]
-        [TestCase(2, "Mage", 5, 10, 5)]
-        [TestCase(3, "Rogue", 5, 5, 10)]
-        public void TestFactory(int type, string expectedClass, int health, int damage, int luck) {
-            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, new(10, 10, 10));
+        [TestCase(1, "Warrior", 5, 3, 0)]
+        [TestCase(2, "Mage", 1, 6, 1)]
+        [TestCase(3, "Rogue", 2, 3, 3)]
+        public void TestRecruitment(int type, string expectedClass, int health, int damage, int luck) {
+            Adventurer? adventurer = _recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
             Assert.That(adventurer, Is.Not.Null);
 
@@ -30,6 +25,13 @@ namespace TestSoftwareExam {
                 Assert.That(adventurer.Damage, Is.EqualTo(damage));
                 Assert.That(adventurer.Luck, Is.EqualTo(luck));
             });
+        }
+
+        [Test]
+        public void TestRecruitmentNotEnoughMoney() {
+            Adventurer? adventurer = _recruitment.RecruitAdventurer(1, new(0, 5, 0));
+
+            Assert.That(adventurer, Is.Null);
         }
     }
 }

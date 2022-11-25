@@ -1,21 +1,18 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public abstract class BaseDecoratedAdventurer : Adventurer {
 
         public int ItemId { get; set; } = 0;
-
-        public static readonly string[] AllowedClasses = new string[] {"Warrior", "Mage", "Rogue"};
-
+        public static readonly string[] AllowedClasses = new string[] { "Warrior", "Mage", "Rogue" };
         public Adventurer BaseAdventurer { get; set; }
-
         public static readonly Currency Cost = new();
 
+        /// <summary>
+        /// Makes certain the decorator, inherits its base stats from its baseAdventurer
+        /// </summary>
+        /// <param name="Adventurer"></param>
         public BaseDecoratedAdventurer(Adventurer Adventurer) {
             Id = Adventurer.Id;
             BaseAdventurer = Adventurer;
@@ -30,6 +27,5 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         }
 
         public abstract void EditStats();
-
     }
 }
