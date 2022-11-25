@@ -13,6 +13,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 
         public WeaponSwordOfOmens(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 506;
         }
 

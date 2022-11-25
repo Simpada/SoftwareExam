@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
 
         public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
             ItemId = 401;
+
+            Value = BaseAdventurer.Value + Cost;
         }
 
         public override void EditStats() {

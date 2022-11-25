@@ -21,7 +21,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
 
         public string[] SymbolArray = new string[6];
 
-        public Currency Value { get; set; } = new Currency();
+        public Currency Value { get; set; } = new Currency(0,0,5);
 
         public List<BaseDecoratedAdventurer> Equipment { get; set; } = new();
         private readonly Random Random = new();

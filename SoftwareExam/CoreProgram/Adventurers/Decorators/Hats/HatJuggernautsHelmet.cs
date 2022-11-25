@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 
         public HatJuggernautsHelmet(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 204;
         }
 

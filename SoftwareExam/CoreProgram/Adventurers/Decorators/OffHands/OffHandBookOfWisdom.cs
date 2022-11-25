@@ -15,6 +15,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
 
         public OffHandBookOfWisdom(Adventurer Adventurer) : base(Adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 303;
         }
 

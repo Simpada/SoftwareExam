@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
 
         public OffHandMythrilShield(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 304;
         }
 

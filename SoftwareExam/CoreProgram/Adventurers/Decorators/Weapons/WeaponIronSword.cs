@@ -12,6 +12,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
         public static new readonly Currency Cost = new(0,0,1);
 
         public WeaponIronSword(Adventurer adventurer) : base(adventurer) {
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 501;
         }
 

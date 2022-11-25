@@ -12,6 +12,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
         public static new readonly Currency Cost = new(0,0,10);
 
         public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 101;
         }
 

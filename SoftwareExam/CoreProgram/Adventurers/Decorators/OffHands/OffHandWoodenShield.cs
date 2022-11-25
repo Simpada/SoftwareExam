@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
 
         public OffHandWoodenShield(Adventurer adventurer) : base(adventurer) {
             ItemId = 301;
+
+            Value = BaseAdventurer.Value + Cost;
         }
 
         public override void EditStats() {

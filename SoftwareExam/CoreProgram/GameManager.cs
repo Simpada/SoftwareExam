@@ -141,6 +141,14 @@ namespace SoftwareExam.CoreProgram
         }
 
         // Relates to adventurers
+
+
+        // Gets the amount of adventurer's the player has
+        public int GetAdventurerCount() {
+            return Player.Adventurers.Count;
+        }
+
+
         #region
         public bool RecruitAdventurer(int type) {
 
@@ -158,9 +166,6 @@ namespace SoftwareExam.CoreProgram
         public void DismissAdventurer(int who) {
             Player.Adventurers.RemoveAt(who);
         }
-
-
-
 
 
 
@@ -206,7 +211,6 @@ namespace SoftwareExam.CoreProgram
         }
 
 
-
         // Checks if the adventurer exists, and if it does, if it is on a mission
         public bool GetAvailability(int index) {
 
@@ -215,7 +219,6 @@ namespace SoftwareExam.CoreProgram
             }
             return false;
         }
-
 
         // Checks an adventurer's worth, currently doesn't work!!!
         public void GetAdventurerSellValue(int who, out string name, out string value) {
@@ -229,10 +232,6 @@ namespace SoftwareExam.CoreProgram
         }
 
 
-        // Gets the amount of adventurer's the player has
-        public int GetAdventurerCount() {
-            return Player.Adventurers.Count;
-        }
         #endregion
 
 

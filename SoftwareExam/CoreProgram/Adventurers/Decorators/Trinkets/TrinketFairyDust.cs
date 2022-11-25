@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets
 
         public TrinketFairyDust(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 405;
         }
 

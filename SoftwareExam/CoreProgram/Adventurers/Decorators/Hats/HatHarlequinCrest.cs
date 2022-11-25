@@ -15,6 +15,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
 
         public HatHarlequinCrest(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 203;
         }
 

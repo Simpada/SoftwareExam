@@ -15,6 +15,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
 
         public ArmorLeatherSuit(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 103;
         }
 

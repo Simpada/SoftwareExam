@@ -14,6 +14,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 
         public HatPlateHelmet(Adventurer adventurer) : base(adventurer) {
             ItemId = 201;
+
+            Value = BaseAdventurer.Value + Cost;
         }
 
         public override void EditStats() {

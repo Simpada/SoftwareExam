@@ -16,6 +16,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
 
         public ArmorOfGod(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 105;
         }
 

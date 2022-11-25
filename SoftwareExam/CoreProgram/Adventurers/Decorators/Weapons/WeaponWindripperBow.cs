@@ -13,6 +13,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 
         public WeaponWindripperBow(Adventurer adventurer) : base(adventurer)
         {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 505;
         }
 

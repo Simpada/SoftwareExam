@@ -13,6 +13,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
 
         public WeaponEldersStaff(Adventurer adventurer) : base(adventurer)
         {
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 503;
         }
 
