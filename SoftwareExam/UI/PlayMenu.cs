@@ -50,7 +50,6 @@ namespace SoftwareExam.UI {
 
         #region Guild House / Expeditions Display
         public static string GetGuildHouseExpeditions(string maps, string balance) {
-
             return $@"
     THE GUILD OF ADVENTURERS
     [0] Return to town
@@ -63,8 +62,6 @@ namespace SoftwareExam.UI {
         }
 
         public static string GetGuildHouseAdventurers(string adventurerCards) {
-
-           
             return $@"
     Available Adenturers:
     [0] Return to guild house

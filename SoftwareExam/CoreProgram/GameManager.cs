@@ -200,13 +200,7 @@ namespace SoftwareExam.CoreProgram
             string AvailableAdventurers = "";
 
             for (int i = 0; i < Player.Adventurers.Count; i++) {
-                if (Player.Adventurers[i].OnMission) {
-                    AvailableAdventurers += $"    |           ON A MISSION\n";
-                } else {
-                    AvailableAdventurers += $"    |       [{i + 1}] CHOOSE ADVENTURER\n";
-                }
-                AvailableAdventurers += Player.Adventurers[i].ToString();
-                AvailableAdventurers += "\n    |-----------------------------------------\n";
+                AvailableAdventurers += Player.Adventurers[i].GetAvailability(i+1);
             }
             return AvailableAdventurers;
         }

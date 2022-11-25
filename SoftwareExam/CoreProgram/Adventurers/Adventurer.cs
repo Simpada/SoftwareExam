@@ -82,7 +82,6 @@ namespace SoftwareExam.CoreProgram.Adventurers {
                     "Sophisticated"
                 });
 
-
             return $"{name} the {title}";
         }
 
@@ -155,6 +154,22 @@ namespace SoftwareExam.CoreProgram.Adventurers {
     |   Trinket:  {TrinketName}
     |             {Trinket}
     |";
+        }
+
+        public string GetAvailability(int index) {
+
+            string availability = "";
+
+            if (OnMission) {
+                availability += "    |           ON A MISSION\n";
+            } else {
+                availability += $"    |       [{index}] CHOOSE ADVENTURER\n";
+            }
+            availability += ToString();
+            availability += "\n    |-----------------------------------------\n";
+
+            return availability;
+
         }
 
         public abstract string GetEquipmentDescription();
