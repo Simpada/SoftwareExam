@@ -1,5 +1,9 @@
 ﻿namespace SoftwareExam.CoreProgram.Economy {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+    /// <summary>
+    /// A class that defines a special type of money system, with comparable, converters, and operator overloaders
+    /// </summary>
     public class Currency : IComparable {
 
         private int _gold;
@@ -17,7 +21,6 @@
             _silver = 0;
             _copper = 0;
         }
-
 
         #region Currency conversion
 
@@ -74,6 +77,7 @@
         }
         #endregion
 
+        #region Convertions and Comparisons
         //Converts all to copper to check price.
         public static int CheckPriceInCopper(Currency currency) {
             return currency._copper + currency._silver * 10 + currency._gold * 100;
@@ -109,7 +113,7 @@
         public override string ToString() {
             return $"GP: {_gold}, SP: {_silver}, CP: {_copper}";
         }
-
+        #endregion
 
         #region Operator overloading
 
@@ -149,7 +153,6 @@
             return !currency1.Equals(currency2);
         }
         #endregion
-
 
         #region Properties
 

@@ -3,6 +3,7 @@ using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
 
 namespace SoftwareExam.CoreProgram {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
     /// <summary>
     /// A facade that works as the middlepoint between all core game mechanics and classes
@@ -15,9 +16,6 @@ namespace SoftwareExam.CoreProgram {
         private Player _player;
         private readonly int _maxAdventurers = 5;
 
-        /// <summary>
-        /// Constructor for GameManager that sets up necessary classes
-        /// </summary>
         public GameManager() {
             _player = new();
             _recruitment = new();
@@ -41,24 +39,15 @@ namespace SoftwareExam.CoreProgram {
             _ = RecruitAdventurer(random.Next(3) + 1);
             SaveGame();
         }
-        /// <summary>
-        /// Tells the save manager to save the game, using the player object
-        /// </summary>
+
         public void SaveGame() {
             SaveManager.SaveGame(_player);
         }
-        /// <summary>
-        /// Tells the save manager to delete the save with a specific ID
-        /// </summary>
-        /// <param name="saveFile">What id to delete a save at</param>
+
         public static void DeleteSave(int saveFile) {
             SaveManager.DeleteSave(saveFile);
         }
-        /// <summary>
-        /// Tells the save manager to load a save at an id
-        /// </summary>
-        /// <param name="Id">the id of the save game to load</param>
-        /// <returns>The id of the player, if negative, no player was found</returns>
+
         public int LoadGame(int Id) {
 
             _player = SaveManager.LoadGame(_expeditions.Log, Id);
@@ -67,10 +56,6 @@ namespace SoftwareExam.CoreProgram {
             return _player.Id;
         }
 
-        /// <summary>
-        /// Gets a list of the names of all players
-        /// </summary>
-        /// <returns>A list of player names</returns>
         public static string[] GetPlayers() {
             return SaveManager.RetrieveAllPlayerNames();
         }
