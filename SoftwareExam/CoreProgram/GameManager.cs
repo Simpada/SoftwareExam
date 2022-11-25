@@ -1,9 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
-using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
-using SoftwareExam.DataBase;
-using System.Numerics;
 
 namespace SoftwareExam.CoreProgram
 {
