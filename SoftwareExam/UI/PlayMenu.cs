@@ -1,12 +1,5 @@
-﻿using SoftwareExam.CoreProgram;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftwareExam.UI {
+﻿namespace SoftwareExam.UI
+{
     public static class PlayMenu {
 
         #region Main Display / Log
@@ -178,17 +171,17 @@ namespace SoftwareExam.UI {
         #endregion
 
         #region Armory / Buy Gear Display
-        public static string GetArmory(string[] ItemCards, string balance) {
+        public static string GetArmory(string[] itemCards, string balance) {
              
-            string[] cards = new string[ItemCards.Length];
+            string[] cards = new string[itemCards.Length];
 
-            for (int i = 0; i < ItemCards.Length; i++) {
+            for (int i = 0; i < itemCards.Length; i++) {
 
-                if (string.IsNullOrEmpty(ItemCards[i])) {
+                if (string.IsNullOrEmpty(itemCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
-                        $"{ItemCards[i]}";
+                        $"{itemCards[i]}";
                     cards[i] = TavernCard;
                 }
             }
