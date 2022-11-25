@@ -2,13 +2,13 @@
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
+using System.Numerics;
 
 namespace SoftwareExam.CoreProgram
 {
     public class GameManager {
 
         private readonly Recruitment Recruitment;
-        private readonly DataBaseAccess DataBaseAccess;
         private readonly Armory Armory;
         private readonly Expeditions Expeditions;
         private Player Player;
@@ -16,86 +16,42 @@ namespace SoftwareExam.CoreProgram
 
         public GameManager() {
             Player = new Player();
-            DataBaseAccess = new DataBaseAccess("Data Source = AdventureLeague.db");
             Recruitment = new Recruitment();
             Armory = new Armory();
             Expeditions = new Expeditions(Player);
         }
 
 
-
-        // Core game functionalities
+        #region Core Functions
 
         // These we might want to move to a separate class
         public void NewGame(int saveFile, string name) {
-            Player.Id = saveFile;
-            Player.PlayerName = name;
-            Player.SetCurrency(0, 0, 7);
-            Player.Adventurers = new();
+            SaveManager.NewGame(Player, saveFile, name);
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
         }
         public void SaveGame() {
-            DataBaseAccess.Save(Player);
+            SaveManager.SaveGame(Player);
         }
         public void DeleteSave(int saveFile) {
-            DataBaseAccess.Delete(saveFile);
+            SaveManager.DeleteSave(saveFile);
         }
 
         public int LoadGame(int Id) {
 
-            //Maybe split the content here into a class called get Adventurers, and this calls that, then GetMissions
-            Player = DataBaseAccess.GetPlayerById(Id);
+            Player = SaveManager.LoadGame(Expeditions.Log, Id);
             Expeditions.Player = Player;
-
-            List<Adventurer> Adventurers = DataBaseAccess.GetAdventurers(Id);
-
-            for (int i = 0; i < Adventurers.Count; i++) {
-                List<int> itemCodes = DataBaseAccess.GetDecorators(Adventurers[i].Id);
-
-                foreach (int itemCode in itemCodes) {
-                    Adventurer.AddNewItem(ItemParser.GetItem(itemCode, Adventurers[i]));
-                }
-                Adventurers[i] = Adventurer.EquipGear(Adventurers[i]);
-            }
-
-            Player.Adventurers = Adventurers;
-
-            GetMissions(Id);
 
             return Player.Id;
         }
         // This one is a part of LoadGame above
-        public void GetMissions(int id) {
-            List<Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
-
-            foreach (var Mission in missions) {
-                Mission.Player = Player;
-
-                foreach (var Adventurer in Player.Adventurers) {
-                    if (Adventurer.Id == Mission.AdventurerId) {
-                        Mission.Adventurer = Adventurer;
-                        break;
-                    }
-                }
-                if (Mission.Adventurer == null) {
-                    throw new Exception("Adventurer cannot be found. Saving/loading process error");
-                }
-
-                Mission.LogWriter = Expeditions.Log;
-
-                Task.Run(() => Mission.Start());
-            }
-        }
 
 
 
         // Only for getting names
         public string[] GetPlayers() {
-            return DataBaseAccess.RetrieveAllPlayerNames();
+            return SaveManager.RetrieveAllPlayerNames();
         }
-
-
 
         // Core functions, but not related to save/load/new game or DB stuff
         public void Pause() {
@@ -116,10 +72,12 @@ namespace SoftwareExam.CoreProgram
             Player.TerminateMissions();
         }
 
+        #endregion
 
 
 
-        // Calls to The player object for information
+
+        #region Player Information
 
         public string GetLogMessage() {
             return Player.GetLogMessages();
@@ -129,27 +87,23 @@ namespace SoftwareExam.CoreProgram
             return Player.Balance.ToString();
         }
 
-
-
         // Calls recruitment to check balance
         public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
 
             canAfford = Recruitment.CheckBalance(Player.Balance);
             cost = Recruitment.Price.ToString();
             newBalance = (Player.Balance - Recruitment.Price).ToString();
-
         }
+        #endregion
 
-        // Relates to adventurers
 
+        #region Adventurers
 
         // Gets the amount of adventurer's the player has
         public int GetAdventurerCount() {
             return Player.Adventurers.Count;
         }
 
-
-        #region
         public bool RecruitAdventurer(int type) {
 
             Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player.Balance);
@@ -168,8 +122,16 @@ namespace SoftwareExam.CoreProgram
 
         }
 
+        // Checks if the adventurer exists, and if it does, if it is on a mission
+        public bool GetAvailability(int index) {
 
+            if (Player.Adventurers.Count >= index + 1) {
+                return !Player.Adventurers[index].OnMission;
+            }
+            return false;
+        }
 
+        #region Adventurer Strings for UI
 
         // Get's the adventurer card of all adventurers, this should probably be done in the player or elsewhere
         public string[] GetAllAdventurerCards() {
@@ -211,16 +173,6 @@ namespace SoftwareExam.CoreProgram
             return AvailableAdventurers;
         }
 
-
-        // Checks if the adventurer exists, and if it does, if it is on a mission
-        public bool GetAvailability(int index) {
-
-            if (Player.Adventurers.Count >= index + 1) {
-                return !Player.Adventurers[index].OnMission;
-            }
-            return false;
-        }
-
         // Checks an adventurer's worth, currently doesn't work!!!
         public void GetAdventurerSellValue(int who, out string name, out string value) {
 
@@ -232,6 +184,7 @@ namespace SoftwareExam.CoreProgram
             value = (adventurer.Value * sellMultiplier).ToString();
         }
 
+        #endregion
 
         #endregion
 
