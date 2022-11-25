@@ -4,10 +4,16 @@ using SoftwareExam.CoreProgram.Expedition.Encounters;
 using SoftwareExam.CoreProgram.Expedition.Encounters.Factory;
 
 namespace SoftwareExam.CoreProgram.Expedition {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    /// <summary>
+    /// Represents a mission that an adventurer undertakes
+    /// Handles generation of encounters, and the general running of the missions
+    /// Uses threads to allow multiple missions to be active while the player can still do other things
+    /// </summary>
     public class Mission {
         public Player Player { set; private get; }
         public LogWriter LogWriter { set; private get; }
-        private readonly ManualResetEvent TaskPauseEvent = new(true);
         public Adventurer Adventurer { get; set; }
         public int AdventurerHealth { get; set; } = 0;
         public int AdventurerId { get; set; } = -1;
@@ -17,23 +23,24 @@ namespace SoftwareExam.CoreProgram.Expedition {
         public string Destination { get; set; } = "";
         public Currency Reward { get; set; } = new();
         public Currency CompletionReward { get; set; } = new();
-        private string LogMessage = "";
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
+
         private bool _terminated = false;
+        private CancellationTokenSource _tokenSource = new();
+        private readonly CancellationToken _token;
+        private readonly ManualResetEvent _taskPauseEvent = new(true);
 
-        public CancellationTokenSource TokenSource = new();
-        private readonly CancellationToken Token;
-
+        private string LogMessage = "";
         private int[] WaitTimes;
         private readonly Random Random = new();
 
         public Mission() {
-            Token = TokenSource.Token;
+            _token = _tokenSource.Token;
         }
 
         public Mission(Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
-            Token = TokenSource.Token;
+            _token = _tokenSource.Token;
 
             Player = player;
             LogWriter = logWriter;
@@ -54,27 +61,35 @@ namespace SoftwareExam.CoreProgram.Expedition {
             TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
             PrepareMission(false);
         }
+        public void Pause() {
+            _taskPauseEvent.Reset();
+        }
+        public void Resume() {
+            _taskPauseEvent.Set();
+        }
+        /// <summary>
+        /// Terminates the running mission and its threads
+        /// </summary>
+        public void Terminate() {
+            _terminated = true;
+            _tokenSource.Cancel();
+        }
 
+        #region Setup
+
+        /// <summary>
+        /// Generates encounters for the missions based on encounter number
+        /// </summary>
         private void GenerateEncounters() {
             for (int i = 0; i < EncounterNumber; i++) {
 
                 int encounterType = Random.Next(20) + Adventurer.Luck;
-                IEncounterFactory encounterFactory;
-
-                switch (encounterType) {
-                    case >= 18:
-                    encounterFactory = new TreasureFactory();
-                    break;
-                    case >= 12:
-                    encounterFactory = new MonsterFactory();
-                    break;
-                    case >= 6:
-                    encounterFactory = new ExplorationFactory();
-                    break;
-                    default:
-                    encounterFactory = new TrapFactory();
-                    break;
-                }
+                IEncounterFactory encounterFactory = encounterType switch {
+                    >= 18 => new TreasureFactory(),
+                    >= 12 => new MonsterFactory(),
+                    >= 6 => new ExplorationFactory(),
+                    _ => new TrapFactory(),
+                };
                 Encounters.Add(encounterFactory.CreateEncounter(Adventurer.Name, Adventurer.Luck, Adventurer.Damage));
             }
         }
@@ -88,31 +103,40 @@ namespace SoftwareExam.CoreProgram.Expedition {
             PrepareMission(true);
         }
 
+        /// <summary>
+        /// Prepares a mission by setting up random values
+        /// </summary>
+        /// <param name="resume">To determine if its a new mission, or continuing one after a load</param>
         private void PrepareMission(bool resume) {
 
-            int[] EncounterTimes = new int[Encounters.Count];
+            int[] encounterTimes = new int[Encounters.Count];
 
             for (int i = 0; i < Encounters.Count; i++) {
                 int time = Random.Next(TimeLeft - 10) + 10;
-                EncounterTimes[i] = time;
+                encounterTimes[i] = time;
             }
-            Array.Sort(EncounterTimes);
+            Array.Sort(encounterTimes);
 
 
             int lastTime = 0;
             for (int i = 0; i < Encounters.Count; i++) {
-                int time = EncounterTimes[i] - lastTime;
+                int time = encounterTimes[i] - lastTime;
                 if (time <= 0) {
                     time = 1;
                 }
                 WaitTimes[i] = time;
-                lastTime = EncounterTimes[i];
+                lastTime = encounterTimes[i];
             }
 
             StartMission(resume);
-            //MissionTask.Start();
         }
+        #endregion
 
+        #region Running The Mission
+        /// <summary>
+        /// Runs the mission, starting tasks that run each encounter. The function is async, allowing it to run on its own
+        /// </summary>
+        /// <param name="resume">To determine if its a new mission, or continuing one after a load</param>
         private async void StartMission(bool resume) {
             if (!resume) {
                 LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
@@ -120,33 +144,30 @@ namespace SoftwareExam.CoreProgram.Expedition {
             }
 
             for (int i = 0; i < Encounters.Count; i++) {
-                Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
+                Task encounter = RunEncounter(Encounters[i], WaitTimes[i]);
 
-                await Task.WhenAny(Encounter);
-                TaskPauseEvent.WaitOne();
+                await Task.WhenAny(encounter);
+                _taskPauseEvent.WaitOne();
 
                 if (_terminated) {
                     break;
                 } else {
                     LogWriter.UpdateLog(Player, LogMessage);
                 }
-
             }
 
             if (!_terminated) {
                 try {
-                    await Task.Delay(5000, Token);
+                    await Task.Delay(5000, _token);
                 } catch (Exception) {
                 }
-                TaskPauseEvent.WaitOne();
+                _taskPauseEvent.WaitOne();
 
                 Reward += CompletionReward;
 
                 LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
                 CompleteMission();
             }
-
-
         }
 
         private void CompleteMission() {
@@ -159,8 +180,8 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
             try {
-                await Task.Delay(encounterTime * 1000, Token);
-            } catch (Exception e) {
+                await Task.Delay(encounterTime * 1000, _token);
+            } catch (Exception) {
             }
             TimeLeft -= encounterTime;
             bool success = Encounters[EncounterNumber - 1].RunEncounter(out Currency reward, out string description);
@@ -178,16 +199,6 @@ namespace SoftwareExam.CoreProgram.Expedition {
             }
             EncounterNumber--;
         }
-
-        public void Pause() {
-            TaskPauseEvent.Reset();
-        }
-        public void Resume() {
-            TaskPauseEvent.Set();
-        }
-        public void Terminate() {
-            _terminated = true;
-            TokenSource.Cancel();
-        }
+        #endregion
     }
 }

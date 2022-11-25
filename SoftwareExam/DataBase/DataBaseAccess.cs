@@ -5,37 +5,62 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
 using SoftwareExam.CoreProgram.Expedition;
 
-/**
- * SQLite AdoNet
- * Should take id, playerName, balance for now.
- *
- */
-
 namespace SoftwareExam.DataBase {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
+    /// <summary>
+    /// Manages interractions with the SQLite database
+    /// </summary>
     public class DataBaseAccess {
 
         //private InitializeDatabase InitDb;
-        private readonly string DataSource = "";
+        private readonly string _dataSource = "";
 
         public DataBaseAccess(string dataSource) {
-            using (SqliteConnection connection = new(dataSource)) {
-                connection.Open();
-                _ = new InitializeDatabase(dataSource);
-                DataSource = dataSource;
+            using SqliteConnection connection = new(dataSource);
+            connection.Open();
+            _ = new InitializeDatabase(dataSource);
+            _dataSource = dataSource;
+        }
+        public string[] RetrieveAllPlayerNames() {
+            using SqliteConnection connection = new(_dataSource);
+            connection.Open();
+
+            using SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                SELECT player_id, player_name
+                FROM players;
+            ";
+            command.ExecuteNonQuery();
+
+
+            string[] playerNames = new string[4];
+
+
+            using SqliteDataReader reader = command.ExecuteReader();
+            while (reader.Read()) {
+                playerNames[reader.GetInt32(0) - 1] = reader.GetString(1);
             }
+
+            for (int i = 0; i < playerNames.Length; i++) {
+                if (String.IsNullOrEmpty(playerNames[i])) {
+                    playerNames[i] = "Empty";
+                }
+            }
+            return playerNames;
         }
 
-        public void Save(Player player) {
+        #region Save
+        public void SaveGame(Player player) {
             if (CheckIfPlayerExists(player.Id)) {
                 Delete(player.Id);
             }
-            Add(player);
+            Save(player);
         }
 
         //Used to check if there is a player for overwriting a saved game.
         public bool CheckIfPlayerExists(int id) {
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -55,9 +80,8 @@ namespace SoftwareExam.DataBase {
             }
         }
 
-        //Should actually not access player - best way to return info?
-        public void Add(Player player) {
-            using SqliteConnection connection = new(DataSource);
+        public void Save(Player player) {
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -72,7 +96,6 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@gold", player.Balance.Gold);
             command.ExecuteNonQuery();
 
-
             //Save player logs
             for (int i = 0; i < player.Log.Count; i++) {
                 using SqliteCommand logsCommand = connection.CreateCommand();
@@ -84,7 +107,6 @@ namespace SoftwareExam.DataBase {
                 logsCommand.Parameters.AddWithValue("@playerId", player.Id);
                 logsCommand.ExecuteNonQuery();
             }
-
 
             for (int i = 0; i < player.Adventurers.Count; i++) {
                 using SqliteCommand adventurerCommand = connection.CreateCommand();
@@ -104,7 +126,6 @@ namespace SoftwareExam.DataBase {
                 adventurerCommand.Parameters.AddWithValue("@playerId", player.Id);
                 adventurerCommand.ExecuteNonQuery();
 
-
                 using SqliteCommand getIdCommand = connection.CreateCommand();
                 getIdCommand.CommandText = "SELECT MAX(adventurer_id) FROM adventurers";
                 getIdCommand.ExecuteNonQuery();
@@ -114,7 +135,6 @@ namespace SoftwareExam.DataBase {
                     id = reader.GetInt32(0);
                 }
                 player.Adventurers[i].Id = id;
-
 
                 for (var j = 0; j < 5; j++) {
                     using SqliteCommand decoratorCommand = connection.CreateCommand();
@@ -128,7 +148,7 @@ namespace SoftwareExam.DataBase {
                 }
             }
 
-            //Check if adv out on mission. Have to check which adventure is out on an adventure
+            //Places the missions a player has into the database
             for (int i = 0; i < player.Missions.Count; i++) {
                 using SqliteCommand missionCommand = connection.CreateCommand();
 
@@ -161,13 +181,12 @@ namespace SoftwareExam.DataBase {
                 missionCommand.ExecuteNonQuery();
             }
         }
+        #endregion
 
+        #region Load
+        public Player Load(int id) {
 
-        //LOAD GAME
-
-        public Player GetPlayerById(int id) {
-
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -213,7 +232,7 @@ namespace SoftwareExam.DataBase {
 
         public List<Adventurer> GetAdventurers(int id) {
 
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -256,13 +275,11 @@ namespace SoftwareExam.DataBase {
                 adventurers.Add(adventurer);
             }
             return adventurers;
-
-
         }
 
         public List<int> GetDecorators(int id) {
 
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -286,7 +303,7 @@ namespace SoftwareExam.DataBase {
 
         //Triple join. But could use list from GetAdventuerers
         public List<Mission> GetMissionsForAdventurers(int id) {
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -322,62 +339,11 @@ namespace SoftwareExam.DataBase {
             }
             return missions;
         }
+        #endregion
 
-        ////Only for testing
-        //public string GetPlayernameById(int id)
-        //{
-        //    using SqliteConnection connection = new(DataSource);
-        //    connection.Open();
-
-        //    using SqliteCommand command = connection.CreateCommand();
-        //    command.CommandText = @"
-        //        SELECT player_name
-        //        FROM players
-        //        WHERE player_id = @id;
-        //    ";
-        //    command.Parameters.AddWithValue("@id", id);
-        //    command.ExecuteNonQuery();
-
-        //    using SqliteDataReader reader = command.ExecuteReader();
-        //    if (reader.Read()) {
-        //        return reader.GetString(0);
-        //        //should also retrieve adventurer list later.
-        //    }
-        //    else {
-        //        return "";
-        //    }
-        //}
-
-        public string[] RetrieveAllPlayerNames() {
-            using SqliteConnection connection = new(DataSource);
-            connection.Open();
-
-            using SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-                SELECT player_id, player_name
-                FROM players;
-            ";
-            command.ExecuteNonQuery();
-
-
-            string[] playerNames = new string[4];
-
-
-            using SqliteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                playerNames[reader.GetInt32(0) - 1] = reader.GetString(1);
-            }
-
-            for (int i = 0; i < playerNames.Length; i++) {
-                if (String.IsNullOrEmpty(playerNames[i])) {
-                    playerNames[i] = "Empty";
-                }
-            }
-            return playerNames;
-        }
-
+        #region Delete
         public void Delete(int id) {
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -389,9 +355,10 @@ namespace SoftwareExam.DataBase {
             command.Parameters.AddWithValue("@id", id);
             command.ExecuteNonQuery();
         }
+        #endregion
 
         public void DropTable(string table) {
-            using SqliteConnection connection = new(DataSource);
+            using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
             using SqliteCommand command = connection.CreateCommand();
@@ -404,7 +371,5 @@ namespace SoftwareExam.DataBase {
             //command.Parameters.AddWithValue("@table", table);
             command.ExecuteNonQuery();
         }
-
-
     }
 }

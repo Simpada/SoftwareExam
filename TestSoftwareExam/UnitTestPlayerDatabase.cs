@@ -50,9 +50,9 @@ namespace TestSoftwareExam {
             Player player1 = new(1, "one", new Currency(5, 5, 100));
             Player player2 = new(2, "two", new Currency(5, 5, 100));
             Player player3 = new(3, "three", new Currency(5, 5, 100));
-            DatabaseAccess.Save(player1);
-            DatabaseAccess.Save(player2);
-            DatabaseAccess.Save(player3);
+            DatabaseAccess.SaveGame(player1);
+            DatabaseAccess.SaveGame(player2);
+            DatabaseAccess.SaveGame(player3);
 
             string[] playerNames = DatabaseAccess.RetrieveAllPlayerNames();
 

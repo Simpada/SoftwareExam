@@ -1,7 +1,8 @@
 ﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Expedition.Encounters {
-    internal class TreasureEncounter : Encounter {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class TreasureEncounter : Encounter {
         public TreasureEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage) {
         }
 
@@ -17,7 +18,6 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters {
                     " found coins on the ground.",
                     " discovered an abandoned dragon hoard."
             }) + $" They found {reward}.";
-
             return true;
         }
 

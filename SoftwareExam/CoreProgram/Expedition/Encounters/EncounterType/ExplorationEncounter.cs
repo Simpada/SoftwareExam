@@ -1,7 +1,8 @@
 ﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Expedition.Encounters {
-    internal class ExplorationEncounter : Encounter {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class ExplorationEncounter : Encounter {
         public ExplorationEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage) {
             Description = AdventurerName + PickOne(
                 new string[] {

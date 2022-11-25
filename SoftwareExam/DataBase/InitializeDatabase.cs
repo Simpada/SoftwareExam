@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 
 namespace SoftwareExam.DataBase {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class InitializeDatabase {
         private readonly string _dataSource;
 
@@ -18,7 +19,6 @@ namespace SoftwareExam.DataBase {
                 CreateTableLogs();
             }
         }
-
 
         public bool CheckIfDatabaseExists() {
             if (File.Exists(_dataSource)) {
@@ -113,7 +113,6 @@ namespace SoftwareExam.DataBase {
             ";
             command.ExecuteNonQuery();
         }
-
         private void CreateTableLogs() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
@@ -131,13 +130,6 @@ namespace SoftwareExam.DataBase {
                 )
             ";
             command.ExecuteNonQuery();
-        }
-
-
-        public string DataSource {
-            get {
-                return _dataSource;
-            }
         }
     }
 }
