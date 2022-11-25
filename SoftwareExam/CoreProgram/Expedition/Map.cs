@@ -37,7 +37,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 Difficulty = (Difficulties)difficulty,
                 Reward = Currency.Convert(new Currency(copper, silver, gold)),
                 ExpeditionCost = new Currency(0, 0, 3) * difficulty,
-                Encounters = (difficulty + 1) * (Random.Next(3) + 1),
+                Encounters = (difficulty + 1) * (Random.Next(4) + 2),
                 Location = GetLocation(Random)
             };
             return Map;

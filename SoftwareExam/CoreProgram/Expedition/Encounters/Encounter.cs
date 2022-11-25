@@ -7,8 +7,8 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters {
         protected readonly string AdventurerName;
         protected readonly int AdventurerLuck;
         protected readonly int AdventurerDamage;
-        protected string Description;
-        protected Currency Reward;
+        protected string Description = "";
+        protected Currency Reward = new();
 
         public Encounter(string adventurerName, int adventurerLuck, int adventurerDamage) {
             AdventurerName = adventurerName;

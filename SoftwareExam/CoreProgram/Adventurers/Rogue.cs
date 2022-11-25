@@ -4,9 +4,9 @@
 
         public Rogue() {
             Class = "Rogue";
-            Health = 5;
-            Damage = 5;
-            Luck = 10;
+            Health = 2;
+            Damage = 3;
+            Luck = 3;
 
             SymbolArray = new string[] {
                 "  |\\   ",

@@ -4,18 +4,18 @@ using SoftwareExam.CoreProgram.Economy;
 namespace TestSoftwareExam {
     internal class UnitTestRecruitment {
 
-        private Recruitment Recruitment;
+        private Recruitment _recruitment;
 
         [OneTimeSetUp]
         public void InitialSetUp() {
-            Recruitment = new Recruitment();
+            _recruitment = new Recruitment();
         }
 
         [TestCase(1, "Warrior", 10, 5, 5)]
         [TestCase(2, "Mage", 5, 10, 5)]
         [TestCase(3, "Rogue", 5, 5, 10)]
         public void TestRecruitment(int type, string expectedClass, int health, int damage, int luck) {
-            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, new(10, 10, 10));
+            Adventurer? adventurer = _recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
             Assert.That(adventurer, Is.Not.Null);
 
@@ -29,7 +29,7 @@ namespace TestSoftwareExam {
 
         [Test]
         public void TestRecruitmentNotEnoughMoney() {
-            Adventurer? adventurer = Recruitment.RecruitAdventurer(1, new(0, 5, 0));
+            Adventurer? adventurer = _recruitment.RecruitAdventurer(1, new(0, 5, 0));
 
             Assert.That(adventurer, Is.Null);
         }

@@ -17,7 +17,6 @@ namespace SoftwareExam.CoreProgram.Expedition {
         public Adventurer Adventurer { get; set; }
         public int AdventurerHealth { get; set; } = 0;
         public int AdventurerId { get; set; } = -1;
-        public Map? Map { get; set; }
         public List<Encounter> Encounters { get; set; } = new();
         public int EncounterNumber { get; set; }
         public string Destination { get; set; } = "";
@@ -46,8 +45,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
             LogWriter = logWriter;
             Adventurer = adventurer;
             AdventurerHealth = Adventurer.Health;
-            Map = map;
-            EncounterNumber = Map.Encounters;
+            EncounterNumber = map.Encounters;
 
             GenerateEncounters();
 
@@ -85,9 +83,9 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
                 int encounterType = Random.Next(20) + Adventurer.Luck;
                 IEncounterFactory encounterFactory = encounterType switch {
-                    >= 18 => new TreasureFactory(),
-                    >= 12 => new MonsterFactory(),
-                    >= 6 => new ExplorationFactory(),
+                    >= 20 => new TreasureFactory(),
+                    >= 14 => new MonsterFactory(),
+                    >= 8 => new ExplorationFactory(),
                     _ => new TrapFactory(),
                 };
                 Encounters.Add(encounterFactory.CreateEncounter(Adventurer.Name, Adventurer.Luck, Adventurer.Damage));
