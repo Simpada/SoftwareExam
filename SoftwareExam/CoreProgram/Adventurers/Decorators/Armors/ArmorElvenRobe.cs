@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     public class ArmorElvenRobe : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Mage" };
-        public static new readonly Currency Cost = new(0, 5, 2);
+        public static new readonly Currency Cost = new(0, 0, 8);
 
         public ArmorElvenRobe(Adventurer adventurer) : base(adventurer) {
 

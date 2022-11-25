@@ -14,11 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
         }
 
         public override void EditStats() {
-            Damage += 3;
+            Damage += 2;
         }
 
         public override string GetEquipmentDescription() {
-            return "Stronger than wooden arrows. Grants +3 damage";
+            return "These off hand arrows are stronger than wooden arrows. Grants +2 damage";
         }
 
         public static string GetItemDescription() {

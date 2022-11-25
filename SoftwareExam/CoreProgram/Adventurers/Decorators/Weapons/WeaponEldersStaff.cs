@@ -4,7 +4,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class WeaponEldersStaff : BasicWeapon {
         public static new readonly string[] AllowedClasses = new string[] { "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 6);
+        public static new readonly Currency Cost = new(0, 0, 5);
 
         public WeaponEldersStaff(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;
@@ -12,12 +12,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
         }
 
         public override void EditStats() {
-            Damage += +2;
-            Luck += 3;
+            Damage += 4;
         }
 
         public override string GetEquipmentDescription() {
-            return "Wisest staff of all. Grants +2 damage and +3 luck";
+            return "Wisest staff of all. Grants +4 damage";
         }
 
         public static string GetItemDescription() {

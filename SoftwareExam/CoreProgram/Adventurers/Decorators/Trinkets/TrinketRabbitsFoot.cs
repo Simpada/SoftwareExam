@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
     public class TrinketRabbitsFoot : BasicTrinket {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 5, 2);
+        public static new readonly Currency Cost = new(0, 0, 2);
 
         public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
             ItemId = 401;
@@ -14,11 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         }
 
         public override void EditStats() {
-            Luck += 2;
+            Luck += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "This old smelly rabbit foot grants you +2 luck somehow";
+            return "This old smelly rabbit foot grants you +1 luck somehow";
         }
 
         public static string GetItemDescription() {

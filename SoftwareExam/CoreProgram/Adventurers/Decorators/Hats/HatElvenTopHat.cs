@@ -4,8 +4,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class HatElvenTopHat : BasicHat {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Mage" };
-        public static new readonly Currency Cost = new(0, 5, 1);
+        public static new readonly string[] AllowedClasses = new string[] { "Mage", "Rogue" };
+        public static new readonly Currency Cost = new(0, 0, 4);
 
         public HatElvenTopHat(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;

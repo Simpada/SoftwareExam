@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     public class ArmorPlateArmor : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 0, 10);
+        public static new readonly Currency Cost = new(0, 0, 8);
 
         public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
 
@@ -14,11 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
         }
 
         public override void EditStats() {
-            Health += 5;
+            Health += 4;
         }
 
         public override string GetEquipmentDescription() {
-            return "This heavy armor grants a +5 boost to health.";
+            return "This heavy armor grants a +4 boost to health.";
         }
 
         public static string GetItemDescription() {

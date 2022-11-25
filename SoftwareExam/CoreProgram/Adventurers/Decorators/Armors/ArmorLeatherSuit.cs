@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     public class ArmorLeatherSuit : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue" };
-        public static new readonly Currency Cost = new(0, 0, 1);
+        public static new readonly Currency Cost = new(0, 0, 2);
 
         public ArmorLeatherSuit(Adventurer adventurer) : base(adventurer) {
 
@@ -14,12 +14,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
         }
 
         public override void EditStats() {
-            Health += 3;
+            Health += 1;
             Luck += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "This leather suit grants +3 boost to health and +1 to luck";
+            return "This leather armor grants +1 boost to health and +1 to luck";
         }
 
         public static string GetItemDescription() {

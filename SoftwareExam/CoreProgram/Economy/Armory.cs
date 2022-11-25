@@ -48,6 +48,7 @@ namespace SoftwareExam.CoreProgram.Economy {
             _offHands.Add(303);
             _offHands.Add(304);
             _offHands.Add(305);
+            _offHands.Add(306);
 
             _trinkets.Add(401);
             _trinkets.Add(402);
@@ -61,6 +62,7 @@ namespace SoftwareExam.CoreProgram.Economy {
             _weapons.Add(504);
             _weapons.Add(505);
             _weapons.Add(506);
+            _weapons.Add(507);
         }
         #endregion
 

@@ -4,7 +4,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class WeaponSwordOfOmens : BasicWeapon {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 0, 15);
+        public static new readonly Currency Cost = new(0, 0, 10);
 
         public WeaponSwordOfOmens(Adventurer adventurer) : base(adventurer) {
 
@@ -13,12 +13,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
         }
 
         public override void EditStats() {
-            Damage += +15;
-            Luck += 10;
+            Damage += 7;
         }
 
         public override string GetEquipmentDescription() {
-            return @"Only wielded by the Lord of the ThunderCats. Chant the magical words to gain its powers. Grants +15 damage and +10 luck";
+            return "Only wielded by the Lord of the ThunderCats. Chant the magical words to gain its powers. Grants +7 damage";
         }
 
         public static string GetItemDescription() {

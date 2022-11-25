@@ -3,8 +3,8 @@
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class HatLeatherHat : BasicHat {
-        public static new readonly string[] AllowedClasses = new string[] { "Rogue" };
-        public static new readonly Currency Cost = new(0, 0, 5);
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior","Rogue" };
+        public static new readonly Currency Cost = new(0, 0, 1);
 
         public HatLeatherHat(Adventurer adventurer) : base(adventurer) {
 
@@ -13,12 +13,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
         }
 
         public override void EditStats() {
-            Health += 2;
-            Luck += 2;
+            Health += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "Leather hat grants +2 health and +2 luck";
+            return "Leather hat grants +1 health";
         }
 
         public static string GetItemDescription() {

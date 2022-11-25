@@ -3,8 +3,8 @@
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class WeaponBinosKitchenKnife : BasicWeapon {
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue" };
-        public static new readonly Currency Cost = new(0, 0, 9);
+        public static new readonly string[] AllowedClasses = new string[] { "Rogue" };
+        public static new readonly Currency Cost = new(0, 0, 11);
 
         public WeaponBinosKitchenKnife(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;
@@ -12,12 +12,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
         }
 
         public override void EditStats() {
-            Damage += +5;
+            Damage += +6;
             Luck += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "Bino does not like his kitchen dagger stolen. Grants +5 damage and +1 luck";
+            return "Bino does not like his kitchen dagger stolen. Grants +6 damage and +1 luck";
         }
 
         public static string GetItemDescription() {

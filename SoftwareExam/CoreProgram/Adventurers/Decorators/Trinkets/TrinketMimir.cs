@@ -4,7 +4,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TrinketMimir : BasicTrinket {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 5);
+        public static new readonly Currency Cost = new(0, 0, 9);
 
         public TrinketMimir(Adventurer adventurer) : base(adventurer) {
 
@@ -13,12 +13,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         }
 
         public override void EditStats() {
-            Health += 3;
-            Luck += 5;
+            Health += 2;
+            Luck += 3;
         }
 
         public override string GetEquipmentDescription() {
-            return "Wise talking severed head. Grants +3 health and +5 luck";
+            return "Wise talking severed head. Grants +2 health and +3 luck";
         }
 
         public static string GetItemDescription() {

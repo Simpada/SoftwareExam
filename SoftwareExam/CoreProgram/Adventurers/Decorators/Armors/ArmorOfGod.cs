@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     public class ArmorOfGod : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 1000);
+        public static new readonly Currency Cost = new(2, 5, 25);
 
         public ArmorOfGod(Adventurer adventurer) : base(adventurer) {
 
@@ -14,12 +14,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
         }
 
         public override void EditStats() {
-            Health += 777;
-            Luck += 777;
+            Health += 7;
+            Luck += 7;
         }
 
         public override string GetEquipmentDescription() {
-            return "You are basically immortal now";
+            return "This divine armor shines with brilliant light and grants +7 health and +7 luck";
         }
 
         public static string GetItemDescription() {

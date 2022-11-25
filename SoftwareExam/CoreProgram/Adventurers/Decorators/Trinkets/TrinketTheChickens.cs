@@ -4,7 +4,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TrinketTheChickens : BasicTrinket {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 8);
+        public static new readonly Currency Cost = new(6, 6, 6);
 
         public TrinketTheChickens(Adventurer adventurer) : base(adventurer) {
 
@@ -13,11 +13,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         }
 
         public override void EditStats() {
-            Damage += 7;
+            Damage += 4;
         }
 
         public override string GetEquipmentDescription() {
-            return "Bullying chickens will bring its army of doom. Grants +7 damage";
+            return "Bullying chickens will bring its army of doom. Grants +4 damage";
         }
 
         public static string GetItemDescription() {

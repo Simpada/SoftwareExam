@@ -4,8 +4,8 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class HatHarlequinCrest : BasicHat {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 8);
+        public static new readonly string[] AllowedClasses = new string[] { "Mage", "Rogue"};
+        public static new readonly Currency Cost = new(0, 0, 10);
 
         public HatHarlequinCrest(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;
@@ -14,11 +14,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 
         public override void EditStats() {
             Health += 1;
-            Luck += 10;
+            Damage += 1;
+            Luck += 3;
         }
 
         public override string GetEquipmentDescription() {
-            return "This hat was found on Hell difficulty in Diablo 2. Gives a lot of luck";
+            return "This hat was found on Hell difficulty in Diablo 2. Gives +1 health, +1 damage, and +3 luck!";
         }
 
         public static string GetItemDescription() {

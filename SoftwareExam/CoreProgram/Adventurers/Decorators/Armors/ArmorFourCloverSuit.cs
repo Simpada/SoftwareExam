@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
     public class ArmorFourCloverSuit : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(3, 3, 3);
+        public static new readonly Currency Cost = new(9, 9, 9);
 
         public ArmorFourCloverSuit(Adventurer adventurer) : base(adventurer) {
 
@@ -14,11 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
         }
 
         public override void EditStats() {
-            Luck += 5;
+            Luck += 4;
         }
 
         public override string GetEquipmentDescription() {
-            return "This ultra lucky suit grants no health but +5 luck!";
+            return "This ultra lucky armor grants no health but +4 luck!";
         }
 
         public static string GetItemDescription() {

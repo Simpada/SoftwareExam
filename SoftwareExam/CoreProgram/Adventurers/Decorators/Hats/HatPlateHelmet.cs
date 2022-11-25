@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
     public class HatPlateHelmet : BasicHat {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 0, 2);
+        public static new readonly Currency Cost = new(0, 5, 3);
 
         public HatPlateHelmet(Adventurer adventurer) : base(adventurer) {
             ItemId = 201;
@@ -14,7 +14,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
         }
 
         public override void EditStats() {
-            Health += 4;
+            Health += 2;
         }
 
         public override string GetEquipmentDescription() {

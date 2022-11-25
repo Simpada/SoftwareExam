@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
     public class OffHandBookOfWisdom : BasicOffHand {
 
         public static new readonly string[] AllowedClasses = new string[] { "Mage" };
-        public static new readonly Currency Cost = new(0, 5, 3);
+        public static new readonly Currency Cost = new(0, 0, 5);
 
         public OffHandBookOfWisdom(Adventurer Adventurer) : base(Adventurer) {
 
@@ -18,7 +18,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
         }
 
         public override string GetEquipmentDescription() {
-            return "This book contains ancient knowledge. Grants +3 damage";
+            return "This off hand book contains ancient knowledge. Grants +3 damage";
         }
 
         public static string GetItemDescription() {

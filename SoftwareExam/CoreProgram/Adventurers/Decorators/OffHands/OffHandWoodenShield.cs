@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
     public class OffHandWoodenShield : BasicOffHand {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 5, 1);
+        public static new readonly Currency Cost = new(0, 5, 2);
 
         public OffHandWoodenShield(Adventurer adventurer) : base(adventurer) {
             ItemId = 301;
@@ -14,11 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
         }
 
         public override void EditStats() {
-            Health += 2;
+            Health += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "Regular wooden shield. Grants +2 health";
+            return "Regular off hand wooden shield. Grants +1 health";
         }
 
         public static string GetItemDescription() {

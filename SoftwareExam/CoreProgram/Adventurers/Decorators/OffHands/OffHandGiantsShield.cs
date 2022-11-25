@@ -5,7 +5,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
     public class OffHandGiantsShield : BasicOffHand {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 0, 10);
+        public static new readonly Currency Cost = new(0, 0, 7);
 
         public OffHandGiantsShield(Adventurer adventurer) : base(adventurer) {
 
@@ -14,12 +14,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands {
         }
 
         public override void EditStats() {
-            Health += 15;
-            Luck -= 3;
+            Health += 3;
         }
 
         public override string GetEquipmentDescription() {
-            return "Very heavy and big shield. Grants +15 health but -3 luck";
+            return "Very heavy and big off hand shield. Grants +3 health";
         }
 
         public static string GetItemDescription() {

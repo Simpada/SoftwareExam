@@ -2,33 +2,35 @@
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public class HatJuggernautsHelmet : BasicHat {
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
-        public static new readonly Currency Cost = new(0, 0, 7);
+    public class HatWizardHat : BasicHat {
+        public static new readonly string[] AllowedClasses = new string[] { "Mage" };
+        public static new readonly Currency Cost = new(5, 5, 5);
 
-        public HatJuggernautsHelmet(Adventurer adventurer) : base(adventurer) {
+        public HatWizardHat(Adventurer adventurer) : base(adventurer) {
 
             Value = BaseAdventurer.Value + Cost;
             ItemId = 204;
         }
 
         public override void EditStats() {
-            Health += 5;
+            Health += 1;
+            Damage += 1;
+            Luck += 1;
         }
 
         public override string GetEquipmentDescription() {
-            return "Orange flat helmet but grants +5 health";
+            return "This pointy hat grants +1 health, damage, and luck!";
         }
 
         public static string GetItemDescription() {
-            return new HatJuggernautsHelmet(new Mage()).GetEquipmentDescription();
+            return new HatWizardHat(new Mage()).GetEquipmentDescription();
         }
         public override string GetEquipmentName() {
-            return "Juggernauts Helmet";
+            return "Wizard Hat";
         }
 
         public static string GetItemName() {
-            return new HatJuggernautsHelmet(new Warrior()).GetEquipmentName();
+            return new HatWizardHat(new Warrior()).GetEquipmentName();
         }
     }
 }

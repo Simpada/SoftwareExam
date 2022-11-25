@@ -4,7 +4,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TrinketRingOfPower : BasicTrinket {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
-        public static new readonly Currency Cost = new(0, 0, 4);
+        public static new readonly Currency Cost = new(9, 7, 13);
 
         public TrinketRingOfPower(Adventurer adventurer) : base(adventurer) {
 
@@ -13,11 +13,12 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         }
 
         public override void EditStats() {
-            Damage += 10;
+            Damage += 5;
+            Luck += 2;
         }
 
         public override string GetEquipmentDescription() {
-            return "Magical ring. Grants +10 damage";
+            return "This magical ring has some weird text that appears when its near fire. Grants +5 damage and +2 luck";
         }
 
         public static string GetItemDescription() {
