@@ -12,10 +12,10 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
         /// <summary>
         /// Makes certain the decorator, inherits its base stats from its baseAdventurer
         /// </summary>
-        /// <param name="Adventurer"></param>
-        public BaseDecoratedAdventurer(Adventurer Adventurer) {
-            Id = Adventurer.Id;
-            BaseAdventurer = Adventurer;
+        /// <param name="adventurer"></param>
+        public BaseDecoratedAdventurer(Adventurer adventurer) {
+            Id = adventurer.Id;
+            BaseAdventurer = adventurer;
             Health = BaseAdventurer.Health;
             Damage = BaseAdventurer.Damage;
             Luck = BaseAdventurer.Luck;

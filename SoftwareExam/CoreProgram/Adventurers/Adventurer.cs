@@ -21,7 +21,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         public bool OnMission { get; set; } = false;
         public string[] SymbolArray = new string[6];
 
-        private readonly Random random = new();
+        private readonly Random _random = new();
 
         public Adventurer() {
             Name = RandomName();
@@ -85,7 +85,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         }
 
         private string PickOne(string[] alternatives) {
-            return alternatives[random.Next(alternatives.Length)];
+            return alternatives[_random.Next(alternatives.Length)];
         }
 
         /// <summary>
@@ -238,26 +238,26 @@ namespace SoftwareExam.CoreProgram.Adventurers {
         /// <summary>
         /// Recursive method that finds the core adventurer, one without any items or decorators
         /// </summary>
-        /// <param name="ParentAdventurer">The adventurer to check if it no longer has decorators</param>
+        /// <param name="_parentAdventurer">The adventurer to check if it no longer has decorators</param>
         /// <returns>The adventurer without any decorators</returns>
-        public static Adventurer FindBase(BaseDecoratedAdventurer ParentAdventurer) {
+        public static Adventurer FindBase(BaseDecoratedAdventurer _parentAdventurer) {
 
-            if (ParentAdventurer.BaseAdventurer is BaseDecoratedAdventurer DecoratedAdventurer) {
-                return FindBase(DecoratedAdventurer);
+            if (_parentAdventurer.BaseAdventurer is BaseDecoratedAdventurer _decoratedAdventurer) {
+                return FindBase(_decoratedAdventurer);
             } else {
-                return ParentAdventurer.BaseAdventurer;
+                return _parentAdventurer.BaseAdventurer;
             }
         }
 
         /// <summary>
         /// Makes sure that stat increases are kept as items are equipped
         /// </summary>
-        /// <param name="BaseAdventurer"></param>
-        public void InheritStats(Adventurer BaseAdventurer) {
+        /// <param name="_baseAdventurer"></param>
+        public void InheritStats(Adventurer _baseAdventurer) {
 
-            Health = BaseAdventurer.Health;
-            Damage = BaseAdventurer.Damage;
-            Luck = BaseAdventurer.Luck;
+            Health = _baseAdventurer.Health;
+            Damage = _baseAdventurer.Damage;
+            Luck = _baseAdventurer.Luck;
 
         }
 

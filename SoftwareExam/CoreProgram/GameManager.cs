@@ -52,9 +52,9 @@ namespace SoftwareExam.CoreProgram {
             SaveManager.DeleteSave(saveFile);
         }
 
-        public int LoadGame(int Id) {
+        public int LoadGame(int id) {
 
-            _player = SaveManager.LoadGame(_expeditions.Log, Id);
+            _player = SaveManager.LoadGame(_expeditions.Log, id);
             _expeditions.Player = _player;
 
             return _player.Id;

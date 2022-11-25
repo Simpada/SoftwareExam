@@ -20,14 +20,14 @@ namespace SoftwareExam.DataBase {
             }
         }
 
-        public bool CheckIfDatabaseExists() {
+        private bool CheckIfDatabaseExists() {
             if (File.Exists(_dataSource)) {
                 return true;
             }
             return false;
         }
 
-        public void CreateTablePlayer() {
+        private void CreateTablePlayer() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
@@ -45,7 +45,7 @@ namespace SoftwareExam.DataBase {
             command.ExecuteNonQuery();
         }
 
-        public void CreateTableAdventurers() {
+        private void CreateTableAdventurers() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
