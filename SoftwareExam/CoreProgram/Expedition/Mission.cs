@@ -27,8 +27,9 @@ namespace SoftwareExam.CoreProgram.Expedition
         public CancellationTokenSource TokenSource = new();
         private readonly CancellationToken Token;
 
-        private int[] WaitTimes;
-        private readonly Random Random = new();
+        private string _logMessage = "";
+        private int[] _waitTimes;
+        private readonly Random _random = new();
 
         public Mission()
         {
@@ -48,14 +49,14 @@ namespace SoftwareExam.CoreProgram.Expedition
 
             GenerateEncounters();
 
-            WaitTimes = new int[EncounterNumber];
+            _waitTimes = new int[EncounterNumber];
             CompletionReward = map.Reward;
             Destination = map.Location;
 
             Player.Missions.Add(this);
             Adventurer.OnMission = true;
 
-            TimeLeft = Random.Next(Encounters.Count * 10) + Encounters.Count * 10;
+            TimeLeft = _random.Next(Encounters.Count * 10) + Encounters.Count * 10;
             PrepareMission(false);
         }
 
@@ -63,23 +64,13 @@ namespace SoftwareExam.CoreProgram.Expedition
         {
             for (int i = 0; i < EncounterNumber; i++) {
 
-                int encounterType = Random.Next(20) + Adventurer.Luck;
-                EncounterFactory encounterFactory;
-
-                switch (encounterType) {
-                    case >= 18:
-                        encounterFactory = new TreasureFactory();
-                        break;
-                    case >= 12:
-                        encounterFactory = new MonsterFactory();
-                        break;
-                    case >= 6:
-                        encounterFactory = new ExplorationFactory();
-                        break;
-                    default:
-                        encounterFactory = new TrapFactory();
-                        break;
-                }
+                int encounterType = _random.Next(20) + Adventurer.Luck;
+                IEncounterFactory encounterFactory = encounterType switch {
+                    >= 20 => new TreasureFactory(),
+                    >= 14 => new MonsterFactory(),
+                    >= 8 => new ExplorationFactory(),
+                    _ => new TrapFactory(),
+                };
                 Encounters.Add(encounterFactory.CreateEncounter(Adventurer.Name, Adventurer.Luck, Adventurer.Damage));
             }
         }
@@ -87,7 +78,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         public void Start()
         {
             GenerateEncounters();
-            WaitTimes = new int[EncounterNumber];
+            _waitTimes = new int[EncounterNumber];
             Player.Missions.Add(this);
             Adventurer.OnMission = true;
 
@@ -100,8 +91,8 @@ namespace SoftwareExam.CoreProgram.Expedition
             int[] EncounterTimes = new int[Encounters.Count];
 
             for (int i = 0; i < Encounters.Count; i++) {
-                int time = Random.Next(TimeLeft - 10) + 10;
-                EncounterTimes[i] = time;
+                int time = _random.Next(TimeLeft - 10) + 10;
+                encounterTimes[i] = time;
             }
             Array.Sort(EncounterTimes);
 
@@ -112,8 +103,8 @@ namespace SoftwareExam.CoreProgram.Expedition
                 if (time <= 0) {
                     time = 1;
                 }
-                WaitTimes[i] = time;
-                lastTime = EncounterTimes[i];
+                _waitTimes[i] = time;
+                lastTime = encounterTimes[i];
             }
 
             StartMission(resume);
@@ -123,19 +114,19 @@ namespace SoftwareExam.CoreProgram.Expedition
         private async void StartMission(bool resume)
         {
             if (!resume) {
-                LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
-                LogWriter.UpdateLog(Player, LogMessage);
+                _logMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
+                LogWriter.UpdateLog(Player, _logMessage);
             }
 
             for (int i = 0; i < Encounters.Count; i++) {
-                Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
+                Task encounter = RunEncounter(Encounters[i], _waitTimes[i]);
 
                 await Task.WhenAny(Encounter);
 
                 if (Terminated) {
                     break;
                 } else {
-                    LogWriter.UpdateLog(Player, LogMessage);
+                    LogWriter.UpdateLog(Player, _logMessage);
                 }
 
             }
@@ -149,16 +140,15 @@ namespace SoftwareExam.CoreProgram.Expedition
                 }
                 Reward += CompletionReward;
 
-                LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
+                _logMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
                 CompleteMission();
             }
 
 
         }
 
-        private void CompleteMission()
-        {
-            LogWriter.UpdateLog(Player, LogMessage);
+        private void CompleteMission() {
+            LogWriter.UpdateLog(Player, _logMessage);
             Adventurer.OnMission = false;
 
             Completed = true;
@@ -173,7 +163,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             }
             TimeLeft -= encounterTime;
             bool success = Encounters[EncounterNumber - 1].RunEncounter(out Currency reward, out string description);
-            LogMessage = "    - " + description;
+            _logMessage = "    - " + description;
 
             if (success) {
                 Reward += reward;
@@ -181,7 +171,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             else {
                 AdventurerHealth--;
                 if (AdventurerHealth <= 0) {
-                    LogMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
+                    _logMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
                     CompleteMission();
                     Terminate();
                 }
