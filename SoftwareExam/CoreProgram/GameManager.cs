@@ -17,7 +17,7 @@ namespace SoftwareExam.CoreProgram {
         private readonly int _maxAdventurers = 5;
 
         public GameManager() {
-            _player = new();
+            _player = new Player();
             _recruitment = new();
             _armory = new();
             _expeditions = new(_player);
@@ -31,8 +31,10 @@ namespace SoftwareExam.CoreProgram {
         /// <param name="saveFile">which </param>
         /// <param name="name"></param>
         public void NewGame(int saveFile, string name) {
-            _player.Id = saveFile;
-            _player.PlayerName = name;
+            _player = new() {
+                Id = saveFile,
+                PlayerName = name
+            };
             _player.SetCurrency(0, 0, 12);
             _player.Adventurers = new();
             Random random = new();
@@ -79,6 +81,7 @@ namespace SoftwareExam.CoreProgram {
         /// Terminates all missions, only used when returning to main menu
         /// </summary>
         public void Terminate() {
+            Resume();
             foreach (var mission in _player.Missions) {
                 mission.Terminate();
             }
