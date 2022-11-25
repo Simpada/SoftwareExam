@@ -12,7 +12,6 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         public void Pause() {
             TaskPauseEvent.Reset();
-
         }
         public void Resume() {
             TaskPauseEvent.Set();
@@ -33,9 +32,6 @@ namespace SoftwareExam.CoreProgram.Expedition {
                     }
 
                     Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-                    //foreach (string message in Player.Log) {
-                    //    Console.WriteLine(message);
-                    //}
                     Console.WriteLine(player.GetLogMessages());
 
                 } else {

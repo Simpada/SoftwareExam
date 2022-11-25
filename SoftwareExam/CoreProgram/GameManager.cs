@@ -23,145 +23,28 @@ namespace SoftwareExam.CoreProgram
         }
 
 
-        public void SetPlayer(Player player) {
-            Player = player;
+
+        // Core game functionalities
+
+        // These we might want to move to a separate class
+        public void NewGame(int saveFile, string name) {
+            Player.Id = saveFile;
+            Player.PlayerName = name;
+            Player.SetCurrency(0, 0, 7);
+            Player.Adventurers = new();
+            Random random = new();
+            _ = RecruitAdventurer(random.Next(3) + 1);
         }
-
-        public string GetLogMessage() {
-            return Player.GetLogMessages();
-        }
-
-        public string GetBalanceString() {
-            return Player.Balance.ToString();
-        }
-
-        public Currency GetBalanceValue() {
-            return Player.Balance;
-        }
-
-        public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
-
-            canAfford = Recruitment.CheckBalance(Player.Balance);
-            cost = Recruitment.Price.ToString();
-            newBalance = (Player.Balance - Recruitment.Price).ToString();
-
-        }
-
-        // Relates to adventurers
-        #region
-        public bool RecruitAdventurer(int type) {
-            // Replace with push to Player object
-
-            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player.Balance);
-
-            if (adventurer == null) {
-                return false;
-            } else {
-                Player.AlterCurrency(Recruitment.Price, false);
-                Player.Adventurers.Add(adventurer);
-                return true;
-            }
-        }
-
-        public void DismissAdventurer(int who) {
-            Player.Adventurers.RemoveAt(who);
-        }
-
-        public string[] GetAllAdventurerCards() {
-
-            // This sets the maximum amount of adventurers you can display
-            string[] AdventurerCards = new string[MaxAdventurers];
-
-            List<Adventurer> Adventurers = Player.Adventurers;
-
-            for (int i = 0; i < Adventurers.Count; i++) {
-                AdventurerCards[i] = Adventurers[i].ToString();
-            }
-
-            return AdventurerCards;
-        }
-
-        public string GetAvailableAdventurerCards() {
-
-            string AvailableAdventurers = "";
-
-            for (int i = 0; i < Player.Adventurers.Count; i++) {
-                if (Player.Adventurers[i].OnMission) {
-                    AvailableAdventurers += $"    |           ON A MISSION\n";
-                } else {
-                    AvailableAdventurers += $"    |       [{i + 1}] CHOOSE ADVENTURER\n";
-                }
-                AvailableAdventurers += Player.Adventurers[i].ToString();
-                AvailableAdventurers += "\n    |-----------------------------------------\n";
-            }
-            return AvailableAdventurers;
-        }
-
-        public bool GetAvilability(int index) {
-
-            if (Player.Adventurers.Count >= index + 1) {
-                return !Player.Adventurers[index].OnMission;
-            }
-            return false;
-        }
-
-
-        public string[] GetAllItemCards() {
-
-            string[] ItemCards = new string[MaxAdventurers];
-
-            List<Adventurer> Adventurers = Player.Adventurers;
-
-            for (int i = 0; i < Adventurers.Count; i++) {
-                ItemCards[i] = Adventurers[i].GetItemCard();
-            }
-
-            return ItemCards;
-        }
-
-        public void GetAdventurerSellValue(int who, out string name, out string value) {
-
-            double sellMultiplier = 0.7;
-
-            Adventurer adventurer = Player.Adventurers[who];
-
-            name = adventurer.Name;
-            value = (adventurer.Value * sellMultiplier).ToString();
-        }
-
-        public Adventurer GetAdventurer(int who) {
-            return Player.Adventurers[who];
-        }
-
-        public int GetAdventurerCount() {
-            return Player.Adventurers.Count;
-        }
-        #endregion
-
-
-        public string GetExpeditionMaps() {
-            return Expeditions.GetMaps();
-        }
-
-        public bool CanAffordExpedition(int mapNr) {
-
-            return Expeditions.PurchaseMap(mapNr, Player.Balance);
-        }
-
-        public void PrepareExpedition(int mapNr, int adventurerNr) {
-
-            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr], out Currency cost);
-            Player.AlterCurrency(cost, false);
-        }
-
         public void SaveGame() {
-
             DataBaseAccess.Save(Player);
-
+        }
+        public void DeleteSave(int saveFile) {
+            DataBaseAccess.Delete(saveFile);
         }
 
         public int LoadGame(int Id) {
 
+            //Maybe split the content here into a class called get Adventurers, and this calls that, then GetMissions
             Player = DataBaseAccess.GetPlayerById(Id);
             Expeditions.Player = Player;
 
@@ -169,8 +52,6 @@ namespace SoftwareExam.CoreProgram
 
             for (int i = 0; i < Adventurers.Count; i++) {
                 List<int> itemCodes = DataBaseAccess.GetDecorators(Adventurers[i].Id);
-
-                // Parse items and give to adventurers here
 
                 foreach (int itemCode in itemCodes) {
                     Adventurer.AddNewItem(ItemParser.GetItem(itemCode, Adventurers[i]));
@@ -184,10 +65,9 @@ namespace SoftwareExam.CoreProgram
 
             return Player.Id;
         }
-
-        public void GetMissions(int id)
-        {
-            List <Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
+        // This one is a part of LoadGame above
+        public void GetMissions(int id) {
+            List<Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
 
             foreach (var Mission in missions) {
                 Mission.Player = Player;
@@ -210,34 +90,25 @@ namespace SoftwareExam.CoreProgram
 
 
 
-        public string[] GetPlayers()
-        {
+        // Only for getting names
+        public string[] GetPlayers() {
             return DataBaseAccess.RetrieveAllPlayerNames();
         }
 
-        public void DeleteSave(int saveFile) {
-            DataBaseAccess.Delete(saveFile);
-        }
 
-        public void NewGame(int saveFile, string name) {
-            Player.Id = saveFile;
-            Player.PlayerName = name;
-            Player.SetCurrency(0,0,7);
-            Player.Adventurers = new();
-            Random random = new();
-            _ = RecruitAdventurer(random.Next(3) + 1);
-        }
 
+        // Core functions, but not related to save/load/new game or DB stuff
         public void Pause() {
             Expeditions.Pause();
+            Player.Pause(true);
         }
 
         public void Resume() {
             Expeditions.Resume();
+            Player.Pause(false);
         }
 
-        public void Terminate()
-        {
+        public void Terminate() {
             foreach (var mission in Player.Missions) {
                 mission.Terminate();
             }
@@ -245,6 +116,155 @@ namespace SoftwareExam.CoreProgram
             Player.TerminateMissions();
         }
 
+
+
+
+        // Calls to The player object for information
+
+        public string GetLogMessage() {
+            return Player.GetLogMessages();
+        }
+
+        public string GetBalanceString() {
+            return Player.Balance.ToString();
+        }
+
+
+
+        // Calls recruitment to check balance
+        public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
+
+            canAfford = Recruitment.CheckBalance(Player.Balance);
+            cost = Recruitment.Price.ToString();
+            newBalance = (Player.Balance - Recruitment.Price).ToString();
+
+        }
+
+        // Relates to adventurers
+        #region
+        public bool RecruitAdventurer(int type) {
+
+            Adventurer? adventurer = Recruitment.RecruitAdventurer(type, Player.Balance);
+
+            if (adventurer == null) {
+                return false;
+            } else {
+                Player.AlterCurrency(Recruitment.Price, false);
+                Player.Adventurers.Add(adventurer);
+                return true;
+            }
+        }
+
+        public void DismissAdventurer(int who) {
+            Player.Adventurers.RemoveAt(who);
+        }
+
+
+
+
+
+
+
+        // Get's the adventurer card of all adventurers, this should probably be done in the player or elsewhere
+        public string[] GetAllAdventurerCards() {
+
+            // This sets the maximum amount of adventurers you can display
+            string[] AdventurerCards = new string[MaxAdventurers];
+
+            List<Adventurer> Adventurers = Player.Adventurers;
+
+            for (int i = 0; i < Adventurers.Count; i++) {
+                AdventurerCards[i] = Adventurers[i].ToString();
+            }
+
+            return AdventurerCards;
+        }
+
+        // Get's the adventurer cards plus their item descriptions, might also be done elsewhere
+        public string[] GetAllItemCards() {
+
+            string[] ItemCards = new string[MaxAdventurers];
+
+            List<Adventurer> Adventurers = Player.Adventurers;
+
+            for (int i = 0; i < Adventurers.Count; i++) {
+                ItemCards[i] = Adventurers[i].GetItemCard();
+            }
+
+            return ItemCards;
+        }
+
+        // Creates a string of available adventurers, and their status for UI, not the best to have it in GameManager
+        public string GetAvailableAdventurerCards() {
+
+            string AvailableAdventurers = "";
+
+            for (int i = 0; i < Player.Adventurers.Count; i++) {
+                if (Player.Adventurers[i].OnMission) {
+                    AvailableAdventurers += $"    |           ON A MISSION\n";
+                } else {
+                    AvailableAdventurers += $"    |       [{i + 1}] CHOOSE ADVENTURER\n";
+                }
+                AvailableAdventurers += Player.Adventurers[i].ToString();
+                AvailableAdventurers += "\n    |-----------------------------------------\n";
+            }
+            return AvailableAdventurers;
+        }
+
+
+
+        // Checks if the adventurer exists, and if it does, if it is on a mission
+        public bool GetAvailability(int index) {
+
+            if (Player.Adventurers.Count >= index + 1) {
+                return !Player.Adventurers[index].OnMission;
+            }
+            return false;
+        }
+
+
+        // Checks an adventurer's worth, currently doesn't work!!!
+        public void GetAdventurerSellValue(int who, out string name, out string value) {
+
+            double sellMultiplier = 0.7;
+
+            Adventurer adventurer = Player.Adventurers[who];
+
+            name = adventurer.Name;
+            value = (adventurer.Value * sellMultiplier).ToString();
+        }
+
+
+        // Gets the amount of adventurer's the player has
+        public int GetAdventurerCount() {
+            return Player.Adventurers.Count;
+        }
+        #endregion
+
+
+        #region Expeditions
+
+        // Gets all maps from expeditions
+        public string GetExpeditionMaps() {
+            return Expeditions.GetMaps();
+        }
+
+        // Checks if the player can afford to go on a specific expedition
+        public bool CanAffordExpedition(int mapNr) {
+
+            return Expeditions.PurchaseMap(mapNr, Player.Balance);
+        }
+
+        // Gives expeditions a map and an adventurer, so it can run the mission
+        public void PrepareExpedition(int mapNr, int adventurerNr) {
+
+            Expeditions.PrepareMission(mapNr, Player.Adventurers[adventurerNr], out Currency cost);
+            Player.AlterCurrency(cost, false);
+        }
+        #endregion
+
+
+        #region Armory
         public List<string> GetInventoryNames() {
             return Armory.GetItemNames();
         }
@@ -261,6 +281,7 @@ namespace SoftwareExam.CoreProgram
             return Player.Adventurers[id].GetItemCard();
         }
 
+        // Attempts to buy an item, checking prices, and buying it if it can be afforded and exists
         public string BuyItem(int itemId, int adventurerId) {
             bool CanAfford = Armory.CanAffordItem(itemId, Player.Balance, out bool noItem, out Currency price);
 
@@ -279,9 +300,9 @@ namespace SoftwareExam.CoreProgram
             } else {
                 return "You cannot afford this!";
             }
-
         }
 
+        // These two functions pauses the Armory refresh function while browsing
         public void EnterArmory(int adventurerId) {
             Armory.EnterArmory(Player.Adventurers[adventurerId].Class);
         }
@@ -289,6 +310,7 @@ namespace SoftwareExam.CoreProgram
             Armory.Resume();
         }
 
+        #endregion
 
     }
 }

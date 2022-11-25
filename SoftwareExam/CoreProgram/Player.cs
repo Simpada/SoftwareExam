@@ -97,9 +97,7 @@ namespace SoftwareExam.CoreProgram
 
         public void SetCurrency(int copper, int silver, int gold)
         {
-            lock (Lock) {
-                _balance = new Currency(copper, silver, gold);
-            }
+            _balance = new Currency(copper, silver, gold);
         }
 
         public void AlterCurrency(Currency currency, bool add)
@@ -117,7 +115,6 @@ namespace SoftwareExam.CoreProgram
 
         public void AddLogMessage(string logMessage)
         {
-
             lock (Lock) {
                 if (Log.Count >= 5) {
                     Log.RemoveAt(0);
@@ -128,7 +125,6 @@ namespace SoftwareExam.CoreProgram
 
         public string GetLogMessages()
         {
-
             lock (Lock) {
                 string LogMessage = "";
                 for (int i = 0; i < Log.Count; i++) {
@@ -143,7 +139,6 @@ namespace SoftwareExam.CoreProgram
 
         public void CompleteMission()
         {
-
             lock (Lock) {
                 Mission? CompletedMission = null;
                 foreach (Mission mission in Missions) {
@@ -156,11 +151,10 @@ namespace SoftwareExam.CoreProgram
                     AlterCurrency(CompletedMission.Reward, true);
                     Missions.Remove(CompletedMission);
                 }
-                
             }
         }
 
-        public void ResumePause(bool pause)
+        public void Pause(bool pause)
         {
             lock (Lock) {
                 foreach (Mission mission in Missions) {

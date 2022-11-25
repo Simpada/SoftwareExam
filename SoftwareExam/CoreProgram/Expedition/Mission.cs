@@ -131,6 +131,7 @@ namespace SoftwareExam.CoreProgram.Expedition
                 Task Encounter = RunEncounter(Encounters[i], WaitTimes[i]);
 
                 await Task.WhenAny(Encounter);
+                TaskPauseEvent.WaitOne();
 
                 if (Terminated) {
                     break;
@@ -141,12 +142,13 @@ namespace SoftwareExam.CoreProgram.Expedition
             }
 
             if (!Terminated) {
-
                 try {
                     await Task.Delay(5000, Token);
                 }
-                catch (Exception e) {
+                catch (Exception) {
                 }
+                TaskPauseEvent.WaitOne();
+
                 Reward += CompletionReward;
 
                 LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";

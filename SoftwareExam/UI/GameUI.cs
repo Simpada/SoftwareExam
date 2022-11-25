@@ -1,11 +1,5 @@
 ﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Adventurers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
     public class GameUI {
@@ -26,10 +20,8 @@ namespace SoftwareExam.UI {
             }
         }
 
-
         #region Interractions in the main menu
         private void MainMenu() {
-            Manager.Pause();
             Manager.Terminate();
 
             Console.Clear();
@@ -51,6 +43,8 @@ namespace SoftwareExam.UI {
                     Environment.Exit(0);
                 } else {
                     InvalidInput(StartMenu.GetStartingMenu());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                 }
             }
             Manager.Resume();
@@ -67,6 +61,8 @@ namespace SoftwareExam.UI {
                     break;
                 }
                 InvalidInput(StartMenu.GetAboutMenu());
+                Console.Clear();
+                Console.WriteLine(Ui);
             }
         }
 
@@ -97,6 +93,8 @@ namespace SoftwareExam.UI {
                     return false;
                 } else {
                     InvalidInput(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                     continue;
                 }
 
@@ -138,6 +136,8 @@ namespace SoftwareExam.UI {
                     return false;
                 } else {
                     InvalidInput(StartMenu.GetContinue());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                 }
             }
         }
@@ -160,8 +160,9 @@ namespace SoftwareExam.UI {
                 } else if (Name == "") {
                     return false;
                 } else {
-                    Console.WriteLine(StartMenu.GetNewGame());
+                    Console.Clear();
                     Console.WriteLine("\n    Invalid name!");
+                    Console.Write(StartMenu.GetNewGame());
                 }
             }
             return true;
@@ -291,7 +292,7 @@ namespace SoftwareExam.UI {
                 } else {
 
                     Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()) +
-                            "\n You Cannot Afford This";
+                            "\n    You Cannot Afford This";
                     continue;
 
                 }
@@ -334,11 +335,11 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                if (Manager.GetAvilability(adventurerNr)) {
+                if (Manager.GetAvailability(adventurerNr)) {
                     break;
                 }
                 Ui = PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()) +
-                    "\nThis Adventurer is unavailable";
+                    "\n    This Adventurer is unavailable";
             }
             return adventurerNr;
         }
@@ -566,8 +567,7 @@ namespace SoftwareExam.UI {
 
         private void InvalidInput(string _display) {
             Ui = _display +
-                "\n" +
-                "Invalid input";
+                "\nInvalid input";
         }
     }
 }
