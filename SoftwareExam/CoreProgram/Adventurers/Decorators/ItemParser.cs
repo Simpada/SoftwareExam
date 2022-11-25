@@ -3,13 +3,14 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    /// <summary>
+    /// A large class, that takes in an item id, and returns different information about the item it refers to
+    /// </summary>
     public static class ItemParser {
 
         // The Ugly Class
@@ -26,7 +27,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 201 => HatPlateHelmet.AllowedClasses,
                 202 => HatElvenTopHat.AllowedClasses,
                 203 => HatHarlequinCrest.AllowedClasses,
-                204 => HatJuggernautsHelmet.AllowedClasses,
+                204 => HatWizardHat.AllowedClasses,
                 205 => HatLeatherHat.AllowedClasses,
 
                 301 => OffHandWoodenShield.AllowedClasses,
@@ -34,6 +35,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 303 => OffHandBookOfWisdom.AllowedClasses,
                 304 => OffHandMythrilShield.AllowedClasses,
                 305 => OffHandGiantsShield.AllowedClasses,
+                306 => OffHandDagger.AllowedClasses,
 
                 401 => TrinketRabbitsFoot.AllowedClasses,
                 402 => TrinketTheChickens.AllowedClasses,
@@ -47,10 +49,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 504 => WeaponOrbOfDarkness.AllowedClasses,
                 505 => WeaponWindripperBow.AllowedClasses,
                 506 => WeaponSwordOfOmens.AllowedClasses,
+                507 => WeaponWand.AllowedClasses,
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static string GetItemName(int id) {
 
             return id switch {
@@ -63,7 +66,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 201 => HatPlateHelmet.GetItemName(),
                 202 => HatElvenTopHat.GetItemName(),
                 203 => HatHarlequinCrest.GetItemName(),
-                204 => HatJuggernautsHelmet.GetItemName(),
+                204 => HatWizardHat.GetItemName(),
                 205 => HatLeatherHat.GetItemName(),
 
                 301 => OffHandWoodenShield.GetItemName(),
@@ -71,6 +74,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 303 => OffHandBookOfWisdom.GetItemName(),
                 304 => OffHandMythrilShield.GetItemName(),
                 305 => OffHandGiantsShield.GetItemName(),
+                306 => OffHandDagger.GetItemName(),
 
                 401 => TrinketRabbitsFoot.GetItemName(),
                 402 => TrinketTheChickens.GetItemName(),
@@ -84,10 +88,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 504 => WeaponOrbOfDarkness.GetItemName(),
                 505 => WeaponWindripperBow.GetItemName(),
                 506 => WeaponSwordOfOmens.GetItemName(),
+                507 => WeaponWand.GetItemName(),
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static string GetItemDescription(int id) {
 
             return id switch {
@@ -100,7 +105,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 201 => HatPlateHelmet.GetItemDescription(),
                 202 => HatElvenTopHat.GetItemDescription(),
                 203 => HatHarlequinCrest.GetItemDescription(),
-                204 => HatJuggernautsHelmet.GetItemDescription(),
+                204 => HatWizardHat.GetItemDescription(),
                 205 => HatLeatherHat.GetItemDescription(),
 
                 301 => OffHandWoodenShield.GetItemDescription(),
@@ -108,6 +113,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 303 => OffHandBookOfWisdom.GetItemDescription(),
                 304 => OffHandMythrilShield.GetItemDescription(),
                 305 => OffHandGiantsShield.GetItemDescription(),
+                306 => OffHandDagger.GetItemDescription(),
 
                 401 => TrinketRabbitsFoot.GetItemDescription(),
                 402 => TrinketTheChickens.GetItemDescription(),
@@ -121,10 +127,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 504 => WeaponOrbOfDarkness.GetItemDescription(),
                 505 => WeaponWindripperBow.GetItemDescription(),
                 506 => WeaponSwordOfOmens.GetItemDescription(),
+                507 => WeaponWand.GetItemDescription(),
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static Currency GetItemCost(int id) {
 
             return id switch {
@@ -137,7 +144,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 201 => HatPlateHelmet.Cost,
                 202 => HatElvenTopHat.Cost,
                 203 => HatHarlequinCrest.Cost,
-                204 => HatJuggernautsHelmet.Cost,
+                204 => HatWizardHat.Cost,
                 205 => HatLeatherHat.Cost,
 
                 301 => OffHandWoodenShield.Cost,
@@ -145,6 +152,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 303 => OffHandBookOfWisdom.Cost,
                 304 => OffHandMythrilShield.Cost,
                 305 => OffHandGiantsShield.Cost,
+                306 => OffHandDagger.Cost,
 
                 401 => TrinketRabbitsFoot.Cost,
                 402 => TrinketTheChickens.Cost,
@@ -158,10 +166,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 504 => WeaponOrbOfDarkness.Cost,
                 505 => WeaponWindripperBow.Cost,
                 506 => WeaponSwordOfOmens.Cost,
+                507 => WeaponWand.Cost,
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static BaseDecoratedAdventurer GetItem(int id, Adventurer adventurer) {
 
             return id switch {
@@ -176,7 +185,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 201 => new HatPlateHelmet(adventurer),
                 202 => new HatElvenTopHat(adventurer),
                 203 => new HatHarlequinCrest(adventurer),
-                204 => new HatJuggernautsHelmet(adventurer),
+                204 => new HatWizardHat(adventurer),
                 205 => new HatLeatherHat(adventurer),
 
                 300 => new BasicOffHand(adventurer),
@@ -185,6 +194,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 303 => new OffHandBookOfWisdom(adventurer),
                 304 => new OffHandMythrilShield(adventurer),
                 305 => new OffHandGiantsShield(adventurer),
+                306 => new OffHandDagger(adventurer),
 
                 400 => new BasicTrinket(adventurer),
                 401 => new TrinketRabbitsFoot(adventurer),
@@ -200,6 +210,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
                 504 => new WeaponOrbOfDarkness(adventurer),
                 505 => new WeaponWindripperBow(adventurer),
                 506 => new WeaponSwordOfOmens(adventurer),
+                507 => new WeaponWand(adventurer),
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }

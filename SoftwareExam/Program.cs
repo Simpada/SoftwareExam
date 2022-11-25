@@ -1,16 +1,12 @@
-﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Adventurers;
-using SoftwareExam.DataBase;
-using SoftwareExam.UI;
+﻿using SoftwareExam.UI;
 
 namespace SoftwareExam {
-    internal class Program {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class Program {
 
         static void Main(string[] args) {
-
-            GameUI Game = new ();
+            GameUI Game = new();
             Game.Run();
-
         }
     }
 }

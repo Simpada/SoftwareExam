@@ -1,9 +1,9 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
-{
-    internal class ExplorationEncounter : Encounter
-    {
-        public ExplorationEncounter(string adventurerName, int adventureLuck, int adventurerDamage) : base(adventurerName, adventureLuck, adventurerDamage)
-        {
+﻿using SoftwareExam.CoreProgram.Economy;
+
+namespace SoftwareExam.CoreProgram.Expedition.Encounters {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class ExplorationEncounter : Encounter {
+        public ExplorationEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage) {
             Description = AdventurerName + PickOne(
                 new string[] {
                     " saw a rabbit. It ran away.",
@@ -17,21 +17,16 @@
                 });
         }
 
-        public override bool RunEncounter(out Currency reward, out string description)
-        {
+        public override bool RunEncounter(out Currency reward, out string description) {
             reward = new();
-            description = Description;            
+            description = Description;
             return true;
         }
 
-        private string Direction()
-        {
-            if (Random.Next(2) >= 1)
-            {
+        private string Direction() {
+            if (Random.Next(2) >= 1) {
                 return "right";
-            }
-            else
-            {
+            } else {
                 return "left";
             }
         }

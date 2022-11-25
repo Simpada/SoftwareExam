@@ -1,11 +1,8 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Factory
-{
-    internal class ExplorationFactory : EncounterFactory
-    {
-
-        public override Encounter CreateEncounter(string adventurerName, int adventureLuck, int adventurerDamage)
-        {
-            return new ExplorationEncounter(adventurerName,adventureLuck,adventurerDamage);
+﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Factory {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class ExplorationFactory : IEncounterFactory {
+        public Encounter CreateEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) {
+            return new ExplorationEncounter(adventurerName, adventurerLuck, adventurerDamage);
         }
     }
 }

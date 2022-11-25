@@ -1,5 +1,7 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition {
+﻿using SoftwareExam.CoreProgram.Economy;
 
+namespace SoftwareExam.CoreProgram.Expedition {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Map : IComparable<Map> {
 
         public enum Difficulties {
@@ -15,6 +17,11 @@
         public string Location { get; set; } = "";
         public Difficulties Difficulty { get; set; }
 
+        /// <summary>
+        /// Function that sets up a new map based on difficulty
+        /// </summary>
+        /// <param name="difficulty">What difficulty the map should be</param>
+        /// <returns>The new Map</returns>
         public static Map GetMap(int difficulty) {
 
             Random Random = new();
@@ -30,36 +37,22 @@
                 Difficulty = (Difficulties)difficulty,
                 Reward = Currency.Convert(new Currency(copper, silver, gold)),
                 ExpeditionCost = new Currency(0, 0, 3) * difficulty,
-                Encounters = (difficulty + 1) * (Random.Next(3) + 1),
+                Encounters = (difficulty + 1) * (Random.Next(4) + 2),
                 Location = GetLocation(Random)
             };
-
             return Map;
         }
-        public override string ToString() {
 
+        public override string ToString() {
             return $@"
     |
-    |   [{(int) Difficulty + 1}] {Difficulty} MAP
+    |   [{(int)Difficulty + 1}] {Difficulty} MAP
     |
     |   Expedition cost: {ExpeditionCost}
     |   Expedition to {Location}
     |   
     |   Reward: {Reward} + rewards earned from encounters
     |";
-
-        }
-        
-        public static Map GetMap(int difficulty, int copper, int silver, int gold, int encounters, string location) {
-
-            Map Map = new() {
-                Difficulty = (Difficulties)difficulty,
-                Reward = new Currency(copper, silver, gold),
-                Encounters = encounters,
-                Location = location
-            };
-
-            return Map;
         }
 
         public static string GetLocation(Random random) {
@@ -82,7 +75,6 @@
                 "The Frigid Tundra",
                 "The Scorching Dunes"
             };
-
             return Locations[random.Next(Locations.Length)];
         }
 

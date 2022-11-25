@@ -1,28 +1,26 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
 namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
-    internal class ArmorPlateArmor : BasicArmor {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class ArmorPlateArmor : BasicArmor {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
-        public static new readonly Currency Cost = new(0,0,10);
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
+        public static new readonly Currency Cost = new(0, 0, 8);
 
         public ArmorPlateArmor(Adventurer adventurer) : base(adventurer) {
+
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 101;
         }
 
         public override void EditStats() {
-            Health += 5;
+            Health += 4;
         }
 
         public override string GetEquipmentDescription() {
-            return "This heavy armor grants a +5 boost to health.";
+            return "This heavy armor grants a +4 boost to health.";
         }
-        
+
         public static string GetItemDescription() {
             // This is kinda dumb, but it works without need for repeating code
             return new ArmorPlateArmor(new Warrior()).GetEquipmentDescription();

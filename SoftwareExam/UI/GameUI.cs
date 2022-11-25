@@ -1,17 +1,14 @@
 ﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Adventurers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace SoftwareExam.UI {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// Controls all interractions between the person playing the game and the programme, checking button inputs, and calling appropriate methods
+    /// </summary>
     public class GameUI {
 
         private readonly GameManager Manager;
-
         private char input;
         private string Ui = "";
 
@@ -20,16 +17,14 @@ namespace SoftwareExam.UI {
         }
 
         public void Run() {
-            while(true) {
+            while (true) {
                 MainMenu();
                 PlayGame();
             }
         }
 
-
         #region Interractions in the main menu
         private void MainMenu() {
-            Manager.Pause();
             Manager.Terminate();
 
             Console.Clear();
@@ -51,6 +46,8 @@ namespace SoftwareExam.UI {
                     Environment.Exit(0);
                 } else {
                     InvalidInput(StartMenu.GetStartingMenu());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                 }
             }
             Manager.Resume();
@@ -67,12 +64,14 @@ namespace SoftwareExam.UI {
                     break;
                 }
                 InvalidInput(StartMenu.GetAboutMenu());
+                Console.Clear();
+                Console.WriteLine(Ui);
             }
         }
 
         private bool SelectSave() {
 
-            string[] savedNames = Manager.GetPlayers();
+            string[] savedNames = GameManager.GetPlayers();
             Console.Clear();
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
@@ -97,11 +96,12 @@ namespace SoftwareExam.UI {
                     return false;
                 } else {
                     InvalidInput(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                     continue;
                 }
 
                 if (SaveState >= 0) {
-                    Manager.Pause();
                     if (Continue(SaveSlot)) {
                         break;
                     }
@@ -110,7 +110,7 @@ namespace SoftwareExam.UI {
                         break;
                     }
                 }
-                savedNames = Manager.GetPlayers();
+                savedNames = GameManager.GetPlayers();
                 Console.Clear();
                 Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
             }
@@ -128,16 +128,18 @@ namespace SoftwareExam.UI {
                 if (input == '1') {
                     return true;
                 } else if (input == '2') {
-                    Manager.DeleteSave(SaveFile);
+                    GameManager.DeleteSave(SaveFile);
                     return NewGame(SaveFile);
                 } else if (input == '3') {
-                    Manager.DeleteSave(SaveFile);
+                    GameManager.DeleteSave(SaveFile);
                     return false;
                 } else if (input == '0') {
                     Console.Clear();
                     return false;
                 } else {
                     InvalidInput(StartMenu.GetContinue());
+                    Console.Clear();
+                    Console.WriteLine(Ui);
                 }
             }
         }
@@ -155,13 +157,13 @@ namespace SoftwareExam.UI {
 
                 if (Name != null && Regex.IsMatch(Name, @"^[a-zA-Z]+[a-zA-Z ]$")) {
                     Manager.NewGame(SaveFile, Name);
-                    Manager.SaveGame();
                     break;
                 } else if (Name == "") {
                     return false;
                 } else {
-                    Console.WriteLine(StartMenu.GetNewGame());
+                    Console.Clear();
                     Console.WriteLine("\n    Invalid name!");
+                    Console.Write(StartMenu.GetNewGame());
                 }
             }
             return true;
@@ -291,7 +293,7 @@ namespace SoftwareExam.UI {
                 } else {
 
                     Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString()) +
-                            "\n You Cannot Afford This";
+                            "\n    You Cannot Afford This";
                     continue;
 
                 }
@@ -299,9 +301,9 @@ namespace SoftwareExam.UI {
                 Ui = PlayMenu.GetGuildHouseExpeditions(Manager.GetExpeditionMaps(), Manager.GetBalanceString());
             }
 
-            
 
-            
+
+
 
             // Must print the available maps, then if clicked, continue to adventurer selection
         }
@@ -334,11 +336,11 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                if (Manager.GetAvilability(adventurerNr)) {
+                if (Manager.GetAvailability(adventurerNr)) {
                     break;
                 }
                 Ui = PlayMenu.GetGuildHouseAdventurers(Manager.GetAvailableAdventurerCards()) +
-                    "\nThis Adventurer is unavailable";
+                    "\n    This Adventurer is unavailable";
             }
             return adventurerNr;
         }
@@ -423,12 +425,12 @@ namespace SoftwareExam.UI {
         private void RecruitAdventurer() {
 
             Manager.CheckBalance(out bool canAfford, out string newBalance, out string cost);
-            
+
             Ui = PlayMenu.GetTavernRecruiting(canAfford, newBalance, cost);
 
             while (true) {
                 UpdateUi();
-                
+
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
@@ -450,58 +452,50 @@ namespace SoftwareExam.UI {
         #region Armory / Purchase Items UI
         private void ArmoryMenu() {
             Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
+            bool invalidInput = false;
 
             while (true) {
-
                 UpdateUi();
 
                 int AdventurerCount = Manager.GetAdventurerCount();
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
-                    if (AdventurerCount >= 1) {
+                    if (AdventurerCount >= 1 && Manager.GetAvailability(0)) {
                         ArmoryInventory(0);
-                        
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
-                    }
+                        invalidInput = false;
+                    } 
                 } else if (input == '2') {
-                    if (AdventurerCount >= 2) {
+                    if (AdventurerCount >= 2 && Manager.GetAvailability(1)) {
                         ArmoryInventory(1);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '3') {
-                    if (AdventurerCount >= 3) {
+                    if (AdventurerCount >= 3 && Manager.GetAvailability(2)) {
                         ArmoryInventory(2);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '4') {
-                    if (AdventurerCount >= 4) {
+                    if (AdventurerCount >= 4 && Manager.GetAvailability(3)) {
                         ArmoryInventory(3);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '5') {
-                    if (AdventurerCount >= 5) {
+                    if (AdventurerCount >= 5 && Manager.GetAvailability(4)) {
                         ArmoryInventory(4);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '0') {
                     break;
                 } else {
+                    invalidInput = true;
+                }
+                if (invalidInput) {
                     InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                     continue;
                 }
+                
                 Manager.ExitArmory();
-
                 Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
             }
         }
@@ -513,7 +507,7 @@ namespace SoftwareExam.UI {
 
 
             while (true) {
-                
+
                 UpdateUi();
 
                 input = Console.ReadKey().KeyChar;
@@ -546,7 +540,7 @@ namespace SoftwareExam.UI {
                     PurchaseResult = "Invalid Input";
                 }
                 Manager.EnterArmory(id);
-                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetBalanceString(), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()) + 
+                Ui = PlayMenu.GetArmoryBrowsing(Manager.GetItemCards(id), Manager.GetBalanceString(), Manager.GetInventoryNames(), Manager.GetInventoryDescriptions(), Manager.GetInventoryPrices()) +
                     $"\n    {PurchaseResult}";
             }
 
@@ -566,8 +560,7 @@ namespace SoftwareExam.UI {
 
         private void InvalidInput(string _display) {
             Ui = _display +
-                "\n" +
-                "Invalid input";
+                "\nInvalid input";
         }
     }
 }

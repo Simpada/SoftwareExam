@@ -1,47 +1,33 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace SoftwareExam.CoreProgram
-{
-    public class Player
-    {
+namespace SoftwareExam.CoreProgram {
+    /// <summary>
+    /// Contains all information about the player, its balance, adventurers, which missions are active,
+    /// its log, etc. This class is what is saved to and loaded from the database
+    /// </summary>
+    public class Player {
         private int _id = -1;
         private string _playerName = "";
-
-        // Needs Lock
         private Currency _balance = new(0, 0, 2);
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
 
-        private readonly object Lock = new();
+        private readonly object _lock = new();
 
-        public Player()
-        {
-            //Empty
-        }
+        #region Setting and checking values
 
-        public Player(int id, string playerName, Currency balance)
-        {
-            _id = id;
-            _playerName = playerName;
-            _balance = balance;
-        }
-
-        public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers, List<string> log)
-        {
-            _id = id;
-            _playerName = playerName;
-            _balance = balance;
-            Adventurers = adventurers;
-            Log = log;
-        }
-
-
-        public static bool ValidateUserName(string userName)
-        {
+        /// <summary>
+        /// Makes sure the name fits our naming convention
+        /// </summary>
+        /// <param name="userName">the name to check</param>
+        /// <returns>Bool saying if the name is accepted or not</returns>
+        public static bool ValidateUserName(string userName) {
             if (userName.Length <= 0 || userName.Length > 20 || userName == null) {
                 return false;
             }
@@ -51,64 +37,47 @@ namespace SoftwareExam.CoreProgram
             return true;
         }
 
-        public override string ToString()
-        {
-            return $"Playername: {_playerName}";
-        }
-
-        //Property
-        public string PlayerName
-        {
-            get
-            {
+        public string PlayerName {
+            get {
                 return _playerName;
             }
-            set
-            {
+            set {
                 if (ValidateUserName(value)) {
                     _playerName = value;
                 }
             }
         }
-        public int Id
-        {
-            get
-            {
+        public int Id {
+            get {
                 return _id;
             }
-            set
-            {
+            set {
                 if (value < 1 || value > 4) {
                     throw new Exception("save between 1-4");
-                }
-                else {
+                } else {
                     _id = value;
                 }
             }
         }
 
-        public Currency Balance
-        {
-            get
-            {
+        public Currency Balance {
+            get {
                 return _balance;
             }
         }
 
-        public void SetCurrency(int copper, int silver, int gold)
-        {
-            lock (Lock) {
-                _balance = new Currency(copper, silver, gold);
-            }
+
+
+        public void SetCurrency(int copper, int silver, int gold) {
+            _balance = new Currency(copper, silver, gold);
         }
 
         public void AlterCurrency(Currency currency, bool add)
         {
-            lock (Lock) {
+            lock (_lock) {
                 if (add) {
                     _balance += currency;
-                }
-                else {
+                } else {
                     _balance -= currency;
 
                 }
@@ -117,8 +86,7 @@ namespace SoftwareExam.CoreProgram
 
         public void AddLogMessage(string logMessage)
         {
-
-            lock (Lock) {
+            lock (_lock) {
                 if (Log.Count >= 5) {
                     Log.RemoveAt(0);
                 }
@@ -126,10 +94,10 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+
         public string GetLogMessages()
         {
-
-            lock (Lock) {
+            lock (_lock) {
                 string LogMessage = "";
                 for (int i = 0; i < Log.Count; i++) {
                     LogMessage += Log[i];
@@ -140,11 +108,15 @@ namespace SoftwareExam.CoreProgram
                 return LogMessage;
             }
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+        #endregion
 
+        /// <summary>
+        /// Completes a mission that the player has, removing it form the array, and granting the player its reward
+        /// </summary>
         public void CompleteMission()
         {
-
-            lock (Lock) {
+            lock (_lock) {
                 Mission? CompletedMission = null;
                 foreach (Mission mission in Missions) {
                     if (mission.Completed) {
@@ -156,27 +128,40 @@ namespace SoftwareExam.CoreProgram
                     AlterCurrency(CompletedMission.Reward, true);
                     Missions.Remove(CompletedMission);
                 }
-                
             }
         }
 
-        public void ResumePause(bool pause)
+        /// <summary>
+        /// Pauses or resumes all missions
+        /// </summary>
+        /// <param name="pause">Bool determining if its supposed to pause or resume</param>
+        public void Pause(bool pause)
         {
-            lock (Lock) {
+            lock (_lock) {
                 foreach (Mission mission in Missions) {
                     if (pause) {
                         mission.Pause();
-                    }
-                    else {
+                    } else {
                         mission.Resume();
                     }
                 }
             }
         }
 
-        public void TerminateMissions()
-        {
+        /// <summary>
+        /// Clears all missions, used when returning to the main menu
+        /// </summary>
+        public void TerminateMissions() {
             Missions.Clear();
+        }
+
+        /// <summary>
+        /// Sells an adventurer the player has, granting parts of its value
+        /// </summary>
+        /// <param name="who">The index of the adventurer to sell</param>
+        public void SellAdventurer(int who) {
+            AlterCurrency(Adventurers[who].Value * 0.7, true);
+            Adventurers.RemoveAt(who);
         }
     }
 }
