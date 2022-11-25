@@ -1,5 +1,5 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers;
+﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 
@@ -10,29 +10,29 @@ namespace SoftwareExam.CoreProgram {
     /// </summary>
     public static class SaveManager {
 
-        private static readonly DataBaseAccess DataBaseAccess = new ("Data Source = AdventureLeague.db");
+        private static readonly DataBaseAccess _dataBaseAccess = new("Data Source = AdventureLeague.db");
 
         /// <summary>
         /// Asks the database for a list of saved names
         /// </summary>
         /// <returns>An array of strings containing names</returns>
         public static string[] RetrieveAllPlayerNames() {
-            return DataBaseAccess.RetrieveAllPlayerNames();
+            return _dataBaseAccess.RetrieveAllPlayerNames();
         }
-        
+
         /// <summary>
         /// Saves the player and its content to the database
         /// </summary>
         /// <param name="player">The player object to save</param>
         public static void SaveGame(Player player) {
-            DataBaseAccess.Save(player);
+            _dataBaseAccess.Save(player);
         }
         /// <summary>
         /// Deletes a save from the database
         /// </summary>
         /// <param name="saveFile">The id of the save to delete</param>
         public static void DeleteSave(int saveFile) {
-            DataBaseAccess.Delete(saveFile);
+            _dataBaseAccess.Delete(saveFile);
         }
         /// <summary>
         /// Loads a save from the database
@@ -42,7 +42,7 @@ namespace SoftwareExam.CoreProgram {
         /// <returns>The player object for the gamemanager to use</returns>
         public static Player LoadGame(LogWriter logWriter, int Id) {
 
-            Player player = DataBaseAccess.GetPlayerById(Id);
+            Player player = _dataBaseAccess.GetPlayerById(Id);
 
             player.Adventurers = GetAdventurers(Id);
             GetMissions(player, logWriter, Id);
@@ -53,10 +53,10 @@ namespace SoftwareExam.CoreProgram {
         // Goes through the adventurers in the database and gives them to the player
         private static List<Adventurer> GetAdventurers(int Id) {
 
-            List<Adventurer> adventurers = DataBaseAccess.GetAdventurers(Id);
+            List<Adventurer> adventurers = _dataBaseAccess.GetAdventurers(Id);
 
             for (int i = 0; i < adventurers.Count; i++) {
-                List<int> itemCodes = DataBaseAccess.GetDecorators(adventurers[i].Id);
+                List<int> itemCodes = _dataBaseAccess.GetDecorators(adventurers[i].Id);
 
                 foreach (int itemCode in itemCodes) {
                     Adventurer.AddNewItem(ItemParser.GetItem(itemCode, adventurers[i]));
@@ -67,7 +67,7 @@ namespace SoftwareExam.CoreProgram {
         }
         // Goes through missions, assigns adventurers and gives them to the player 
         private static void GetMissions(Player player, LogWriter logWriter, int id) {
-            List<Mission> missions = DataBaseAccess.GetMissionsForAdventurers(id);
+            List<Mission> missions = _dataBaseAccess.GetMissionsForAdventurers(id);
 
             foreach (var Mission in missions) {
                 Mission.Player = player;
