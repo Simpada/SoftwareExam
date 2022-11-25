@@ -164,7 +164,8 @@ namespace SoftwareExam.CoreProgram
         }
 
         public void DismissAdventurer(int who) {
-            Player.Adventurers.RemoveAt(who);
+            Player.SellAdventurer(who);
+
         }
 
 
