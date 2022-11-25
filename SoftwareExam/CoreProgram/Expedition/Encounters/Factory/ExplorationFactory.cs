@@ -2,10 +2,9 @@
 {
     internal class ExplorationFactory : IEncounterFactory
     {
-
         public Encounter CreateEncounter(string adventurerName, int adventurerLuck, int adventurerDamage)
         {
-            return new ExplorationEncounter(adventurerName,adventurerLuck,adventurerDamage);
+            return new ExplorationEncounter(adventurerName, adventurerLuck, adventurerDamage);
         }
     }
 }

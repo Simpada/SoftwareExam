@@ -20,18 +20,16 @@
         public override bool RunEncounter(out Currency reward, out string description)
         {
             reward = new();
-            description = Description;            
+            description = Description;
             return true;
         }
 
         private string Direction()
         {
-            if (Random.Next(2) >= 1)
-            {
+            if (Random.Next(2) >= 1) {
                 return "right";
             }
-            else
-            {
+            else {
                 return "left";
             }
         }
