@@ -4,6 +4,192 @@
         <name>SoftwareExam</name>
     </assembly>
     <members>
+        <member name="T:SoftwareExam.CoreProgram.GameManager">
+            <summary>
+            A facade that works as the middlepoint between all core game mechanics and classes
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.#ctor">
+            <summary>
+            Constructor for GameManager that sets up necessary classes
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.NewGame(System.Int32,System.String)">
+            <summary>
+            Sets fields in the player to a standard for a new game
+            </summary>
+            <param name="saveFile">which </param>
+            <param name="name"></param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.SaveGame">
+            <summary>
+            Tells the save manager to save the game, using the player object
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.DeleteSave(System.Int32)">
+            <summary>
+            Tells the save manager to delete the save with a specific ID
+            </summary>
+            <param name="saveFile">What id to delete a save at</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.LoadGame(System.Int32)">
+            <summary>
+            Tells the save manager to load a save at an id
+            </summary>
+            <param name="Id">the id of the save game to load</param>
+            <returns>The id of the player, if negative, no player was found</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetPlayers">
+            <summary>
+            Gets a list of the names of all players
+            </summary>
+            <returns>A list of player names</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.Pause">
+            <summary>
+            Pauses the logwriter and misisons
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.Resume">
+            <summary>
+            Resumes operation of the logwriter and missions
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.Terminate">
+            <summary>
+            Terminates all missions, only used when returning to main menu
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetLogMessage">
+            <summary>
+            To get the log from the player
+            </summary>
+            <returns>A string containing the log of the player</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetBalanceString">
+            <summary>
+            Gets how much money they player has for the UI
+            </summary>
+            <returns>A string displaying the balance of the player</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.CheckBalance(System.Boolean@,System.String@,System.String@)">
+            <summary>
+            Checks the balance of the player, to chek if they can recruit new adventurers
+            </summary>
+            <param name="canAfford">A bool that tells if the player has enough money</param>
+            <param name="newBalance">A string that informs how much money the player would have after the transaction</param>
+            <param name="cost">The price of the purchase</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.RecruitAdventurer(System.Int32)">
+            <summary>
+            Recruits a new adventurer of the player can afford it
+            </summary>
+            <param name="type">What type of adventurer to recruit</param>
+            <returns>A bool telling if the purchase was successful</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.DismissAdventurer(System.Int32)">
+            <summary>
+            Sells an adventurer
+            </summary>
+            <param name="who">The index of the adventurer to sell</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetAvailability(System.Int32)">
+            <summary>
+            Checks if the adventurer is on a misson or not
+            </summary>
+            <param name="index">The index of the adventurer to check</param>
+            <returns>A bool saying if the adventurer is on a mission</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetAllAdventurerCards">
+            <summary>
+            Gets the "card" for all adventurers for the UI
+            </summary>
+            <returns>An array of card for each adventurer</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetAllItemCards">
+            <summary>
+            Gets the "card" for adventurers, including their items
+            </summary>
+            <returns>An array of item cards for each adventurer</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetItemCards(System.Int32)">
+            <summary>
+            Gives the item card of a specific adventurer
+            </summary>
+            <param name="id">The index of the adventurer to get the card from</param>
+            <returns>A string containing the adventurer's card</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetAvailableAdventurerCards">
+            <summary>
+            Gets the status of each adventurer, saying if they are on missions or not
+            </summary>
+            <returns>A string detailing the status of all the adventurers</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetAdventurerSellValue(System.Int32,System.String@,System.String@)">
+            <summary>
+            Gets the sell value of an adventurer
+            </summary>
+            <param name="who">The index of the adventurer to check</param>
+            <param name="name">The name of adventurer</param>
+            <param name="value">The sell value of the adventuer</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetExpeditionMaps">
+            <summary>
+            Gets all the maps in the expedition class
+            </summary>
+            <returns>A string containing the description of all the maps</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.CanAffordExpedition(System.Int32)">
+            <summary>
+            Checks if a player can afford to go to a specific map
+            </summary>
+            <param name="mapNr">The index of the map to check</param>
+            <returns>A bool saying if the player can afford the map</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.PrepareExpedition(System.Int32,System.Int32)">
+            <summary>
+            Send an adventurer on a mission to a map
+            </summary>
+            <param name="mapNr">The index if the map to check</param>
+            <param name="adventurerNr">Which adventurer to send on the mission</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetInventoryNames">
+            <summary>
+            Gets all the names of items available for sale in the armory
+            </summary>
+            <returns>A list of strings, giving the names of the items</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetInventoryDescriptions">
+            <summary>
+            Gets all the descriptions of items available for sale in the armory
+            </summary>
+            <returns>A list of strings, giving the description of the items</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.GetInventoryPrices">
+            <summary>
+            Gets all the prices of items available for sale in the armory
+            </summary>
+            <returns>A list of strings, giving the prices of the items</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.BuyItem(System.Int32,System.Int32)">
+            <summary>
+            Attempt to buy an item, checking prices, and buying it if the player can afford
+            </summary>
+            <param name="itemId">The index of the item to try and buy</param>
+            <param name="adventurerId">The adventurer to buy the item for</param>
+            <returns>A string informing of the level of success</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.EnterArmory(System.Int32)">
+            <summary>
+            Starts browsing the inventory of the armory
+            </summary>
+            <param name="adventurerId">Which adventurer is browsing the inventory</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.GameManager.ExitArmory">
+            <summary>
+            Leaves the armory, restarting its normal refresh cycle
+            </summary>
+        </member>
         <member name="T:SoftwareExam.CoreProgram.SaveManager">
             <summary>
             A class that handles saving and loading information to and from the database
