@@ -25,12 +25,12 @@ namespace SoftwareExam.CoreProgram.Expedition {
         public static Map GetMap(int difficulty) {
 
             Random Random = new();
-
+            
             int gold = 3 * difficulty;
-            if (gold <= 0) {
-                gold = 1;
-            }
             int silver = 2 * difficulty;
+            if (silver <= 0) {
+                silver = 5;
+            }
             int copper = 4 * difficulty;
 
             Map Map = new() {

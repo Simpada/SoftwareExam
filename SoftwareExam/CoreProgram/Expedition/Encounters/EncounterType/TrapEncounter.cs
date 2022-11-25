@@ -16,7 +16,7 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters {
                     $"{AdventurerName} triggered a tripwire, sending poison darts towards them.",
                     $"{AdventurerName} stepped on a banana peel and lost balance.",
                     $"A tree suddenly fell towards {AdventurerName}.",
-                    $"{AdventurerName} chased a boar, but tripped over a rock.",
+                    $"{AdventurerName} chased a boar, but ran at a deep pit.",
             });
 
             if (trapDifficulty >= adventurerRoll) {

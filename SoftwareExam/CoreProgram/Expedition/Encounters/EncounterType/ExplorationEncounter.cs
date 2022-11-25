@@ -8,9 +8,9 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters {
                 new string[] {
                     " saw a rabbit. It ran away.",
                     $" found a crossroad. They went {Direction()}.",
-                    " sat down for a fast picknick.",
-                    " hides when 100 dragons flew past.",
-                    " chased a boar, but tripped.",
+                    " sat down for a fast picnic.",
+                    " hid when 100 dragons flew past.",
+                    " chased a boar, but they tripped.",
                     " watched the sunrise.",
                     " stopped to flirt with a succubus.",
                     " found a stick. It was a cool stick, so they kept it."

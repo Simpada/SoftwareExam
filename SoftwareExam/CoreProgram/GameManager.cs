@@ -17,7 +17,7 @@ namespace SoftwareExam.CoreProgram {
         private readonly int _maxAdventurers = 5;
 
         public GameManager() {
-            _player = new Player();
+            _player = new();
             _recruitment = new();
             _armory = new();
             _expeditions = new(_player);
@@ -28,18 +28,19 @@ namespace SoftwareExam.CoreProgram {
         /// <summary>
         /// Sets fields in the player to a standard for a new game
         /// </summary>
-        /// <param name="saveFile">which </param>
-        /// <param name="name"></param>
+        /// <param name="saveFile">which save file to make the new game at</param>
+        /// <param name="name">The name of the save file</param>
         public void NewGame(int saveFile, string name) {
             _player = new() {
                 Id = saveFile,
-                PlayerName = name
+                PlayerName = name,
+               Adventurers = new()
             };
             _player.SetCurrency(0, 0, 12);
-            _player.Adventurers = new();
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
             _ = RecruitAdventurer(random.Next(3) + 1);
+            _expeditions.Player = _player;
             SaveGame();
         }
 
