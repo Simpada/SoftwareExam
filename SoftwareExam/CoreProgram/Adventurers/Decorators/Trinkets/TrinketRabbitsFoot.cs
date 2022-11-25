@@ -7,7 +7,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };
         public static new readonly Currency Cost = new(0, 5, 2);
 
-        public TrinketRabbitsFoot(Adventurer Adventurer) : base(Adventurer) {
+        public TrinketRabbitsFoot(Adventurer adventurer) : base(adventurer) {
             ItemId = 401;
 
             Value = BaseAdventurer.Value + Cost;
