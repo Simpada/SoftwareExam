@@ -25,6 +25,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
 
+        private bool _defeated = false;
         private bool _terminated = false;
         private CancellationTokenSource _tokenSource = new();
         private readonly CancellationToken _token;
@@ -151,6 +152,9 @@ namespace SoftwareExam.CoreProgram.Expedition {
                     break;
                 } else {
                     LogWriter.UpdateLog(Player, LogMessage);
+                    if (_defeated) {
+                        break;
+                    }
                 }
             }
 
@@ -161,19 +165,19 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 }
                 _taskPauseEvent.WaitOne();
 
-                Reward += CompletionReward;
+                if (_defeated) {
+                    LogMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
+                } else {
+                    Reward += CompletionReward;
+                    LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
+                }
 
-                LogMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
-                CompleteMission();
+                LogWriter.UpdateLog(Player, LogMessage);
+                Adventurer.OnMission = false;
+
+                Completed = true;
+                Player.CompleteMission();
             }
-        }
-
-        private void CompleteMission() {
-            LogWriter.UpdateLog(Player, LogMessage);
-            Adventurer.OnMission = false;
-
-            Completed = true;
-            Player.CompleteMission();
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
@@ -182,7 +186,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
             } catch (Exception) {
             }
             TimeLeft -= encounterTime;
-            bool success = Encounters[EncounterNumber - 1].RunEncounter(out Currency reward, out string description);
+            bool success = encounter.RunEncounter(out Currency reward, out string description);
             LogMessage = "    - " + description;
 
             if (success) {
@@ -190,9 +194,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
             } else {
                 AdventurerHealth--;
                 if (AdventurerHealth <= 0) {
-                    LogMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
-                    CompleteMission();
-                    Terminate();
+                    _defeated = true;
                 }
             }
             EncounterNumber--;

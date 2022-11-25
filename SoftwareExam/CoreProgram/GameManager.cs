@@ -33,9 +33,10 @@ namespace SoftwareExam.CoreProgram {
         public void NewGame(int saveFile, string name) {
             _player.Id = saveFile;
             _player.PlayerName = name;
-            _player.SetCurrency(0, 0, 7);
+            _player.SetCurrency(0, 0, 12);
             _player.Adventurers = new();
             Random random = new();
+            _ = RecruitAdventurer(random.Next(3) + 1);
             _ = RecruitAdventurer(random.Next(3) + 1);
             SaveGame();
         }
