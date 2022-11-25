@@ -1,13 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Expedition
-{
+namespace SoftwareExam.CoreProgram.Expedition {
     public class Expeditions {
 
         private readonly List<Map> Maps = new();
@@ -19,7 +13,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             SetUpMaps();
         }
 
-        private void SetUpMaps () {
+        private void SetUpMaps() {
             Maps.Clear();
             for (int i = 0; i < 4; i++) {
                 Maps.Add(Map.GetMap(i));
@@ -29,7 +23,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         public string GetMaps() {
 
             Maps.Sort();
-            
+
             string MapDescriptions = "    |-----------------------------------------";
 
             foreach (Map map in Maps) {

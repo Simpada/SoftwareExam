@@ -1,19 +1,15 @@
 ﻿using Microsoft.Data.Sqlite;
 
-namespace SoftwareExam.DataBase
-{
-    public class InitializeDatabase
-    {
+namespace SoftwareExam.DataBase {
+    public class InitializeDatabase {
         private readonly string _dataSource;
 
-        public InitializeDatabase(string dataSource)
-        {
+        public InitializeDatabase(string dataSource) {
             _dataSource = dataSource;
             Init();
         }
 
-        public void Init()
-        {
+        public void Init() {
             if (!CheckIfDatabaseExists()) {
                 CreateTablePlayer();
                 CreateTableAdventurers();
@@ -24,19 +20,17 @@ namespace SoftwareExam.DataBase
         }
 
 
-        public bool CheckIfDatabaseExists()
-        {
+        public bool CheckIfDatabaseExists() {
             if (File.Exists(_dataSource)) {
                 return true;
             }
             return false;
         }
 
-        public void CreateTablePlayer()
-        {
+        public void CreateTablePlayer() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
-            
+
             using SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS players
@@ -51,8 +45,7 @@ namespace SoftwareExam.DataBase
             command.ExecuteNonQuery();
         }
 
-        public void CreateTableAdventurers()
-        {
+        public void CreateTableAdventurers() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
@@ -75,8 +68,7 @@ namespace SoftwareExam.DataBase
             command.ExecuteNonQuery();
         }
 
-        private void CreateTableDecorators()
-        {
+        private void CreateTableDecorators() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
@@ -95,8 +87,7 @@ namespace SoftwareExam.DataBase
             command.ExecuteNonQuery();
         }
 
-        private void CreateTableMission()
-        {
+        private void CreateTableMission() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
@@ -123,8 +114,7 @@ namespace SoftwareExam.DataBase
             command.ExecuteNonQuery();
         }
 
-        private void CreateTableLogs()
-        {
+        private void CreateTableLogs() {
             using SqliteConnection connection = new(_dataSource);
             connection.Open();
 
@@ -144,10 +134,8 @@ namespace SoftwareExam.DataBase
         }
 
 
-        public string DataSource
-        {
-            get
-            {
+        public string DataSource {
+            get {
                 return _dataSource;
             }
         }

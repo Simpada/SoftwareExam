@@ -1,17 +1,11 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
-{
-    internal class WeaponIronSword : BasicWeapon {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class WeaponIronSword : BasicWeapon {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
-        public static new readonly Currency Cost = new(0,0,1);
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue" };
+        public static new readonly Currency Cost = new(0, 0, 1);
 
         public WeaponIronSword(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;
@@ -22,14 +16,11 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
             Damage += 2;
         }
 
-        public override string GetEquipmentDescription()
-        {
+        public override string GetEquipmentDescription() {
             return "Regular iron sword. Grants +2 damage";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new WeaponIronSword(new Warrior()).GetEquipmentDescription();
         }
         public override string GetEquipmentName() {
@@ -37,7 +28,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new WeaponIronSword(new Warrior()).GetEquipmentName();
         }
     }

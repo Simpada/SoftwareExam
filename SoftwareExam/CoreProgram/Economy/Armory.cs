@@ -1,17 +1,9 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Economy
-{
+namespace SoftwareExam.CoreProgram.Economy {
 
-    public class Armory
-    {
+    public class Armory {
 
         private readonly List<int> Armors = new();
         private readonly List<int> Hats = new();
@@ -29,8 +21,7 @@ namespace SoftwareExam.CoreProgram.Economy
 
         private readonly ManualResetEvent TaskPauseEvent = new(true);
 
-        public Armory()
-        {
+        public Armory() {
 
             InitializeItems();
             // Starts Refresh Inventory on its own thread, that will always run, resetting inventory every x seconds
@@ -39,18 +30,15 @@ namespace SoftwareExam.CoreProgram.Economy
 
         }
 
-        public void Pause()
-        {
+        public void Pause() {
             TaskPauseEvent.Reset();
         }
-        public void Resume()
-        {
+        public void Resume() {
             TaskPauseEvent.Set();
         }
 
         #region Pretend this part doesn't exist
-        private void InitializeItems()
-        {
+        private void InitializeItems() {
             Armors.Add(101);
             Armors.Add(102);
             Armors.Add(103);
@@ -84,100 +72,84 @@ namespace SoftwareExam.CoreProgram.Economy
         }
         #endregion
 
-        private void RefreshInventory()
-        {
-            while (true)
-            {
+        private void RefreshInventory() {
+            while (true) {
                 TaskPauseEvent.WaitOne();
                 FullInventory.Clear();
-                for (int i = 0; i < InventorySize; i++)
-                {
+                for (int i = 0; i < InventorySize; i++) {
                     int randomNumber = Random.Next(5);
-                    switch (randomNumber)
-                    {
+                    switch (randomNumber) {
                         case 0:
-                            FullInventory.Add(Armors[Random.Next(Armors.Count)]);
-                            break;
+                        FullInventory.Add(Armors[Random.Next(Armors.Count)]);
+                        break;
                         case 1:
-                            FullInventory.Add(Hats[Random.Next(Hats.Count)]);
-                            break;
+                        FullInventory.Add(Hats[Random.Next(Hats.Count)]);
+                        break;
                         case 2:
-                            FullInventory.Add(OffHands[Random.Next(OffHands.Count)]);
-                            break;
+                        FullInventory.Add(OffHands[Random.Next(OffHands.Count)]);
+                        break;
                         case 3:
-                            FullInventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
-                            break;
+                        FullInventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
+                        break;
                         case 4:
-                            FullInventory.Add(Weapons[Random.Next(Weapons.Count)]);
-                            break;
+                        FullInventory.Add(Weapons[Random.Next(Weapons.Count)]);
+                        break;
                     }
                 }
                 Thread.Sleep(InventoryRefreshRate);
             }
         }
 
-        public void EnterArmory(string adventurerClass)
-        {
+        public void EnterArmory(string adventurerClass) {
 
             Pause();
 
             DisplayInventory.Clear();
 
-            foreach (int itemId in FullInventory)
-            {
+            foreach (int itemId in FullInventory) {
 
-                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId))
-                {
+                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId)) {
 
-                    if (allowedClass == adventurerClass)
-                    {
+                    if (allowedClass == adventurerClass) {
                         DisplayInventory.Add(itemId);
                     }
                 }
             }
         }
 
-        public List<string> GetItemNames()
-        {
+        public List<string> GetItemNames() {
 
             List<string> Names = new();
 
-            foreach (var item in DisplayInventory)
-            {
+            foreach (var item in DisplayInventory) {
                 Names.Add(ItemParser.GetItemName(item));
             }
             return Names;
         }
 
-        public List<string> GetItemDescriptions()
-        {
+        public List<string> GetItemDescriptions() {
 
             List<string> Descriptions = new();
 
-            foreach (var item in DisplayInventory)
-            {
+            foreach (var item in DisplayInventory) {
                 Descriptions.Add(ItemParser.GetItemDescription(item));
             }
             return Descriptions;
         }
 
-        public List<string> GetItemPrices()
-        {
+        public List<string> GetItemPrices() {
 
             List<string> Prices = new();
 
-            foreach (var item in DisplayInventory)
-            {
+            foreach (var item in DisplayInventory) {
                 Prices.Add(ItemParser.GetItemCost(item).ToString());
             }
             return Prices;
         }
 
-        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price)
-        {
+        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price) {
 
-            if (itemIndex >= DisplayInventory.Count)
-            {
+            if (itemIndex >= DisplayInventory.Count) {
                 price = new();
                 noItem = true;
                 return false;
@@ -186,15 +158,13 @@ namespace SoftwareExam.CoreProgram.Economy
             noItem = false;
             price = ItemParser.GetItemCost(DisplayInventory[itemIndex]);
 
-            if (currency >= price)
-            {
+            if (currency >= price) {
                 return true;
             }
             return false;
         }
 
-        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer)
-        {
+        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer) {
             int itemId = DisplayInventory[itemIndex];
 
             FullInventory.Remove(itemId);

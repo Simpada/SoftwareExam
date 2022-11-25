@@ -7,10 +7,8 @@ using SoftwareExam.DataBase;
  * 
  */
 
-namespace TestSoftwareExam
-{
-    public class UnitTestPlayerDatabase
-    {
+namespace TestSoftwareExam {
+    public class UnitTestPlayerDatabase {
         // Not true, it is never null
         private DataBaseAccess DatabaseAccess;
 
@@ -46,8 +44,7 @@ namespace TestSoftwareExam
         //}
 
         [Test]
-        public void TestRetriveAllPlayerNames()
-        {
+        public void TestRetriveAllPlayerNames() {
             Prepare("testDatabase2.db");
 
             Player player1 = new(1, "one", new Currency(5, 5, 100));

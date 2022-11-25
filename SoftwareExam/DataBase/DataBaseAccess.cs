@@ -4,9 +4,6 @@ using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
 using SoftwareExam.CoreProgram.Expedition;
-using System.Collections;
-using System.Numerics;
-using System.Reflection.PortableExecutable;
 
 /**
  * SQLite AdoNet
@@ -21,8 +18,7 @@ namespace SoftwareExam.DataBase {
         //private InitializeDatabase InitDb;
         private readonly string DataSource = "";
 
-        public DataBaseAccess(string dataSource)
-        {
+        public DataBaseAccess(string dataSource) {
             using (SqliteConnection connection = new(dataSource)) {
                 connection.Open();
                 _ = new InitializeDatabase(dataSource);
@@ -30,8 +26,7 @@ namespace SoftwareExam.DataBase {
             }
         }
 
-        public void Save(Player player)
-        {
+        public void Save(Player player) {
             if (CheckIfPlayerExists(player.Id)) {
                 Delete(player.Id);
             }
@@ -39,8 +34,7 @@ namespace SoftwareExam.DataBase {
         }
 
         //Used to check if there is a player for overwriting a saved game.
-        public bool CheckIfPlayerExists(int id)
-        {
+        public bool CheckIfPlayerExists(int id) {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
@@ -56,15 +50,13 @@ namespace SoftwareExam.DataBase {
             using SqliteDataReader reader = command.ExecuteReader();
             if (reader.Read()) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
 
         //Should actually not access player - best way to return info?
-        public void Add(Player player)
-        {
+        public void Add(Player player) {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
@@ -98,7 +90,7 @@ namespace SoftwareExam.DataBase {
                 using SqliteCommand adventurerCommand = connection.CreateCommand();
 
                 // This is often risky, but we know that all adventurers in the list are always BaseDecoratedAdventurers
-                Adventurer adventurer = Adventurer.FindBase( (BaseDecoratedAdventurer) player.Adventurers[i]);
+                Adventurer adventurer = Adventurer.FindBase((BaseDecoratedAdventurer)player.Adventurers[i]);
 
                 adventurerCommand.CommandText = @"
                         INSERT INTO adventurers (adventurer_name, class, health, damage, luck, player_id)
@@ -264,7 +256,7 @@ namespace SoftwareExam.DataBase {
                 adventurers.Add(adventurer);
             }
             return adventurers;
-            
+
 
         }
 
@@ -293,8 +285,7 @@ namespace SoftwareExam.DataBase {
         }
 
         //Triple join. But could use list from GetAdventuerers
-        public List<Mission> GetMissionsForAdventurers(int id)
-        {
+        public List<Mission> GetMissionsForAdventurers(int id) {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
@@ -318,7 +309,7 @@ namespace SoftwareExam.DataBase {
 
             using SqliteDataReader reader = command.ExecuteReader();
             while (reader.Read()) {
-            Mission mission = new();
+                Mission mission = new();
 
                 mission.AdventurerId = reader.GetInt32(0);
                 mission.TimeLeft = reader.GetInt32(1);
@@ -357,8 +348,7 @@ namespace SoftwareExam.DataBase {
         //    }
         //}
 
-        public string[] RetrieveAllPlayerNames()
-        {
+        public string[] RetrieveAllPlayerNames() {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
@@ -386,8 +376,7 @@ namespace SoftwareExam.DataBase {
             return playerNames;
         }
 
-        public void Delete(int id)
-        {
+        public void Delete(int id) {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 
@@ -401,8 +390,7 @@ namespace SoftwareExam.DataBase {
             command.ExecuteNonQuery();
         }
 
-        public void DropTable(string table)
-        {
+        public void DropTable(string table) {
             using SqliteConnection connection = new(DataSource);
             connection.Open();
 

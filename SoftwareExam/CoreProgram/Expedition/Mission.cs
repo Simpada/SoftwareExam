@@ -2,12 +2,9 @@
 using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition.Encounters;
 using SoftwareExam.CoreProgram.Expedition.Encounters.Factory;
-using System.Diagnostics;
 
-namespace SoftwareExam.CoreProgram.Expedition
-{
-    public class Mission
-    {
+namespace SoftwareExam.CoreProgram.Expedition {
+    public class Mission {
         public Player Player { set; private get; }
         public LogWriter LogWriter { set; private get; }
         private readonly ManualResetEvent TaskPauseEvent = new(true);
@@ -31,13 +28,11 @@ namespace SoftwareExam.CoreProgram.Expedition
         private int[] WaitTimes;
         private readonly Random Random = new();
 
-        public Mission()
-        {
+        public Mission() {
             Token = TokenSource.Token;
         }
 
-        public Mission (Player player, Map map, Adventurer adventurer, LogWriter logWriter)
-        {
+        public Mission(Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
             Token = TokenSource.Token;
 
             Player = player;
@@ -60,8 +55,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             PrepareMission(false);
         }
 
-        private void GenerateEncounters()
-        {
+        private void GenerateEncounters() {
             for (int i = 0; i < EncounterNumber; i++) {
 
                 int encounterType = Random.Next(20) + Adventurer.Luck;
@@ -69,24 +63,23 @@ namespace SoftwareExam.CoreProgram.Expedition
 
                 switch (encounterType) {
                     case >= 18:
-                        encounterFactory = new TreasureFactory();
-                        break;
+                    encounterFactory = new TreasureFactory();
+                    break;
                     case >= 12:
-                        encounterFactory = new MonsterFactory();
-                        break;
+                    encounterFactory = new MonsterFactory();
+                    break;
                     case >= 6:
-                        encounterFactory = new ExplorationFactory();
-                        break;
+                    encounterFactory = new ExplorationFactory();
+                    break;
                     default:
-                        encounterFactory = new TrapFactory();
-                        break;
+                    encounterFactory = new TrapFactory();
+                    break;
                 }
                 Encounters.Add(encounterFactory.CreateEncounter(Adventurer.Name, Adventurer.Luck, Adventurer.Damage));
             }
         }
 
-        public void Start()
-        {
+        public void Start() {
             GenerateEncounters();
             WaitTimes = new int[EncounterNumber];
             Player.Missions.Add(this);
@@ -95,8 +88,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             PrepareMission(true);
         }
 
-        private void PrepareMission(bool resume)
-        {
+        private void PrepareMission(bool resume) {
 
             int[] EncounterTimes = new int[Encounters.Count];
 
@@ -121,8 +113,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             //MissionTask.Start();
         }
 
-        private async void StartMission(bool resume)
-        {
+        private async void StartMission(bool resume) {
             if (!resume) {
                 LogMessage = $"    - {Adventurer.Name} has headed towards {Destination}";
                 LogWriter.UpdateLog(Player, LogMessage);
@@ -145,8 +136,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             if (!Terminated) {
                 try {
                     await Task.Delay(5000, Token);
-                }
-                catch (Exception) {
+                } catch (Exception) {
                 }
                 TaskPauseEvent.WaitOne();
 
@@ -159,8 +149,7 @@ namespace SoftwareExam.CoreProgram.Expedition
 
         }
 
-        private void CompleteMission()
-        {
+        private void CompleteMission() {
             LogWriter.UpdateLog(Player, LogMessage);
             Adventurer.OnMission = false;
 
@@ -171,8 +160,7 @@ namespace SoftwareExam.CoreProgram.Expedition
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
             try {
                 await Task.Delay(encounterTime * 1000, Token);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
             TimeLeft -= encounterTime;
             bool success = Encounters[EncounterNumber - 1].RunEncounter(out Currency reward, out string description);
@@ -180,8 +168,7 @@ namespace SoftwareExam.CoreProgram.Expedition
 
             if (success) {
                 Reward += reward;
-            }
-            else {
+            } else {
                 AdventurerHealth--;
                 if (AdventurerHealth <= 0) {
                     LogMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
@@ -200,8 +187,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             TaskPauseEvent.Set();
         }
 
-        public void Terminate()
-        {
+        public void Terminate() {
             Terminated = true;
             TokenSource.Cancel();
         }

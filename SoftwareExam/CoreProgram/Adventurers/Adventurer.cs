@@ -1,15 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers
-{
+namespace SoftwareExam.CoreProgram.Adventurers {
     /// <summary>
     /// This class sets how an adventurer functions
     /// </summary>
@@ -25,7 +17,7 @@ namespace SoftwareExam.CoreProgram.Adventurers
         public int Luck { get; set; }
 
         public List<BaseDecoratedAdventurer> Equipment { get; set; } = new();
-        public Currency Value { get; set; } = new Currency(0,0,5);
+        public Currency Value { get; set; } = new Currency(0, 0, 5);
         public bool OnMission { get; set; } = false;
         public string[] SymbolArray = new string[6];
 
@@ -150,7 +142,7 @@ namespace SoftwareExam.CoreProgram.Adventurers
             string TrinketName = "";
             string Trinket = "";
 
-            foreach(var item in Equipment) {
+            foreach (var item in Equipment) {
 
                 int itemId = GetItemType(item.ItemId);
 
@@ -242,7 +234,7 @@ namespace SoftwareExam.CoreProgram.Adventurers
 
             return newAdventurer;
         }
-        
+
         /// <summary>
         /// Recursive method that finds the core adventurer, one without any items or decorators
         /// </summary>
@@ -283,7 +275,7 @@ namespace SoftwareExam.CoreProgram.Adventurers
             foreach (BaseDecoratedAdventurer OldItem in changingAdventurer.Equipment) {
 
                 int equippedItemType = GetItemType(OldItem.ItemId);
-                
+
                 if (itemType == equippedItemType) {
                     changingAdventurer.Equipment.Remove(OldItem);
                     break;

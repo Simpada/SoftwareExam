@@ -1,25 +1,13 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+﻿namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class BasicArmor : BaseDecoratedAdventurer {
-
         public BasicArmor(Adventurer Adventurer) : base(Adventurer) {
             ItemId = 100;
         }
-
-        public override void EditStats() {
-
-        }
-
+        public override void EditStats() { }
         public override string GetEquipmentDescription() {
             return "There's nothing special about this armor.";
         }
-
         public override string GetEquipmentName() {
             return "Basic Armor";
         }

@@ -1,18 +1,11 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
-{
-    internal class HatPlateHelmet : BasicHat {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class HatPlateHelmet : BasicHat {
 
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior"};
-        public static new readonly Currency Cost = new(0,0,2);
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior" };
+        public static new readonly Currency Cost = new(0, 0, 2);
 
         public HatPlateHelmet(Adventurer adventurer) : base(adventurer) {
             ItemId = 201;
@@ -28,9 +21,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
             return "A durable helmet that increase your health by 2";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new HatPlateHelmet(new Warrior()).GetEquipmentDescription();
         }
 
@@ -39,7 +30,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new HatPlateHelmet(new Warrior()).GetEquipmentName();
         }
     }

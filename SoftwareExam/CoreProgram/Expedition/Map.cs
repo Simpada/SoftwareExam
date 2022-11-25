@@ -1,7 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Expedition
-{
+namespace SoftwareExam.CoreProgram.Expedition {
 
     public class Map : IComparable<Map> {
 
@@ -43,7 +42,7 @@ namespace SoftwareExam.CoreProgram.Expedition
 
             return $@"
     |
-    |   [{(int) Difficulty + 1}] {Difficulty} MAP
+    |   [{(int)Difficulty + 1}] {Difficulty} MAP
     |
     |   Expedition cost: {ExpeditionCost}
     |   Expedition to {Location}
@@ -52,7 +51,7 @@ namespace SoftwareExam.CoreProgram.Expedition
     |";
 
         }
-        
+
         public static Map GetMap(int difficulty, int copper, int silver, int gold, int encounters, string location) {
 
             Map Map = new() {
