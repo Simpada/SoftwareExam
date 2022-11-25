@@ -1,10 +1,10 @@
 ﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters.Factory
 {
-    internal class TrapFactory : EncounterFactory
+    internal class TrapFactory : IEncounterFactory
     {
-        public override Encounter CreateEncounter(string adventurerName, int adventureLuck, int adventurerDamage)
+        public Encounter CreateEncounter(string adventurerName, int adventurerLuck, int adventurerDamage)
         {
-            return new TrapEncounter(adventurerName, adventureLuck, adventurerDamage);
+            return new TrapEncounter(adventurerName, adventurerLuck, adventurerDamage);
         }
     }
 }
