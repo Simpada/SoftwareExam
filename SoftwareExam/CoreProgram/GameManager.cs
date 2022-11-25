@@ -218,6 +218,15 @@ namespace SoftwareExam.CoreProgram {
         }
 
         /// <summary>
+        /// Gives the item card of a specific adventurer
+        /// </summary>
+        /// <param name="id">The index of the adventurer to get the card from</param>
+        /// <returns>A string containing the adventurer's card</returns>
+        public string GetItemCards(int id) {
+            return _player.Adventurers[id].GetItemCard();
+        }
+
+        /// <summary>
         /// Gets the status of each adventurer, saying if they are on missions or not
         /// </summary>
         /// <returns>A string detailing the status of all the adventurers</returns>
@@ -253,18 +262,29 @@ namespace SoftwareExam.CoreProgram {
 
         #region Expeditions
 
-        // Gets all maps from expeditions
+        /// <summary>
+        /// Gets all the maps in the expedition class
+        /// </summary>
+        /// <returns>A string containing the description of all the maps</returns>
         public string GetExpeditionMaps() {
             return _expeditions.GetMaps();
         }
 
-        // Checks if the player can afford to go on a specific expedition
+        /// <summary>
+        /// Checks if a player can afford to go to a specific map
+        /// </summary>
+        /// <param name="mapNr">The index of the map to check</param>
+        /// <returns>A bool saying if the player can afford the map</returns>
         public bool CanAffordExpedition(int mapNr) {
 
             return _expeditions.PurchaseMap(mapNr, _player.Balance);
         }
 
-        // Gives expeditions a map and an adventurer, so it can run the mission
+        /// <summary>
+        /// Send an adventurer on a mission to a map
+        /// </summary>
+        /// <param name="mapNr">The index if the map to check</param>
+        /// <param name="adventurerNr">Which adventurer to send on the mission</param>
         public void PrepareExpedition(int mapNr, int adventurerNr) {
 
             _expeditions.PrepareMission(mapNr, _player.Adventurers[adventurerNr], out Currency cost);
@@ -273,23 +293,37 @@ namespace SoftwareExam.CoreProgram {
         #endregion
 
         #region Armory
+
+        /// <summary>
+        /// Gets all the names of items available for sale in the armory
+        /// </summary>
+        /// <returns>A list of strings, giving the names of the items</returns>
         public List<string> GetInventoryNames() {
             return _armory.GetItemNames();
         }
 
+        /// <summary>
+        /// Gets all the descriptions of items available for sale in the armory
+        /// </summary>
+        /// <returns>A list of strings, giving the description of the items</returns>
         public List<string> GetInventoryDescriptions() {
             return _armory.GetItemDescriptions();
         }
 
+        /// <summary>
+        /// Gets all the prices of items available for sale in the armory
+        /// </summary>
+        /// <returns>A list of strings, giving the prices of the items</returns>
         public List<string> GetInventoryPrices() {
             return _armory.GetItemPrices();
         }
 
-        public string GetItemCards(int id) {
-            return _player.Adventurers[id].GetItemCard();
-        }
-
-        // Attempts to buy an item, checking prices, and buying it if it can be afforded and exists
+        /// <summary>
+        /// Attempt to buy an item, checking prices, and buying it if the player can afford
+        /// </summary>
+        /// <param name="itemId">The index of the item to try and buy</param>
+        /// <param name="adventurerId">The adventurer to buy the item for</param>
+        /// <returns>A string informing of the level of success</returns>
         public string BuyItem(int itemId, int adventurerId) {
             bool CanAfford = _armory.CanAffordItem(itemId, _player.Balance, out bool noItem, out Currency price);
 
@@ -310,10 +344,16 @@ namespace SoftwareExam.CoreProgram {
             }
         }
 
-        // These two functions pauses the Armory refresh function while browsing
+        /// <summary>
+        /// Starts browsing the inventory of the armory
+        /// </summary>
+        /// <param name="adventurerId">Which adventurer is browsing the inventory</param>
         public void EnterArmory(int adventurerId) {
             _armory.EnterArmory(_player.Adventurers[adventurerId].Class);
         }
+        /// <summary>
+        /// Leaves the armory, restarting its normal refresh cycle
+        /// </summary>
         public void ExitArmory() {
             _armory.Resume();
         }
