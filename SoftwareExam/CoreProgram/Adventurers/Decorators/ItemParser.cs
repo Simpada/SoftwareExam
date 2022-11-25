@@ -3,13 +3,15 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators.Hats;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators
+{
     public static class ItemParser {
 
         // The Ugly Class

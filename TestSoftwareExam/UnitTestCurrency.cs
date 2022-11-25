@@ -1,4 +1,4 @@
-using SoftwareExam.CoreProgram;
+using SoftwareExam.CoreProgram.Economy;
 
 namespace TestSoftwareExam
 {

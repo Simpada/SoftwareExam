@@ -1,5 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 using System.Numerics;
@@ -24,11 +25,14 @@ namespace SoftwareExam.CoreProgram
 
         #region Core Functions
 
-        // These we might want to move to a separate class
         public void NewGame(int saveFile, string name) {
-            SaveManager.NewGame(Player, saveFile, name);
+            Player.Id = saveFile;
+            Player.PlayerName = name;
+            Player.SetCurrency(0, 0, 7);
+            Player.Adventurers = new();
             Random random = new();
             _ = RecruitAdventurer(random.Next(3) + 1);
+            SaveGame();
         }
         public void SaveGame() {
             SaveManager.SaveGame(Player);

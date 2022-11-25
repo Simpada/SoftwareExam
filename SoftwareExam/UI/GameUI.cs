@@ -155,7 +155,6 @@ namespace SoftwareExam.UI {
 
                 if (Name != null && Regex.IsMatch(Name, @"^[a-zA-Z]+[a-zA-Z ]$")) {
                     Manager.NewGame(SaveFile, Name);
-                    Manager.SaveGame();
                     break;
                 } else if (Name == "") {
                     return false;

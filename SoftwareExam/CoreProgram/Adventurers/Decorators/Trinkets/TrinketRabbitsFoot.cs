@@ -1,12 +1,14 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets
+{
     internal class TrinketRabbitsFoot : BasicTrinket {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue", "Mage" };

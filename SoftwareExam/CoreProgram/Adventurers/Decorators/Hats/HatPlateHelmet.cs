@@ -1,12 +1,14 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Hats
+{
     internal class HatPlateHelmet : BasicHat {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior"};

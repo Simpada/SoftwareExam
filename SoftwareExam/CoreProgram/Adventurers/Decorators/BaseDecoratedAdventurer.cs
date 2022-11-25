@@ -1,11 +1,13 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators
+{
     public abstract class BaseDecoratedAdventurer : Adventurer {
 
         public int ItemId { get; set; } = 0;
