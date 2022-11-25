@@ -19,10 +19,10 @@ namespace SoftwareExam.CoreProgram {
         /// Constructor for GameManager that sets up necessary classes
         /// </summary>
         public GameManager() {
-            _player = new ();
-            _recruitment = new ();
-            _armory = new ();
-            _expeditions = new (_player);
+            _player = new();
+            _recruitment = new();
+            _armory = new();
+            _expeditions = new(_player);
         }
 
         #region Core Functions
@@ -103,20 +103,20 @@ namespace SoftwareExam.CoreProgram {
 
         #region Player Information
 
+        /// <summary>
+        /// To get the log from the player
+        /// </summary>
+        /// <returns>A string containing the log of the player</returns>
         public string GetLogMessage() {
             return _player.GetLogMessages();
         }
 
+        /// <summary>
+        /// Gets how much money they player has for the UI
+        /// </summary>
+        /// <returns>A string displaying the balance of the player</returns>
         public string GetBalanceString() {
             return _player.Balance.ToString();
-        }
-
-        // Calls recruitment to check balance
-        public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
-
-            canAfford = _recruitment.CheckBalance(_player.Balance);
-            cost = _recruitment.Price.ToString();
-            newBalance = (_player.Balance - _recruitment.Price).ToString();
         }
         #endregion
 
@@ -127,6 +127,24 @@ namespace SoftwareExam.CoreProgram {
             return _player.Adventurers.Count;
         }
 
+        /// <summary>
+        /// Checks the balance of the player, to chek if they can recruit new adventurers
+        /// </summary>
+        /// <param name="canAfford">A bool that tells if the player has enough money</param>
+        /// <param name="newBalance">A string that informs how much money the player would have after the transaction</param>
+        /// <param name="cost">The price of the purchase</param>
+        public void CheckBalance(out bool canAfford, out string newBalance, out string cost) {
+
+            canAfford = _recruitment.CheckBalance(_player.Balance);
+            cost = _recruitment.Price.ToString();
+            newBalance = (_player.Balance - _recruitment.Price).ToString();
+        }
+
+        /// <summary>
+        /// Recruits a new adventurer of the player can afford it
+        /// </summary>
+        /// <param name="type">What type of adventurer to recruit</param>
+        /// <returns>A bool telling if the purchase was successful</returns>
         public bool RecruitAdventurer(int type) {
 
             Adventurer? adventurer = _recruitment.RecruitAdventurer(type, _player.Balance);
@@ -140,12 +158,20 @@ namespace SoftwareExam.CoreProgram {
             }
         }
 
+        /// <summary>
+        /// Sells an adventurer
+        /// </summary>
+        /// <param name="who">The index of the adventurer to sell</param>
         public void DismissAdventurer(int who) {
             _player.SellAdventurer(who);
 
         }
 
-        // Checks if the adventurer exists, and if it does, if it is on a mission
+        /// <summary>
+        /// Checks if the adventurer is on a misson or not
+        /// </summary>
+        /// <param name="index">The index of the adventurer to check</param>
+        /// <returns>A bool saying if the adventurer is on a mission</returns>
         public bool GetAvailability(int index) {
 
             if (_player.Adventurers.Count >= index + 1) {
@@ -156,7 +182,10 @@ namespace SoftwareExam.CoreProgram {
 
         #region Adventurer Strings for UI
 
-        // Get's the adventurer card of all adventurers, this should probably be done in the player or elsewhere
+        /// <summary>
+        /// Gets the "card" for all adventurers for the UI
+        /// </summary>
+        /// <returns>An array of card for each adventurer</returns>
         public string[] GetAllAdventurerCards() {
 
             // This sets the maximum amount of adventurers you can display
@@ -171,7 +200,10 @@ namespace SoftwareExam.CoreProgram {
             return AdventurerCards;
         }
 
-        // Get's the adventurer cards plus their item descriptions, might also be done elsewhere
+        /// <summary>
+        /// Gets the "card" for adventurers, including their items
+        /// </summary>
+        /// <returns>An array of item cards for each adventurer</returns>
         public string[] GetAllItemCards() {
 
             string[] ItemCards = new string[_maxAdventurers];
@@ -185,7 +217,10 @@ namespace SoftwareExam.CoreProgram {
             return ItemCards;
         }
 
-        // Creates a string of available adventurers, and their status for UI, not the best to have it in GameManager
+        /// <summary>
+        /// Gets the status of each adventurer, saying if they are on missions or not
+        /// </summary>
+        /// <returns>A string detailing the status of all the adventurers</returns>
         public string GetAvailableAdventurerCards() {
 
             string AvailableAdventurers = "";
@@ -196,7 +231,12 @@ namespace SoftwareExam.CoreProgram {
             return AvailableAdventurers;
         }
 
-        // Checks an adventurer's worth, currently doesn't work!!!
+        /// <summary>
+        /// Gets the sell value of an adventurer
+        /// </summary>
+        /// <param name="who">The index of the adventurer to check</param>
+        /// <param name="name">The name of adventurer</param>
+        /// <param name="value">The sell value of the adventuer</param>
         public void GetAdventurerSellValue(int who, out string name, out string value) {
 
             double sellMultiplier = 0.7;
