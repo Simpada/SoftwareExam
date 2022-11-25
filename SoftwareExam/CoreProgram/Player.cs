@@ -172,5 +172,10 @@ namespace SoftwareExam.CoreProgram
         {
             Missions.Clear();
         }
+
+        public void SellAdventurer(int who) {
+            AlterCurrency(Adventurers[who].Value * 0.7, true);
+            Adventurers.RemoveAt(who);
+        }
     }
 }
