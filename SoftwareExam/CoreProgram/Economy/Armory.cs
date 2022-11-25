@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram
+namespace SoftwareExam.CoreProgram.Economy
 {
 
     public class Armory
@@ -47,7 +47,7 @@ namespace SoftwareExam.CoreProgram
         {
             TaskPauseEvent.Set();
         }
-        
+
         #region Pretend this part doesn't exist
         private void InitializeItems()
         {
@@ -116,56 +116,68 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
-        public void EnterArmory(string adventurerClass) {
+        public void EnterArmory(string adventurerClass)
+        {
 
             Pause();
 
             DisplayInventory.Clear();
 
-            foreach(int itemId in FullInventory) {
+            foreach (int itemId in FullInventory)
+            {
 
-                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId)) {
+                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId))
+                {
 
-                    if (allowedClass == adventurerClass) {
+                    if (allowedClass == adventurerClass)
+                    {
                         DisplayInventory.Add(itemId);
                     }
                 }
             }
         }
 
-        public List<string> GetItemNames() {
+        public List<string> GetItemNames()
+        {
 
             List<string> Names = new();
 
-            foreach (var item in DisplayInventory) {
+            foreach (var item in DisplayInventory)
+            {
                 Names.Add(ItemParser.GetItemName(item));
             }
             return Names;
         }
 
-        public List<string> GetItemDescriptions() {
+        public List<string> GetItemDescriptions()
+        {
 
             List<string> Descriptions = new();
 
-            foreach(var item in DisplayInventory) {
+            foreach (var item in DisplayInventory)
+            {
                 Descriptions.Add(ItemParser.GetItemDescription(item));
             }
             return Descriptions;
         }
 
-        public List<string> GetItemPrices() {
+        public List<string> GetItemPrices()
+        {
 
             List<string> Prices = new();
 
-            foreach (var item in DisplayInventory) {
+            foreach (var item in DisplayInventory)
+            {
                 Prices.Add(ItemParser.GetItemCost(item).ToString());
             }
             return Prices;
         }
 
-        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price) {
+        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price)
+        {
 
-            if (itemIndex >= DisplayInventory.Count) {
+            if (itemIndex >= DisplayInventory.Count)
+            {
                 price = new();
                 noItem = true;
                 return false;
@@ -174,7 +186,8 @@ namespace SoftwareExam.CoreProgram
             noItem = false;
             price = ItemParser.GetItemCost(DisplayInventory[itemIndex]);
 
-            if (currency >= price) {
+            if (currency >= price)
+            {
                 return true;
             }
             return false;

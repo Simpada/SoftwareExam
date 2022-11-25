@@ -1,12 +1,13 @@
-﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Adventurers;
+﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestSoftwareExam {
+namespace TestSoftwareExam
+{
     internal class UnitTestRecruitment {
 
         private Recruitment Recruitment;

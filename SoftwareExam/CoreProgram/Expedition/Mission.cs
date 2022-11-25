@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition.Encounters;
 using SoftwareExam.CoreProgram.Expedition.Encounters.Factory;
 using System.Diagnostics;

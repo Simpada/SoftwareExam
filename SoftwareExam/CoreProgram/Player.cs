@@ -1,4 +1,5 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
 using System.Reflection;
 using System.Text.RegularExpressions;

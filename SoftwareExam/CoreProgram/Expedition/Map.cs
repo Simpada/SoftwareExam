@@ -1,4 +1,7 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition {
+﻿using SoftwareExam.CoreProgram.Economy;
+
+namespace SoftwareExam.CoreProgram.Expedition
+{
 
     public class Map : IComparable<Map> {
 

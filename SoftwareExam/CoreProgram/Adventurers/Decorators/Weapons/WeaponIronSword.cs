@@ -1,11 +1,13 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
+{
     internal class WeaponIronSword : BasicWeapon {
 
         public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};

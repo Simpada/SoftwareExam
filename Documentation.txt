@@ -4,5 +4,36 @@
         <name>SoftwareExam</name>
     </assembly>
     <members>
+        <member name="T:SoftwareExam.CoreProgram.SaveManager">
+            <summary>
+            A class that handles saving and loading information to and from the database
+            </summary>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.SaveManager.RetrieveAllPlayerNames">
+            <summary>
+            Asks the database for a list of saved names
+            </summary>
+            <returns>An array of strings containing names</returns>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.SaveManager.SaveGame(SoftwareExam.CoreProgram.Player)">
+            <summary>
+            Saves the player and its content to the database
+            </summary>
+            <param name="player">The player object to save</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.SaveManager.DeleteSave(System.Int32)">
+            <summary>
+            Deletes a save from the database
+            </summary>
+            <param name="saveFile">The id of the save to delete</param>
+        </member>
+        <member name="M:SoftwareExam.CoreProgram.SaveManager.LoadGame(SoftwareExam.CoreProgram.Expedition.LogWriter,System.Int32)">
+            <summary>
+            Loads a save from the database
+            </summary>
+            <param name="logWriter">A logwriter to pass to potential missions</param>
+            <param name="Id">The id to find the player in the database</param>
+            <returns>The player object for the gamemanager to use</returns>
+        </member>
     </members>
 </doc>

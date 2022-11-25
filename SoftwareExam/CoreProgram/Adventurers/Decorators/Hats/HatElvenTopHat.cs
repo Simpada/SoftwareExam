@@ -1,5 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
+using SoftwareExam.CoreProgram.Economy;
 using System;
 using System.Collections.Generic;
 using System.Linq;

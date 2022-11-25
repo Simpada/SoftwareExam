@@ -1,4 +1,6 @@
-﻿namespace SoftwareExam.CoreProgram.Expedition.Encounters
+﻿using SoftwareExam.CoreProgram.Economy;
+
+namespace SoftwareExam.CoreProgram.Expedition.Encounters
 {
     internal class ExplorationEncounter : Encounter
     {
