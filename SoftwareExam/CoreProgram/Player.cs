@@ -1,46 +1,34 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SoftwareExam.CoreProgram
 {
+    /// <summary>
+    /// Contains all information about the player, its balance, adventurers, which missions are active,
+    /// its log, etc. This class is what is saved to and loaded from the database
+    /// </summary>
     public class Player
     {
         private int _id = -1;
         private string _playerName = "";
-
-        // Needs Lock
         private Currency _balance = new(0, 0, 2);
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public List<Adventurer> Adventurers = new();
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
 
         private readonly object Lock = new();
 
-        public Player()
-        {
-            //Empty
-        }
+        #region Setting and checking values
 
-        public Player(int id, string playerName, Currency balance)
-        {
-            _id = id;
-            _playerName = playerName;
-            _balance = balance;
-        }
-
-        public Player(int id, string playerName, Currency balance, List<Adventurer> adventurers, List<string> log)
-        {
-            _id = id;
-            _playerName = playerName;
-            _balance = balance;
-            Adventurers = adventurers;
-            Log = log;
-        }
-
-
+        /// <summary>
+        /// Makes sure the name fits our naming convention
+        /// </summary>
+        /// <param name="userName">the name to check</param>
+        /// <returns>Bool saying if the name is accepted or not</returns>
         public static bool ValidateUserName(string userName)
         {
             if (userName.Length <= 0 || userName.Length > 20 || userName == null) {
@@ -52,12 +40,6 @@ namespace SoftwareExam.CoreProgram
             return true;
         }
 
-        public override string ToString()
-        {
-            return $"Playername: {_playerName}";
-        }
-
-        //Property
         public string PlayerName
         {
             get
@@ -96,6 +78,8 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+
+
         public void SetCurrency(int copper, int silver, int gold)
         {
             _balance = new Currency(copper, silver, gold);
@@ -124,6 +108,7 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+
         public string GetLogMessages()
         {
             lock (Lock) {
@@ -137,7 +122,12 @@ namespace SoftwareExam.CoreProgram
                 return LogMessage;
             }
         }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+        #endregion
 
+        /// <summary>
+        /// Completes a mission that the player has, removing it form the array, and granting the player its reward
+        /// </summary>
         public void CompleteMission()
         {
             lock (Lock) {
@@ -155,6 +145,10 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+        /// <summary>
+        /// Pauses or resumes all missions
+        /// </summary>
+        /// <param name="pause">Bool determining if its supposed to pause or resume</param>
         public void Pause(bool pause)
         {
             lock (Lock) {
@@ -169,11 +163,18 @@ namespace SoftwareExam.CoreProgram
             }
         }
 
+        /// <summary>
+        /// Clears all missions, used when returning to the main menu
+        /// </summary>
         public void TerminateMissions()
         {
             Missions.Clear();
         }
 
+        /// <summary>
+        /// Sells an adventurer the player has, granting parts of its value
+        /// </summary>
+        /// <param name="who">The index of the adventurer to sell</param>
         public void SellAdventurer(int who) {
             AlterCurrency(Adventurers[who].Value * 0.7, true);
             Adventurers.RemoveAt(who);
