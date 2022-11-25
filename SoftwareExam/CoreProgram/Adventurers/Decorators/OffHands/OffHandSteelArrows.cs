@@ -16,7 +16,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands
         public OffHandSteelArrows(Adventurer adventurer) : base(adventurer)
         {
 
-            Value = BaseAdventurer.Value + Cost;s
+            Value = BaseAdventurer.Value + Cost;
             ItemId = 302;
         }
 
