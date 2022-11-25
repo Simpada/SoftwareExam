@@ -1,12 +1,8 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
-using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
-using SoftwareExam.DataBase;
-using System.Numerics;
 
-namespace SoftwareExam.CoreProgram
-{
+namespace SoftwareExam.CoreProgram {
     public class GameManager {
 
         private readonly Recruitment Recruitment;
@@ -21,7 +17,6 @@ namespace SoftwareExam.CoreProgram
             Armory = new Armory();
             Expeditions = new Expeditions(Player);
         }
-
 
         #region Core Functions
 
@@ -77,9 +72,6 @@ namespace SoftwareExam.CoreProgram
         }
 
         #endregion
-
-
-
 
         #region Player Information
 
@@ -172,7 +164,7 @@ namespace SoftwareExam.CoreProgram
             string AvailableAdventurers = "";
 
             for (int i = 0; i < Player.Adventurers.Count; i++) {
-                AvailableAdventurers += Player.Adventurers[i].GetAvailability(i+1);
+                AvailableAdventurers += Player.Adventurers[i].GetAvailability(i + 1);
             }
             return AvailableAdventurers;
         }
@@ -219,7 +211,7 @@ namespace SoftwareExam.CoreProgram
         public List<string> GetInventoryNames() {
             return Armory.GetItemNames();
         }
-        
+
         public List<string> GetInventoryDescriptions() {
             return Armory.GetItemDescriptions();
         }
@@ -245,7 +237,7 @@ namespace SoftwareExam.CoreProgram
                 Adventurer adventurer = Player.Adventurers[adventurerId];
 
                 Player.AlterCurrency(price, false);
-                Player.Adventurers[adventurerId] = Adventurer.AddNewItem( Armory.BuyItem(itemId, adventurer) );
+                Player.Adventurers[adventurerId] = Adventurer.AddNewItem(Armory.BuyItem(itemId, adventurer));
                 return "Purchase Successful";
 
             } else {

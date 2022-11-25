@@ -1,5 +1,5 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers;
+﻿using SoftwareExam.CoreProgram.Adventurers;
+using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 
@@ -10,7 +10,7 @@ namespace SoftwareExam.CoreProgram {
     /// </summary>
     public static class SaveManager {
 
-        private static readonly DataBaseAccess DataBaseAccess = new ("Data Source = AdventureLeague.db");
+        private static readonly DataBaseAccess DataBaseAccess = new("Data Source = AdventureLeague.db");
 
         /// <summary>
         /// Asks the database for a list of saved names
@@ -19,7 +19,7 @@ namespace SoftwareExam.CoreProgram {
         public static string[] RetrieveAllPlayerNames() {
             return DataBaseAccess.RetrieveAllPlayerNames();
         }
-        
+
         /// <summary>
         /// Saves the player and its content to the database
         /// </summary>
