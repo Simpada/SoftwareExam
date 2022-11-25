@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SoftwareExam.CoreProgram.Adventurers {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Rogue : Adventurer {
 
         public Rogue() {
@@ -23,22 +24,14 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             };
         }
 
+        #region Necessary functions in the abstract class, but does nothing here
         public override string GetEquipmentDescription() {
-            throw new NotImplementedException();
+            return "";
         }
 
         public override string GetEquipmentName() {
-            throw new NotImplementedException();
+            return "";
         }
-
-        //    public override string ToString() {
-        //        return @$"    |  |\      
-        //|  | \      Name:   {Name}
-        //|  | |      Class:  {Class}
-        //| [===]     Health: {Health}
-        //|  | |      Damage: {Damage}
-        //|  |_|      Luck:   {Luck}";
-        //    }
-
+        #endregion
     }
 }

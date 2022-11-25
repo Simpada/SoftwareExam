@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace SoftwareExam.CoreProgram.Adventurers {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class Mage : Adventurer {
 
         public Mage() {
@@ -23,23 +25,14 @@ namespace SoftwareExam.CoreProgram.Adventurers {
             };
         }
 
+        #region Necessary functions in the abstract class, but does nothing here
         public override string GetEquipmentDescription() {
-            throw new NotImplementedException();
+            return "";
         }
 
         public override string GetEquipmentName() {
-            throw new NotImplementedException();
+            return "";
         }
-
-        //    public override string ToString() {
-        //        return @$"    |   _       
-        //|  \*/      Name:   {Name}
-        //|   |       Class:  {Class}
-        //|   |       Health: {Health}
-        //|   |       Damage: {Damage}
-        //|   V       Luck:   {Luck}";
-
-        //    }
-
+        #endregion
     }
 }
