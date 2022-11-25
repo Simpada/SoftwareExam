@@ -196,7 +196,12 @@ namespace SoftwareExam.CoreProgram {
             List<Adventurer> Adventurers = _player.Adventurers;
 
             for (int i = 0; i < Adventurers.Count; i++) {
-                ItemCards[i] = Adventurers[i].GetItemCard();
+                if (Adventurers[i].OnMission) {
+                    ItemCards[i] = "    |           ON A MISSION\n"
+                        + Adventurers[i].ToString();
+                } else {
+                    ItemCards[i] = Adventurers[i].GetItemCard();
+                }
             }
 
             return ItemCards;

@@ -181,9 +181,16 @@
                 if (string.IsNullOrEmpty(itemCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
                 } else {
-                    string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
+
+                    string tavernCard;
+                    if (!itemCards[i].Contains("MISSION")) {
+                        tavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
                         $"{itemCards[i]}";
-                    cards[i] = TavernCard;
+                    } else {
+                        tavernCard = $"{itemCards[i]}";
+                    }
+                    
+                    cards[i] = tavernCard;
                 }
             }
 
@@ -241,5 +248,4 @@
         }
     }
     #endregion
-
 }

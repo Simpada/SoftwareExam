@@ -452,58 +452,50 @@ namespace SoftwareExam.UI {
         #region Armory / Purchase Items UI
         private void ArmoryMenu() {
             Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
+            bool invalidInput = false;
 
             while (true) {
-
                 UpdateUi();
 
                 int AdventurerCount = Manager.GetAdventurerCount();
                 input = Console.ReadKey().KeyChar;
 
                 if (input == '1') {
-                    if (AdventurerCount >= 1) {
+                    if (AdventurerCount >= 1 && Manager.GetAvailability(0)) {
                         ArmoryInventory(0);
-
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
-                    }
+                        invalidInput = false;
+                    } 
                 } else if (input == '2') {
-                    if (AdventurerCount >= 2) {
+                    if (AdventurerCount >= 2 && Manager.GetAvailability(1)) {
                         ArmoryInventory(1);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '3') {
-                    if (AdventurerCount >= 3) {
+                    if (AdventurerCount >= 3 && Manager.GetAvailability(2)) {
                         ArmoryInventory(2);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '4') {
-                    if (AdventurerCount >= 4) {
+                    if (AdventurerCount >= 4 && Manager.GetAvailability(3)) {
                         ArmoryInventory(3);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '5') {
-                    if (AdventurerCount >= 5) {
+                    if (AdventurerCount >= 5 && Manager.GetAvailability(4)) {
                         ArmoryInventory(4);
-                    } else {
-                        InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
-                        continue;
+                        invalidInput = false;
                     }
                 } else if (input == '0') {
                     break;
                 } else {
+                    invalidInput = true;
+                }
+                if (invalidInput) {
                     InvalidInput(PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString()));
                     continue;
                 }
+                
                 Manager.ExitArmory();
-
                 Ui = PlayMenu.GetArmory(Manager.GetAllItemCards(), Manager.GetBalanceString());
             }
         }
