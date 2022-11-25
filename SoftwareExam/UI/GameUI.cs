@@ -2,6 +2,10 @@
 using System.Text.RegularExpressions;
 
 namespace SoftwareExam.UI {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// Controls all interractions between the person playing the game and the programme, checking button inputs, and calling appropriate methods
+    /// </summary>
     public class GameUI {
 
         private readonly GameManager Manager;

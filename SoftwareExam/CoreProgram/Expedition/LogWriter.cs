@@ -1,21 +1,30 @@
 ﻿namespace SoftwareExam.CoreProgram.Expedition {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// A class that manages the player lock and makes sure it is threadsafe
+    /// </summary>
     public class LogWriter {
 
-        private readonly object Lock = new();
-        private readonly ManualResetEvent TaskPauseEvent = new(true);
+        private readonly object _lock = new();
+        private readonly ManualResetEvent _taskPauseEvent = new(true);
 
         public void Pause() {
-            TaskPauseEvent.Reset();
+            _taskPauseEvent.Reset();
         }
         public void Resume() {
-            TaskPauseEvent.Set();
+            _taskPauseEvent.Set();
         }
 
+        /// <summary>
+        /// Clears and updates the mission log, is locked to be threadsafe
+        /// </summary>
+        /// <param name="player">Required to access the player's log and function</param>
+        /// <param name="logMessage">The message to write in the log</param>
         public void UpdateLog(Player player, string logMessage) {
 
-            lock (Lock) {
+            lock (_lock) {
 
-                TaskPauseEvent.WaitOne();
+                _taskPauseEvent.WaitOne();
 
                 if (player.Log.Count >= 5) {
                     player.AddLogMessage(logMessage);

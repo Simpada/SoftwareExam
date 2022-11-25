@@ -20,7 +20,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
         private string LogMessage = "";
         public int TimeLeft { get; set; } = 0;
         public bool Completed { get; set; } = false;
-        private bool Terminated = false;
+        private bool _terminated = false;
 
         public CancellationTokenSource TokenSource = new();
         private readonly CancellationToken Token;
@@ -125,7 +125,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 await Task.WhenAny(Encounter);
                 TaskPauseEvent.WaitOne();
 
-                if (Terminated) {
+                if (_terminated) {
                     break;
                 } else {
                     LogWriter.UpdateLog(Player, LogMessage);
@@ -133,7 +133,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
             }
 
-            if (!Terminated) {
+            if (!_terminated) {
                 try {
                     await Task.Delay(5000, Token);
                 } catch (Exception) {
@@ -182,13 +182,11 @@ namespace SoftwareExam.CoreProgram.Expedition {
         public void Pause() {
             TaskPauseEvent.Reset();
         }
-
         public void Resume() {
             TaskPauseEvent.Set();
         }
-
         public void Terminate() {
-            Terminated = true;
+            _terminated = true;
             TokenSource.Cancel();
         }
     }
