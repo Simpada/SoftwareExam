@@ -11,9 +11,9 @@ namespace TestSoftwareExam {
             _recruitment = new Recruitment();
         }
 
-        [TestCase(1, "Warrior", 10, 5, 5)]
-        [TestCase(2, "Mage", 5, 10, 5)]
-        [TestCase(3, "Rogue", 5, 5, 10)]
+        [TestCase(1, "Warrior", 5, 3, 0)]
+        [TestCase(2, "Mage", 1, 6, 1)]
+        [TestCase(3, "Rogue", 2, 3, 3)]
         public void TestRecruitment(int type, string expectedClass, int health, int damage, int luck) {
             Adventurer? adventurer = _recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
