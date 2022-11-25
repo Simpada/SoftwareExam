@@ -38,22 +38,22 @@ namespace SoftwareExam.CoreProgram {
         /// Loads a save from the database
         /// </summary>
         /// <param name="logWriter">A logwriter to pass to potential missions</param>
-        /// <param name="Id">The id to find the player in the database</param>
+        /// <param name="id">The id to find the player in the database</param>
         /// <returns>The player object for the gamemanager to use</returns>
-        public static Player LoadGame(LogWriter logWriter, int Id) {
+        public static Player LoadGame(LogWriter logWriter, int id) {
 
-            Player player = _dataBaseAccess.GetPlayerById(Id);
+            Player player = _dataBaseAccess.GetPlayerById(id);
 
-            player.Adventurers = GetAdventurers(Id);
-            GetMissions(player, logWriter, Id);
+            player.Adventurers = GetAdventurers(id);
+            GetMissions(player, logWriter, id);
 
             return player;
         }
 
         // Goes through the adventurers in the database and gives them to the player
-        private static List<Adventurer> GetAdventurers(int Id) {
+        private static List<Adventurer> GetAdventurers(int id) {
 
-            List<Adventurer> adventurers = _dataBaseAccess.GetAdventurers(Id);
+            List<Adventurer> adventurers = _dataBaseAccess.GetAdventurers(id);
 
             for (int i = 0; i < adventurers.Count; i++) {
                 List<int> itemCodes = _dataBaseAccess.GetDecorators(adventurers[i].Id);
