@@ -20,7 +20,7 @@ namespace SoftwareExam.CoreProgram
         public List<Mission> Missions = new();
         public List<string> Log { get; } = new();
 
-        private readonly object Lock = new();
+        private readonly object _lock = new();
 
         #region Setting and checking values
 
@@ -87,7 +87,7 @@ namespace SoftwareExam.CoreProgram
 
         public void AlterCurrency(Currency currency, bool add)
         {
-            lock (Lock) {
+            lock (_lock) {
                 if (add) {
                     _balance += currency;
                 }
@@ -100,7 +100,7 @@ namespace SoftwareExam.CoreProgram
 
         public void AddLogMessage(string logMessage)
         {
-            lock (Lock) {
+            lock (_lock) {
                 if (Log.Count >= 5) {
                     Log.RemoveAt(0);
                 }
@@ -111,7 +111,7 @@ namespace SoftwareExam.CoreProgram
 
         public string GetLogMessages()
         {
-            lock (Lock) {
+            lock (_lock) {
                 string LogMessage = "";
                 for (int i = 0; i < Log.Count; i++) {
                     LogMessage += Log[i];
@@ -130,7 +130,7 @@ namespace SoftwareExam.CoreProgram
         /// </summary>
         public void CompleteMission()
         {
-            lock (Lock) {
+            lock (_lock) {
                 Mission? CompletedMission = null;
                 foreach (Mission mission in Missions) {
                     if (mission.Completed) {
@@ -151,7 +151,7 @@ namespace SoftwareExam.CoreProgram
         /// <param name="pause">Bool determining if its supposed to pause or resume</param>
         public void Pause(bool pause)
         {
-            lock (Lock) {
+            lock (_lock) {
                 foreach (Mission mission in Missions) {
                     if (pause) {
                         mission.Pause();
