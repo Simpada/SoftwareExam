@@ -82,7 +82,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
         private void GenerateEncounters() {
             for (int i = 0; i < EncounterNumber; i++) {
 
-                int encounterType = _random.Next(20) + Adventurer.Luck;
+                int encounterType = _random.Next(20) + (Adventurer.Luck / 2);
                 IEncounterFactory encounterFactory = encounterType switch {
                     >= 20 => new TreasureFactory(),
                     >= 14 => new MonsterFactory(),
