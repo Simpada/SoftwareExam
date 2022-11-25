@@ -64,7 +64,7 @@ namespace SoftwareExam.CoreProgram.Expedition
             for (int i = 0; i < EncounterNumber; i++) {
 
                 int encounterType = Random.Next(20) + Adventurer.Luck;
-                EncounterFactory encounterFactory;
+                IEncounterFactory encounterFactory;
 
                 switch (encounterType) {
                     case >= 18:

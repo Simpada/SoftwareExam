@@ -2,7 +2,7 @@
 {
     internal class TreasureEncounter : Encounter
     {
-        public TreasureEncounter(string adventurerName, int adventureLuck, int adventurerDamage) : base(adventurerName, adventureLuck, adventurerDamage)
+        public TreasureEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage)
         {
         }
 

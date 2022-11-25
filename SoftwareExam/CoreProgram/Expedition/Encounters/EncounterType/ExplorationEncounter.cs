@@ -2,7 +2,7 @@
 {
     internal class ExplorationEncounter : Encounter
     {
-        public ExplorationEncounter(string adventurerName, int adventureLuck, int adventurerDamage) : base(adventurerName, adventureLuck, adventurerDamage)
+        public ExplorationEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage)
         {
             Description = AdventurerName + PickOne(
                 new string[] {

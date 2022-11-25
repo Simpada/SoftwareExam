@@ -10,10 +10,10 @@
         protected Currency Reward;
 
 
-        public Encounter(string adventurerName, int adventureLuck, int adventurerDamage)
+        public Encounter(string adventurerName, int adventurerLuck, int adventurerDamage)
         {
             AdventurerName = adventurerName;
-            AdventurerLuck = adventureLuck;
+            AdventurerLuck = adventurerLuck;
             AdventurerDamage = adventurerDamage;
         }
 
