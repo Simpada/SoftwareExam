@@ -1,15 +1,12 @@
 ﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Expedition.Encounters
-{
-    internal class TreasureEncounter : Encounter
-    {
-        public TreasureEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage)
-        {
+namespace SoftwareExam.CoreProgram.Expedition.Encounters {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class TreasureEncounter : Encounter {
+        public TreasureEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage) {
         }
 
-        public override bool RunEncounter(out Currency reward, out string description)
-        {
+        public override bool RunEncounter(out Currency reward, out string description) {
             reward = RollReward();
 
             description = AdventurerName + PickOne(new string[] {
@@ -21,12 +18,10 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters
                     " found coins on the ground.",
                     " discovered an abandoned dragon hoard."
             }) + $" They found {reward}.";
-
             return true;
         }
 
-        private Currency RollReward()
-        {
+        private Currency RollReward() {
             int rollCopper = Random.Next(12) * AdventurerLuck;
             return Currency.Convert(new Currency(rollCopper, 0, 0));
         }

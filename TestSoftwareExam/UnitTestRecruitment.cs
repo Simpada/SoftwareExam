@@ -1,13 +1,7 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TestSoftwareExam
-{
+namespace TestSoftwareExam {
     internal class UnitTestRecruitment {
 
         private Recruitment Recruitment;
@@ -20,7 +14,7 @@ namespace TestSoftwareExam
         [TestCase(1, "Warrior", 10, 5, 5)]
         [TestCase(2, "Mage", 5, 10, 5)]
         [TestCase(3, "Rogue", 5, 5, 10)]
-        public void TestFactory(int type, string expectedClass, int health, int damage, int luck) {
+        public void TestRecruitment(int type, string expectedClass, int health, int damage, int luck) {
             Adventurer? adventurer = Recruitment.RecruitAdventurer(type, new(10, 10, 10));
 
             Assert.That(adventurer, Is.Not.Null);
@@ -31,6 +25,13 @@ namespace TestSoftwareExam
                 Assert.That(adventurer.Damage, Is.EqualTo(damage));
                 Assert.That(adventurer.Luck, Is.EqualTo(luck));
             });
+        }
+
+        [Test]
+        public void TestRecruitmentNotEnoughMoney() {
+            Adventurer? adventurer = Recruitment.RecruitAdventurer(1, new(0, 5, 0));
+
+            Assert.That(adventurer, Is.Null);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SoftwareExam.CoreProgram {
         /// </summary>
         /// <param name="player">The player object to save</param>
         public static void SaveGame(Player player) {
-            _dataBaseAccess.Save(player);
+            _dataBaseAccess.SaveGame(player);
         }
         /// <summary>
         /// Deletes a save from the database
@@ -42,7 +42,7 @@ namespace SoftwareExam.CoreProgram {
         /// <returns>The player object for the gamemanager to use</returns>
         public static Player LoadGame(LogWriter logWriter, int id) {
 
-            Player player = _dataBaseAccess.GetPlayerById(id);
+            Player player = _dataBaseAccess.Load(id);
 
             player.Adventurers = GetAdventurers(id);
             GetMissions(player, logWriter, id);

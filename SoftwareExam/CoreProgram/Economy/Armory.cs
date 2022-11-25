@@ -1,207 +1,196 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
-using SoftwareExam.CoreProgram.Adventurers.Decorators.Armors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Economy
-{
+namespace SoftwareExam.CoreProgram.Economy {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-    public class Armory
-    {
+    /// <summary>
+    /// A class that stores an automatically refreshing inventory of items that can be purchases by the player for its adventurers
+    /// </summary>
+    public class Armory {
 
-        private readonly List<int> Armors = new();
-        private readonly List<int> Hats = new();
-        private readonly List<int> OffHands = new();
-        private readonly List<int> Trinkets = new();
-        private readonly List<int> Weapons = new();
+        private readonly List<int> _armors = new();
+        private readonly List<int> _hats = new();
+        private readonly List<int> _offHands = new();
+        private readonly List<int> _trinkets = new();
+        private readonly List<int> _weapons = new();
+        private readonly List<int> _fullInventory = new();
+        private readonly List<int> _displayInventory = new();
+        private readonly int _inventorySize = 8;
+        private readonly int _inventoryRefreshRate = 60000;
+        private readonly Random _random = new();
 
-        private readonly List<int> FullInventory = new();
-        private readonly List<int> DisplayInventory = new();
-        private readonly int InventorySize = 8;
+        private readonly ManualResetEvent _taskPauseEvent = new(true);
 
-        private readonly Random Random = new();
-
-        private readonly int InventoryRefreshRate = 60000;
-
-        private readonly ManualResetEvent TaskPauseEvent = new(true);
-
-        public Armory()
-        {
-
+        public Armory() {
             InitializeItems();
             // Starts Refresh Inventory on its own thread, that will always run, resetting inventory every x seconds
 
             Task.Run(() => { RefreshInventory(); });
-
         }
-
-        public void Pause()
-        {
-            TaskPauseEvent.Reset();
-        }
-        public void Resume()
-        {
-            TaskPauseEvent.Set();
-        }
-
         #region Pretend this part doesn't exist
-        private void InitializeItems()
-        {
-            Armors.Add(101);
-            Armors.Add(102);
-            Armors.Add(103);
-            Armors.Add(104);
-            Armors.Add(105);
+        // This is purely to initialize our store with item codes, this is kinda ugly and manual, but its difficult to automate
+        private void InitializeItems() {
+            _armors.Add(101);
+            _armors.Add(102);
+            _armors.Add(103);
+            _armors.Add(104);
+            _armors.Add(105);
 
-            Hats.Add(201);
-            Hats.Add(202);
-            Hats.Add(203);
-            Hats.Add(204);
-            Hats.Add(205);
+            _hats.Add(201);
+            _hats.Add(202);
+            _hats.Add(203);
+            _hats.Add(204);
+            _hats.Add(205);
 
-            OffHands.Add(301);
-            OffHands.Add(302);
-            OffHands.Add(303);
-            OffHands.Add(304);
-            OffHands.Add(305);
+            _offHands.Add(301);
+            _offHands.Add(302);
+            _offHands.Add(303);
+            _offHands.Add(304);
+            _offHands.Add(305);
 
-            Trinkets.Add(401);
-            Trinkets.Add(402);
-            Trinkets.Add(403);
-            Trinkets.Add(404);
-            Trinkets.Add(405);
+            _trinkets.Add(401);
+            _trinkets.Add(402);
+            _trinkets.Add(403);
+            _trinkets.Add(404);
+            _trinkets.Add(405);
 
-            Weapons.Add(501);
-            Weapons.Add(502);
-            Weapons.Add(503);
-            Weapons.Add(504);
-            Weapons.Add(505);
-            Weapons.Add(506);
+            _weapons.Add(501);
+            _weapons.Add(502);
+            _weapons.Add(503);
+            _weapons.Add(504);
+            _weapons.Add(505);
+            _weapons.Add(506);
         }
         #endregion
 
-        private void RefreshInventory()
-        {
-            while (true)
-            {
-                TaskPauseEvent.WaitOne();
-                FullInventory.Clear();
-                for (int i = 0; i < InventorySize; i++)
-                {
-                    int randomNumber = Random.Next(5);
-                    switch (randomNumber)
-                    {
+        #region Base Functions
+
+        // Pauses and resumes the RefresInventory function
+        public void Pause() {
+            _taskPauseEvent.Reset();
+        }
+        public void Resume() {
+            _taskPauseEvent.Set();
+        }
+ 
+        private void RefreshInventory() {
+            while (true) {
+                _taskPauseEvent.WaitOne();
+                _fullInventory.Clear();
+                for (int i = 0; i < _inventorySize; i++) {
+                    int randomNumber = _random.Next(5);
+                    switch (randomNumber) {
                         case 0:
-                            FullInventory.Add(Armors[Random.Next(Armors.Count)]);
-                            break;
+                        _fullInventory.Add(_armors[_random.Next(_armors.Count)]);
+                        break;
                         case 1:
-                            FullInventory.Add(Hats[Random.Next(Hats.Count)]);
-                            break;
+                        _fullInventory.Add(_hats[_random.Next(_hats.Count)]);
+                        break;
                         case 2:
-                            FullInventory.Add(OffHands[Random.Next(OffHands.Count)]);
-                            break;
+                        _fullInventory.Add(_offHands[_random.Next(_offHands.Count)]);
+                        break;
                         case 3:
-                            FullInventory.Add(Trinkets[Random.Next(Trinkets.Count)]);
-                            break;
+                        _fullInventory.Add(_trinkets[_random.Next(_trinkets.Count)]);
+                        break;
                         case 4:
-                            FullInventory.Add(Weapons[Random.Next(Weapons.Count)]);
-                            break;
+                        _fullInventory.Add(_weapons[_random.Next(_weapons.Count)]);
+                        break;
                     }
                 }
-                Thread.Sleep(InventoryRefreshRate);
+                Thread.Sleep(_inventoryRefreshRate);
             }
         }
 
-        public void EnterArmory(string adventurerClass)
-        {
+        /// <summary>
+        /// Shows appropriate inventory for the class of the adventure that entered the store
+        /// </summary>
+        /// <param name="adventurerClass">The class of the adventurer in the store</param>
+        public void EnterArmory(string adventurerClass) {
 
             Pause();
+            _displayInventory.Clear();
 
-            DisplayInventory.Clear();
+            foreach (int itemId in _fullInventory) {
 
-            foreach (int itemId in FullInventory)
-            {
+                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId)) {
 
-                foreach (string allowedClass in ItemParser.GetAllowedClasses(itemId))
-                {
-
-                    if (allowedClass == adventurerClass)
-                    {
-                        DisplayInventory.Add(itemId);
+                    if (allowedClass == adventurerClass) {
+                        _displayInventory.Add(itemId);
                     }
                 }
             }
         }
+        #endregion
 
-        public List<string> GetItemNames()
-        {
+        #region Information about items
 
-            List<string> Names = new();
+        // Gets names, descriptions, and prices of items in the store respectively. 
+        public List<string> GetItemNames() {
 
-            foreach (var item in DisplayInventory)
-            {
-                Names.Add(ItemParser.GetItemName(item));
+            List<string> names = new();
+
+            foreach (var item in _displayInventory) {
+                names.Add(ItemParser.GetItemName(item));
             }
-            return Names;
+            return names;
         }
 
-        public List<string> GetItemDescriptions()
-        {
+        public List<string> GetItemDescriptions() {
 
-            List<string> Descriptions = new();
+            List<string> descriptions = new();
 
-            foreach (var item in DisplayInventory)
-            {
-                Descriptions.Add(ItemParser.GetItemDescription(item));
+            foreach (var item in _displayInventory) {
+                descriptions.Add(ItemParser.GetItemDescription(item));
             }
-            return Descriptions;
+            return descriptions;
         }
 
-        public List<string> GetItemPrices()
-        {
+        public List<string> GetItemPrices() {
 
-            List<string> Prices = new();
+            List<string> prices = new();
 
-            foreach (var item in DisplayInventory)
-            {
-                Prices.Add(ItemParser.GetItemCost(item).ToString());
+            foreach (var item in _displayInventory) {
+                prices.Add(ItemParser.GetItemCost(item).ToString());
             }
-            return Prices;
+            return prices;
         }
+        #endregion
 
-        public bool CanAffordItem(int itemIndex, Currency currency, out bool noItem, out Currency price)
-        {
+        #region Transactions
 
-            if (itemIndex >= DisplayInventory.Count)
-            {
+        /// <summary>
+        /// Checks if the Player can afford a given item
+        /// </summary>
+        /// <param name="itemIndex">Index of the item</param>
+        /// <param name="balance">Balance of the player</param>
+        /// <param name="noItem">If no item was bought</param>
+        /// <param name="price">The price of the item</param>
+        /// <returns></returns>
+        public bool CanAffordItem(int itemIndex, Currency balance, out bool noItem, out Currency price) {
+
+            if (itemIndex >= _displayInventory.Count) {
                 price = new();
                 noItem = true;
                 return false;
             }
 
             noItem = false;
-            price = ItemParser.GetItemCost(DisplayInventory[itemIndex]);
+            price = ItemParser.GetItemCost(_displayInventory[itemIndex]);
 
-            if (currency >= price)
-            {
+            if (balance >= price) {
                 return true;
             }
             return false;
         }
 
-        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer)
-        {
-            int itemId = DisplayInventory[itemIndex];
+        public BaseDecoratedAdventurer BuyItem(int itemIndex, Adventurer adventurer) {
+            int itemId = _displayInventory[itemIndex];
 
-            FullInventory.Remove(itemId);
+            _fullInventory.Remove(itemId);
 
             return ItemParser.GetItem(itemId, adventurer);
         }
-
-
+        #endregion
     }
 }

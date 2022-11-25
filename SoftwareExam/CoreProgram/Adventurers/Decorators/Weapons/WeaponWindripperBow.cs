@@ -1,38 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoftwareExam.CoreProgram.Economy;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
-{
-    internal class WeaponWindripperBow : BasicWeapon
-    {
-        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue"};
-        public static new readonly Currency Cost = new(0,0,7);
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class WeaponWindripperBow : BasicWeapon {
+        public static new readonly string[] AllowedClasses = new string[] { "Warrior", "Rogue" };
+        public static new readonly Currency Cost = new(0, 0, 7);
 
-        public WeaponWindripperBow(Adventurer adventurer) : base(adventurer)
-        {
+        public WeaponWindripperBow(Adventurer adventurer) : base(adventurer) {
 
             Value = BaseAdventurer.Value + Cost;
             ItemId = 505;
         }
 
-        public override void EditStats()
-        {
+        public override void EditStats() {
             Damage += +5;
             Luck = 1;
         }
 
-        public override string GetEquipmentDescription()
-        {
+        public override string GetEquipmentDescription() {
             return "Swift and precise bow. Grants +5 damage and +1 luck";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new WeaponWindripperBow(new Mage()).GetEquipmentDescription();
         }
         public override string GetEquipmentName() {
@@ -40,7 +29,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new WeaponWindripperBow(new Warrior()).GetEquipmentName();
         }
     }

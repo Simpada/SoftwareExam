@@ -1,15 +1,12 @@
 ﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Expedition.Encounters
-{
-    internal class TrapEncounter : Encounter
-    {
-        public TrapEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage)
-        {
+namespace SoftwareExam.CoreProgram.Expedition.Encounters {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class TrapEncounter : Encounter {
+        public TrapEncounter(string adventurerName, int adventurerLuck, int adventurerDamage) : base(adventurerName, adventurerLuck, adventurerDamage) {
         }
 
-        public override bool RunEncounter(out Currency reward, out string description)
-        {
+        public override bool RunEncounter(out Currency reward, out string description) {
             int trapDifficulty = Random.Next(20);
             int adventurerRoll = Random.Next(20) + AdventurerLuck;
             reward = new();

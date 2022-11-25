@@ -1,37 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoftwareExam.CoreProgram.Economy;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
-{
-    internal class WeaponEldersStaff : BasicWeapon
-    {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class WeaponEldersStaff : BasicWeapon {
         public static new readonly string[] AllowedClasses = new string[] { "Mage" };
-        public static new readonly Currency Cost = new(0,0,6);
+        public static new readonly Currency Cost = new(0, 0, 6);
 
-        public WeaponEldersStaff(Adventurer adventurer) : base(adventurer)
-        {
+        public WeaponEldersStaff(Adventurer adventurer) : base(adventurer) {
             Value = BaseAdventurer.Value + Cost;
             ItemId = 503;
         }
 
-        public override void EditStats()
-        {
+        public override void EditStats() {
             Damage += +2;
             Luck += 3;
         }
 
-        public override string GetEquipmentDescription()
-        {
+        public override string GetEquipmentDescription() {
             return "Wisest staff of all. Grants +2 damage and +3 luck";
         }
 
-        public static string GetItemDescription()
-        {
-            // This is kinda dumb, but it works without need for repeating code
+        public static string GetItemDescription() {
             return new WeaponEldersStaff(new Mage()).GetEquipmentDescription();
         }
 
@@ -40,7 +29,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new WeaponEldersStaff(new Warrior()).GetEquipmentName();
         }
     }

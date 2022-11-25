@@ -1,5 +1,6 @@
-﻿namespace SoftwareExam.UI
-{
+﻿namespace SoftwareExam.UI {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
     public static class PlayMenu {
 
         #region Main Display / Log
@@ -9,7 +10,7 @@
     EXPEDITION LOG: 
 {log}";
         }
-        
+
         public static string GetPlayMenu(int totalAdventurers, string balance) {
             return $@" 
     THE ADVENTURER'S LEAGUE   
@@ -73,7 +74,7 @@
             for (int i = 0; i < adventurerCards.Length; i++) {
 
                 if (string.IsNullOrEmpty(adventurerCards[i])) {
-                    cards[i] = $"    |\n    |\n    |\n    |       [{i+1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
+                    cards[i] = $"    |\n    |\n    |\n    |       [{i + 1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
                 } else {
                     string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
                         $"{adventurerCards[i]}";
@@ -172,7 +173,7 @@
 
         #region Armory / Buy Gear Display
         public static string GetArmory(string[] itemCards, string balance) {
-             
+
             string[] cards = new string[itemCards.Length];
 
             for (int i = 0; i < itemCards.Length; i++) {
@@ -180,9 +181,16 @@
                 if (string.IsNullOrEmpty(itemCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |          NO ADVENTURER \n    |\n    |\n    |";
                 } else {
-                    string TavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
+
+                    string tavernCard;
+                    if (!itemCards[i].Contains("MISSION")) {
+                        tavernCard = $"    |       [{i + 1}] BUY GEAR \n" +
                         $"{itemCards[i]}";
-                    cards[i] = TavernCard;
+                    } else {
+                        tavernCard = $"{itemCards[i]}";
+                    }
+                    
+                    cards[i] = tavernCard;
                 }
             }
 
@@ -208,8 +216,8 @@
 
             string display = "";
             for (int i = 0; i < descriptions.Count; i++) {
-                display += $"    |   [{i+1}] {names[i]}" 
-                    + $"\n    |   {descriptions[i]}" 
+                display += $"    |   [{i + 1}] {names[i]}"
+                    + $"\n    |   {descriptions[i]}"
                     + $"\n    |   Price:  {prices[i]}";
                 display += "\n    |-----------------------------------------\n";
             }
@@ -240,5 +248,4 @@
         }
     }
     #endregion
-
 }

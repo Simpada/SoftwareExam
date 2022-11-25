@@ -1,62 +1,48 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
-using SoftwareExam.CoreProgram.Adventurers.Decorators;
 using SoftwareExam.CoreProgram.Adventurers.Factory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Economy
-{
-    public class Recruitment
-    {
+namespace SoftwareExam.CoreProgram.Economy {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-        private IAdventurerFactory? Factory;
+    public class Recruitment {
+
+        private IAdventurerFactory? _factory;
 
         public Currency Price { get; set; } = new(0, 0, 5);
 
-        public bool CheckBalance(Currency balance)
-        {
+        /// <summary>
+        /// Checks the type of adventurer wanted, gets the appropriate factory, and makes a new adventurer with starting gear, if the player can afford it
+        /// </summary>
+        /// <param name="type">The type of adventurer</param>
+        /// <param name="balance">How much money the player has</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public Adventurer? RecruitAdventurer(int type, Currency balance) {
 
-            if (balance >= Price)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public Adventurer? RecruitAdventurer(int type, Currency balance)
-        {
-
-            if (type == 1)
-            {
-                Factory = new WarriorFactory();
-            }
-            else if (type == 2)
-            {
-                Factory = new MageFactory();
-            }
-            else if (type == 3)
-            {
-                Factory = new RogueFactory();
-            }
-            else
-            {
+            if (type == 1) {
+                _factory = new WarriorFactory();
+            } else if (type == 2) {
+                _factory = new MageFactory();
+            } else if (type == 3) {
+                _factory = new RogueFactory();
+            } else {
                 throw new Exception("Invalid recruitment class");
             }
 
-            if (CheckBalance(balance))
-            {
-                Adventurer NewAdventurer = Factory.CreateAdventurer();
+            if (CheckBalance(balance)) {
+                Adventurer NewAdventurer = _factory.CreateAdventurer();
                 return NewAdventurer.GetStartingGear();
-            }
-            else
-            {
+            } else {
                 return null;
+            }
+        }
+
+        public bool CheckBalance(Currency balance) {
+
+            if (balance >= Price) {
+                return true;
+            } else {
+                return false;
             }
         }
     }

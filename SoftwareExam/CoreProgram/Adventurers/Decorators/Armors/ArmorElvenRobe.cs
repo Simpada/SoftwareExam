@@ -1,39 +1,28 @@
-﻿using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
-using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
-{
-    internal class ArmorElvenRobe : BasicArmor
-    {
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public class ArmorElvenRobe : BasicArmor {
 
         public static new readonly string[] AllowedClasses = new string[] { "Mage" };
         public static new readonly Currency Cost = new(0, 5, 2);
 
-        public ArmorElvenRobe(Adventurer adventurer) : base(adventurer)
-        {
+        public ArmorElvenRobe(Adventurer adventurer) : base(adventurer) {
 
             Value = BaseAdventurer.Value + Cost;
             ItemId = 102;
         }
 
-        public override void EditStats()
-        {
+        public override void EditStats() {
             Health += 2;
             Luck += 1;
         }
 
-        public override string GetEquipmentDescription()
-        {
+        public override string GetEquipmentDescription() {
             return "This elven robe grants +2 boost to health and +1 to luck";
         }
 
-        public static string GetItemDescription()
-        {
+        public static string GetItemDescription() {
             return new ArmorElvenRobe(new Mage()).GetEquipmentDescription();
         }
 
@@ -42,7 +31,6 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators.Armors
         }
 
         public static string GetItemName() {
-            // This is kinda dumb, but it works without need for repeating code
             return new ArmorElvenRobe(new Warrior()).GetEquipmentName();
         }
     }

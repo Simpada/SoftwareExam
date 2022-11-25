@@ -1,11 +1,15 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Economy;
 
-namespace SoftwareExam.CoreProgram.Expedition
-{
+namespace SoftwareExam.CoreProgram.Expedition {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    /// <summary>
+    /// Handles interractions with maps as well as starting missions on maps
+    /// </summary>
     public class Expeditions {
 
-        private readonly List<Map> Maps = new();
+        private readonly List<Map> _maps = new();
         public Player Player { set; get; }
         public LogWriter Log { get; } = new();
 
@@ -14,33 +18,41 @@ namespace SoftwareExam.CoreProgram.Expedition
             SetUpMaps();
         }
 
-        private void SetUpMaps () {
-            Maps.Clear();
+        private void SetUpMaps() {
+            _maps.Clear();
             for (int i = 0; i < 4; i++) {
-                Maps.Add(Map.GetMap(i));
+                _maps.Add(Map.GetMap(i));
             }
         }
 
+        /// <summary>
+        /// Gets all map descriptions
+        /// </summary>
+        /// <returns>A string with the descriptions</returns>
         public string GetMaps() {
 
-            Maps.Sort();
-            
-            string MapDescriptions = "    |-----------------------------------------";
+            _maps.Sort();
 
-            foreach (Map map in Maps) {
-                MapDescriptions += map.ToString();
-                MapDescriptions += "\n    |-----------------------------------------";
+            string mapDescriptions = "    |-----------------------------------------";
+
+            foreach (Map map in _maps) {
+                mapDescriptions += map.ToString();
+                mapDescriptions += "\n    |-----------------------------------------";
             }
-
-
-            return MapDescriptions;
+            return mapDescriptions;
         }
 
+        /// <summary>
+        /// Attempts the purchase of a map
+        /// </summary>
+        /// <param name="mapNr">Difficulty level of the map to buy</param>
+        /// <param name="balance">Player Balance</param>
+        /// <returns>Bool saying if the purchase was successfull</returns>
         public bool PurchaseMap(int mapNr, Currency balance) {
 
             Currency cost = new();
 
-            foreach (Map map in Maps) {
+            foreach (Map map in _maps) {
                 if ((int)map.Difficulty == mapNr) {
                     cost = map.ExpeditionCost;
                     break;
@@ -54,28 +66,33 @@ namespace SoftwareExam.CoreProgram.Expedition
             }
         }
 
+        /// <summary>
+        /// Prepares a map and sends an adventurer on a mission there, then takes the money from the player
+        /// </summary>
+        /// <param name="mapNr">The difficulty of the map to run</param>
+        /// <param name="adventurer">The adventurer going on a mission</param>
+        /// <param name="cost">The cost of sending the adventurer</param>
         public void PrepareMission(int mapNr, Adventurer adventurer, out Currency cost) {
 
-            Map Destination = new();
+            Map destination = new();
 
-            foreach (Map map in Maps) {
+            foreach (Map map in _maps) {
                 if ((int)map.Difficulty == mapNr) {
-                    Destination = map;
+                    destination = map;
                     break;
                 }
             }
 
-            cost = Destination.ExpeditionCost;
-            _ = new Mission(Player, Destination, adventurer, Log);
+            cost = destination.ExpeditionCost;
+            _ = new Mission(Player, destination, adventurer, Log);
 
-            Maps.Remove(Destination);
-            Maps.Add(Map.GetMap(mapNr));
+            _maps.Remove(destination);
+            _maps.Add(Map.GetMap(mapNr));
         }
 
         public void Resume() {
             Log.Resume();
         }
-
         public void Pause() {
             Log.Pause();
         }

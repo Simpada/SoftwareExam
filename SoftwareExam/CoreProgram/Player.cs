@@ -3,14 +3,12 @@ using SoftwareExam.CoreProgram.Economy;
 using SoftwareExam.CoreProgram.Expedition;
 using System.Text.RegularExpressions;
 
-namespace SoftwareExam.CoreProgram
-{
+namespace SoftwareExam.CoreProgram {
     /// <summary>
     /// Contains all information about the player, its balance, adventurers, which missions are active,
     /// its log, etc. This class is what is saved to and loaded from the database
     /// </summary>
-    public class Player
-    {
+    public class Player {
         private int _id = -1;
         private string _playerName = "";
         private Currency _balance = new(0, 0, 2);
@@ -29,8 +27,7 @@ namespace SoftwareExam.CoreProgram
         /// </summary>
         /// <param name="userName">the name to check</param>
         /// <returns>Bool saying if the name is accepted or not</returns>
-        public static bool ValidateUserName(string userName)
-        {
+        public static bool ValidateUserName(string userName) {
             if (userName.Length <= 0 || userName.Length > 20 || userName == null) {
                 return false;
             }
@@ -40,48 +37,38 @@ namespace SoftwareExam.CoreProgram
             return true;
         }
 
-        public string PlayerName
-        {
-            get
-            {
+        public string PlayerName {
+            get {
                 return _playerName;
             }
-            set
-            {
+            set {
                 if (ValidateUserName(value)) {
                     _playerName = value;
                 }
             }
         }
-        public int Id
-        {
-            get
-            {
+        public int Id {
+            get {
                 return _id;
             }
-            set
-            {
+            set {
                 if (value < 1 || value > 4) {
                     throw new Exception("save between 1-4");
-                }
-                else {
+                } else {
                     _id = value;
                 }
             }
         }
 
-        public Currency Balance
-        {
-            get
-            {
+        public Currency Balance {
+            get {
                 return _balance;
             }
         }
 
 
 
-        public void SetCurrency(int copper, int silver, int gold)
-        {
+        public void SetCurrency(int copper, int silver, int gold) {
             _balance = new Currency(copper, silver, gold);
         }
 
@@ -90,8 +77,7 @@ namespace SoftwareExam.CoreProgram
             lock (_lock) {
                 if (add) {
                     _balance += currency;
-                }
-                else {
+                } else {
                     _balance -= currency;
 
                 }
@@ -155,8 +141,7 @@ namespace SoftwareExam.CoreProgram
                 foreach (Mission mission in Missions) {
                     if (pause) {
                         mission.Pause();
-                    }
-                    else {
+                    } else {
                         mission.Resume();
                     }
                 }
@@ -166,8 +151,7 @@ namespace SoftwareExam.CoreProgram
         /// <summary>
         /// Clears all missions, used when returning to the main menu
         /// </summary>
-        public void TerminateMissions()
-        {
+        public void TerminateMissions() {
             Missions.Clear();
         }
 

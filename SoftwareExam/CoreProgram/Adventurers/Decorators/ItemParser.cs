@@ -4,14 +4,13 @@ using SoftwareExam.CoreProgram.Adventurers.Decorators.OffHands;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Trinkets;
 using SoftwareExam.CoreProgram.Adventurers.Decorators.Weapons;
 using SoftwareExam.CoreProgram.Economy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareExam.CoreProgram.Adventurers.Decorators
-{
+namespace SoftwareExam.CoreProgram.Adventurers.Decorators {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+    /// <summary>
+    /// A large class, that takes in an item id, and returns different information about the item it refers to
+    /// </summary>
     public static class ItemParser {
 
         // The Ugly Class
@@ -52,7 +51,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static string GetItemName(int id) {
 
             return id switch {
@@ -89,7 +88,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static string GetItemDescription(int id) {
 
             return id switch {
@@ -126,7 +125,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static Currency GetItemCost(int id) {
 
             return id switch {
@@ -163,7 +162,7 @@ namespace SoftwareExam.CoreProgram.Adventurers.Decorators
                 _ => throw new ArgumentOutOfRangeException(id.ToString() + " is not a valid item code"),
             };
         }
-        
+
         public static BaseDecoratedAdventurer GetItem(int id, Adventurer adventurer) {
 
             return id switch {
