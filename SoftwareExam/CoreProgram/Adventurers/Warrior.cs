@@ -4,9 +4,9 @@
 
         public Warrior() {
             Class = "Warrior";
-            Health = 10;
-            Damage = 5;
-            Luck = 5;
+            Health = 5;
+            Damage = 3;
+            Luck = 0;
 
             SymbolArray = new string[] {
                 " ______  ",

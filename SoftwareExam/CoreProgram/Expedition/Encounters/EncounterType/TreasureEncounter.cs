@@ -22,7 +22,7 @@ namespace SoftwareExam.CoreProgram.Expedition.Encounters {
         }
 
         private Currency RollReward() {
-            int rollCopper = Random.Next(12) * AdventurerLuck;
+            int rollCopper = Random.Next(4, 12) * (AdventurerLuck + 1);
             return Currency.Convert(new Currency(rollCopper, 0, 0));
         }
     }

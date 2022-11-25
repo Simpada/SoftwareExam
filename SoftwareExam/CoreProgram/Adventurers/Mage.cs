@@ -4,9 +4,9 @@
 
         public Mage() {
             Class = "Mage";
-            Health = 5;
-            Damage = 10;
-            Luck = 5;
+            Health = 1;
+            Damage = 6;
+            Luck = 1;
 
             SymbolArray = new string[] {
                 "   _",
