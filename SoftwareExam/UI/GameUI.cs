@@ -77,20 +77,20 @@ namespace SoftwareExam.UI {
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
             while (true) {
-                bool saveState;
+                bool saveExists;
                 int saveSlot;
                 _input = Console.ReadKey().KeyChar;
                 if (_input == '1') {
-                    saveState = _manager.CheckPlayer(1);
+                    saveExists = _manager.CheckPlayer(1);
                     saveSlot = 1;
                 } else if (_input == '2') {
-                    saveState = _manager.CheckPlayer(2);
+                    saveExists = _manager.CheckPlayer(2);
                     saveSlot = 2;
                 } else if (_input == '3') {
-                    saveState = _manager.CheckPlayer(3);
+                    saveExists = _manager.CheckPlayer(3);
                     saveSlot = 3;
                 } else if (_input == '4') {
-                    saveState = _manager.CheckPlayer(4);
+                    saveExists = _manager.CheckPlayer(4);
                     saveSlot = 4;
                 } else if (_input == '0') {
                     Console.Clear();
@@ -102,7 +102,7 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                if (saveState) {
+                if (saveExists) {
                     if (Continue(saveSlot)) {
                         break;
                     }
