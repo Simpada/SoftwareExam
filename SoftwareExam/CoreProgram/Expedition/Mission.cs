@@ -27,7 +27,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
 
         private bool _defeated = false;
         private bool _terminated = false;
-        private CancellationTokenSource _tokenSource = new();
+        private readonly CancellationTokenSource _tokenSource = new();
         private readonly CancellationToken _token;
         private readonly ManualResetEvent _taskPauseEvent = new(true);
 
@@ -35,9 +35,11 @@ namespace SoftwareExam.CoreProgram.Expedition {
         private int[] _waitTimes;
         private readonly Random _random = new();
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Mission() {
             _token = _tokenSource.Token;
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         public Mission(Player player, Map map, Adventurer adventurer, LogWriter logWriter) {
             _token = _tokenSource.Token;

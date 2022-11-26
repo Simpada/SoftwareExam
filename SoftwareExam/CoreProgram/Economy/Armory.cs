@@ -28,7 +28,7 @@ namespace SoftwareExam.CoreProgram.Economy {
 
             Task.Run(() => { RefreshInventory(); });
         }
-        #region Pretend this part doesn't exist
+        #region Item generations, should possibly be a function in item parser
         // This is purely to initialize our store with item codes, this is kinda ugly and manual, but its difficult to automate
         private void InitializeItems() {
             _armors.Add(101);

@@ -546,6 +546,10 @@ namespace SoftwareExam.UI {
 
         #endregion
 
+        /// <summary>
+        /// A function that can easily be called by interractions in the game menu, to refresh the window.
+        /// This helps udate everything inside, without filling the console with repeated information
+        /// </summary>
         private void UpdateUi() {
             _manager.Pause();
             Console.Clear();
