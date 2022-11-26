@@ -14,7 +14,7 @@ namespace TestSoftwareExam {
         [TestCase(1)]
         [TestCase(2)]
         [TestCase(3)]
-        public void TestRecruitmentNotEnoughMoney(int difficulty) {
+        public void TestGettingMap(int difficulty) {
 
             Map map = Map.GetMap(difficulty);
             
