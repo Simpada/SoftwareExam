@@ -184,7 +184,12 @@ namespace SoftwareExam.CoreProgram {
             List<Adventurer> Adventurers = _player.Adventurers;
 
             for (int i = 0; i < Adventurers.Count; i++) {
-                AdventurerCards[i] = Adventurers[i].ToString();
+                if (Adventurers[i].OnMission) {
+                    AdventurerCards[i] = "    |           ON A MISSION\n"
+                        + Adventurers[i].ToString();
+                } else {
+                    AdventurerCards[i] = Adventurers[i].ToString();
+                }
             }
 
             return AdventurerCards;
@@ -230,7 +235,7 @@ namespace SoftwareExam.CoreProgram {
             string AvailableAdventurers = "";
 
             for (int i = 0; i < _player.Adventurers.Count; i++) {
-                AvailableAdventurers += _player.Adventurers[i].GetAvailability(i + 1);
+                AvailableAdventurers += _player.Adventurers[i].GetAvailability(i + 1) + "\n";
             }
             return AvailableAdventurers;
         }

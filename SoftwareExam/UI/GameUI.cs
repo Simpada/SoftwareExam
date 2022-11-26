@@ -356,31 +356,41 @@ namespace SoftwareExam.UI {
 
                 if (_input == '1') {
                     if (AdventurerCount >= 1) {
-                        DismissAdventurer(0);
+                        if (_manager.GetAvailability(0)) {
+                            DismissAdventurer(0);
+                        }
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (_input == '2') {
                     if (AdventurerCount >= 2) {
-                        DismissAdventurer(1);
+                        if (_manager.GetAvailability(1)) {
+                            DismissAdventurer(1);
+                        }
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (_input == '3') {
                     if (AdventurerCount >= 3) {
-                        DismissAdventurer(2);
+                        if (_manager.GetAvailability(2)) {
+                            DismissAdventurer(2);
+                        }
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (_input == '4') {
                     if (AdventurerCount >= 4) {
-                        DismissAdventurer(3);
+                        if (_manager.GetAvailability(3)) {
+                            DismissAdventurer(3);
+                        }
                     } else {
                         RecruitAdventurer();
                     }
                 } else if (_input == '5') {
                     if (AdventurerCount >= 5) {
-                        DismissAdventurer(4);
+                        if (_manager.GetAvailability(4)) {
+                            DismissAdventurer(4);
+                        }
                     } else {
                         RecruitAdventurer();
                     }

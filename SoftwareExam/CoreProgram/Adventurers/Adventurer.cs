@@ -200,7 +200,7 @@ namespace SoftwareExam.CoreProgram.Adventurers {
                 availability += $"    |       [{index}] CHOOSE ADVENTURER\n";
             }
             availability += ToString();
-            availability += "\n    |-----------------------------------------\n";
+            availability += "\n    |-----------------------------------------";
 
             return availability;
         }

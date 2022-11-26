@@ -75,6 +75,9 @@
 
                 if (string.IsNullOrEmpty(adventurerCards[i])) {
                     cards[i] = $"    |\n    |\n    |\n    |       [{i + 1}] RECRUIT NEW ADVENTURER \n    |\n    |\n    |";
+                } else if (adventurerCards[i].Contains("MISSION")) {
+                    string TavernCard = $"{adventurerCards[i]}";
+                    cards[i] = TavernCard;
                 } else {
                     string TavernCard = $"    |       [{i + 1}] DISMISS ADVENTURER\n" +
                         $"{adventurerCards[i]}";
