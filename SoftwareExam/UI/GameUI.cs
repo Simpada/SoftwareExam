@@ -26,6 +26,7 @@ namespace SoftwareExam.UI {
         #region Interractions in the main menu
         private void MainMenu() {
             _manager.Terminate();
+            _manager.Pause();
 
             Console.Clear();
             Console.WriteLine(StartMenu.GetStartingMenu());
@@ -76,21 +77,21 @@ namespace SoftwareExam.UI {
             Console.WriteLine(StartMenu.GetSaveMenu(savedNames[0], savedNames[1], savedNames[2], savedNames[3]));
 
             while (true) {
-                int SaveState;
-                int SaveSlot;
+                bool saveState;
+                int saveSlot;
                 _input = Console.ReadKey().KeyChar;
                 if (_input == '1') {
-                    SaveState = _manager.LoadGame(1);
-                    SaveSlot = 1;
+                    saveState = _manager.CheckPlayer(1);
+                    saveSlot = 1;
                 } else if (_input == '2') {
-                    SaveState = _manager.LoadGame(2);
-                    SaveSlot = 2;
+                    saveState = _manager.CheckPlayer(2);
+                    saveSlot = 2;
                 } else if (_input == '3') {
-                    SaveState = _manager.LoadGame(3);
-                    SaveSlot = 3;
+                    saveState = _manager.CheckPlayer(3);
+                    saveSlot = 3;
                 } else if (_input == '4') {
-                    SaveState = _manager.LoadGame(4);
-                    SaveSlot = 4;
+                    saveState = _manager.CheckPlayer(4);
+                    saveSlot = 4;
                 } else if (_input == '0') {
                     Console.Clear();
                     return false;
@@ -101,12 +102,12 @@ namespace SoftwareExam.UI {
                     continue;
                 }
 
-                if (SaveState >= 0) {
-                    if (Continue(SaveSlot)) {
+                if (saveState) {
+                    if (Continue(saveSlot)) {
                         break;
                     }
                 } else {
-                    if (NewGame(SaveSlot)) {
+                    if (NewGame(saveSlot)) {
                         break;
                     }
                 }
@@ -126,6 +127,7 @@ namespace SoftwareExam.UI {
 
                 _input = Console.ReadKey().KeyChar;
                 if (_input == '1') {
+                    _manager.LoadGame(saveFile);
                     return true;
                 } else if (_input == '2') {
                     GameManager.DeleteSave(saveFile);

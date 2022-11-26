@@ -34,7 +34,7 @@ namespace SoftwareExam.CoreProgram {
             _player = new() {
                 Id = saveFile,
                 PlayerName = name,
-               Adventurers = new()
+                Adventurers = new()
             };
             _player.SetCurrency(0, 0, 12);
             Random random = new();
@@ -52,12 +52,14 @@ namespace SoftwareExam.CoreProgram {
             SaveManager.DeleteSave(saveFile);
         }
 
-        public int LoadGame(int id) {
+        public bool CheckPlayer(int id) {
+            return SaveManager.CheckPlayer(id);
+        }
+
+        public void LoadGame(int id) {
 
             _player = SaveManager.LoadGame(_expeditions.Log, id);
             _expeditions.Player = _player;
-
-            return _player.Id;
         }
 
         public static string[] GetPlayers() {
@@ -82,13 +84,11 @@ namespace SoftwareExam.CoreProgram {
         /// Terminates all missions, only used when returning to main menu
         /// </summary>
         public void Terminate() {
-            Resume();
             foreach (var mission in _player.Missions) {
                 mission.Terminate();
             }
             _player.TerminateMissions();
         }
-
         #endregion
 
         #region Player Information

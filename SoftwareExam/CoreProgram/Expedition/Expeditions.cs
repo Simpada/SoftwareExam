@@ -91,10 +91,14 @@ namespace SoftwareExam.CoreProgram.Expedition {
         }
 
         public void Resume() {
-            Log.Resume();
+            if (Log != null) {
+                Log.Resume();
+            }
         }
         public void Pause() {
-            Log.Pause();
+            if (Log != null) {
+                Log.Pause();
+            }
         }
     }
 }

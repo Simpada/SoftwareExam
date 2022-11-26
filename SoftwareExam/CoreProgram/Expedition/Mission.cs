@@ -113,7 +113,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
             int[] encounterTimes = new int[Encounters.Count];
 
             for (int i = 0; i < Encounters.Count; i++) {
-                int time = _random.Next(TimeLeft - 10) + 10;
+                int time = _random.Next(TimeLeft) + 10;
                 encounterTimes[i] = time;
             }
             Array.Sort(encounterTimes);
@@ -129,7 +129,7 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 lastTime = encounterTimes[i];
             }
 
-            StartMission(resume);
+            StartMission(resume);            
         }
         #endregion
 
@@ -148,45 +148,48 @@ namespace SoftwareExam.CoreProgram.Expedition {
                 Task encounter = RunEncounter(Encounters[i], _waitTimes[i]);
 
                 await Task.WhenAny(encounter);
-                _taskPauseEvent.WaitOne();
 
                 if (_terminated) {
-                    break;
-                } else {
-                    LogWriter.UpdateLog(Player, _logMessage);
-                    if (_defeated) {
-                        break;
-                    }
-                }
-            }
-
-            if (!_terminated) {
-                try {
-                    await Task.Delay(5000, _token);
-                } catch (Exception) {
+                    return;
                 }
                 _taskPauseEvent.WaitOne();
 
-                if (_defeated) {
-                    _logMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
-                } else {
-                    Reward += CompletionReward;
-                    _logMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
-                }
+                
 
                 LogWriter.UpdateLog(Player, _logMessage);
-                Adventurer.OnMission = false;
-
-                Completed = true;
-                Player.CompleteMission();
+                if (_defeated) {
+                    break;
+                }
             }
+
+            try {
+                await Task.Delay(5000, _token);
+            } catch (Exception) {
+                return;
+            }
+            _taskPauseEvent.WaitOne();
+
+            if (_defeated) {
+                _logMessage = $"    - {Adventurer.Name} is wounded and has returned without the full reward! You have earned {Reward}.";
+            } else {
+                Reward += CompletionReward;
+                _logMessage = $"    - {Adventurer.Name} has returned! You have earned {Reward}.";
+            }
+
+            LogWriter.UpdateLog(Player, _logMessage);
+            Adventurer.OnMission = false;
+
+            Completed = true;
+            Player.CompleteMission();
         }
 
         private async Task RunEncounter(Encounter encounter, int encounterTime) {
             try {
                 await Task.Delay(encounterTime * 1000, _token);
             } catch (Exception) {
+                return;
             }
+
             TimeLeft -= encounterTime;
             bool success = encounter.RunEncounter(out Currency reward, out string description);
             _logMessage = "    - " + description;

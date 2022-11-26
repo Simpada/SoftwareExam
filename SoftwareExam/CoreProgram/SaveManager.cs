@@ -4,6 +4,7 @@ using SoftwareExam.CoreProgram.Expedition;
 using SoftwareExam.DataBase;
 
 namespace SoftwareExam.CoreProgram {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
     /// <summary>
     /// A class that handles saving and loading information to and from the database
@@ -18,6 +19,10 @@ namespace SoftwareExam.CoreProgram {
         /// <returns>An array of strings containing names</returns>
         public static string[] RetrieveAllPlayerNames() {
             return _dataBaseAccess.RetrieveAllPlayerNames();
+        }
+
+        public static bool CheckPlayer(int id) {
+            return _dataBaseAccess.CheckIfPlayerExists(id);
         }
 
         /// <summary>

@@ -26,21 +26,15 @@
 
                 _taskPauseEvent.WaitOne();
 
-                if (player.Log.Count >= 5) {
-                    player.AddLogMessage(logMessage);
-
-                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-                    for (int i = 0; i < player.Log.Count; i++) {
-                        Console.WriteLine(new string(' ', Console.WindowWidth));
-                    }
-
-                    Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
-                    Console.WriteLine(player.GetLogMessages());
-
-                } else {
-                    Console.WriteLine(logMessage);
-                    player.AddLogMessage(logMessage);
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
+                for (int i = 0; i < player.Log.Count; i++) {
+                    Console.WriteLine(new string(' ', Console.WindowWidth));
                 }
+
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - player.Log.Count);
+
+                player.AddLogMessage(logMessage);
+                Console.WriteLine(player.GetLogMessages());
             }
         }
     }
