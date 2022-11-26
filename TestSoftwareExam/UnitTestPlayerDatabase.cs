@@ -1,5 +1,5 @@
 ﻿using SoftwareExam.CoreProgram;
-using SoftwareExam.CoreProgram.Economy;
+using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.DataBase;
 
 /*
@@ -8,54 +8,45 @@ using SoftwareExam.DataBase;
  * 
  */
 
-namespace TestSoftwareExam {
-    public class UnitTestPlayerDatabase {
+namespace TestSoftwareExam
+{
+    public class UnitTestPlayerDatabase
+    {
         // Not true, it is never null
         private DataBaseAccess _databaseAccess;
 
 
-        private void Prepare(string db) {
+        private void Prepare(string db)
+        {
             string databasePath = Path.GetRelativePath(Environment.CurrentDirectory, db);
 
             try {
                 if (File.Exists(databasePath)) {
                     File.Delete(databasePath);
                 }
-            } catch (IOException) { }
+            }
+            catch (IOException) { }
 
             _databaseAccess = new("Data Source = " + db);
         }
 
-        //[Test]
-        //public void TestRetrievePlayer()
-        //{
-        //    Prepare("testDatabase1.db");
-
-        //    //Expected
-        //    Player tempPlayer = new Player(1, "Den Sinna krigaren", new Currency(5, 5, 500));
-        //    DatabaseAccess.Save(tempPlayer);
-
-        //    //Actual
-        //    DatabaseAccess.GetPlayerById(1, out int playerId, out string playerName, out int copper, out int silver, out int gold);
-        //    Player playerFromDatabase = new(playerId, playerName, new Currency(copper, silver, gold));
-
-
-        //    Console.WriteLine("You have retrieved from database: " + playerFromDatabase.PlayerName);
-        //    Assert.That(playerFromDatabase.PlayerName, Is.EqualTo(tempPlayer.PlayerName));
-        //}
-
         [Test]
-        public void TestRetriveAllPlayerNames() {
-            Prepare("testDatabase2.db");
+        public void TestRetriveAllPlayerNames()
+        {
+            Prepare("testDatabase1.db");
 
-            Player player1 = new() {
+            Player player1 = new()
+            {
                 Id = 1,
-                PlayerName = "one"};
-            Player player2 = new() {
+                PlayerName = "one"
+            };
+            Player player2 = new()
+            {
                 Id = 2,
                 PlayerName = "two"
             };
-            Player player3 = new() {
+            Player player3 = new()
+            {
                 Id = 3,
                 PlayerName = "three"
             };
@@ -74,21 +65,63 @@ namespace TestSoftwareExam {
             Assert.That(playerNames, Does.Contain("three"));
         }
 
-        //[Test]
-        //public void TestOverwriteSave()
-        //{
-        //    Prepare("testDatabase3.db");
+        [Test]
+        public void TestRetrievePlayerCurrency()
+        {
+            Prepare("testDatabase2");
 
-        //    Player originalPlayer = new(1, "Original", new Currency(1, 1, 1));
-        //    Player newPlayer = new(1, "New player", new Currency(1, 1, 1));
+            //Create a player
+            Player player1 = new Player()
+            {
+                Id = 1,
+                PlayerName = "Test"
+            };
+            player1.SetCurrency(5, 5, 5);
 
-        //    DatabaseAccess.Save(originalPlayer);
-        //    DatabaseAccess.Save(newPlayer);
+            Assert.That(player1.Balance.Copper == 5, Is.True);
+            Assert.That(player1.Balance.Silver == 5, Is.True);
+            Assert.That(player1.Balance.Gold == 5, Is.True);
 
-        //    Player playerResult = new();
-        //    playerResult.PlayerName = DatabaseAccess.GetPlayernameById(1);
 
-        //    Assert.That(newPlayer.PlayerName, Is.EqualTo(playerResult.PlayerName));
-        //}
+            _databaseAccess.SaveGame(player1);
+            Player loadPlayer1 = _databaseAccess.Load(player1.Id);
+
+            Assert.That(player1.PlayerName, Is.EqualTo(loadPlayer1.PlayerName));
+            Assert.That(player1.Balance.Copper, Is.EqualTo(loadPlayer1.Balance.Copper));
+            Assert.That(player1.Balance.Silver, Is.EqualTo(loadPlayer1.Balance.Silver));
+            Assert.That(player1.Balance.Gold, Is.EqualTo(loadPlayer1.Balance.Gold));
+        }
+
+        [Test]
+        public void TestRetrieveAdventurers()
+        {
+            Prepare("testDatabase3");
+
+            //Add adventurers to player
+            Adventurer warrior = new Warrior().GetStartingGear();
+            Adventurer rogue = new Rogue().GetStartingGear();
+            Adventurer mage = new Mage().GetStartingGear();
+
+            Player player1 = new()
+            {
+                Id = 1,
+                PlayerName = "TestAdventureres"
+            };
+
+            player1.Adventurers.Add(warrior);
+            player1.Adventurers.Add(rogue);
+            player1.Adventurers.Add(mage);
+
+
+            _databaseAccess.SaveGame(player1);
+            Player player2 = _databaseAccess.Load(player1.Id);
+            player2.Adventurers = _databaseAccess.GetAdventurers(player2.Id);
+
+            Assert.That(player2.Adventurers.Count, Is.EqualTo(player1.Adventurers.Count));
+            Assert.That(player2.Adventurers[0].Name, Is.EqualTo(player1.Adventurers[0].Name));
+            Assert.That(player2.Adventurers[1].Name, Is.EqualTo(player1.Adventurers[1].Name));
+            Assert.That(player2.Adventurers[2].Name, Is.EqualTo(player1.Adventurers[2].Name));
+        }
+
     }
 }
