@@ -19,8 +19,8 @@ namespace SoftwareExam.CoreProgram {
         public GameManager() {
             _player = new();
             _recruitment = new();
-            _armory = new();
             _expeditions = new(_player);
+            _armory = new(_expeditions.Log, _player);
         }
 
         #region Core Functions
@@ -41,6 +41,7 @@ namespace SoftwareExam.CoreProgram {
             _ = RecruitAdventurer(random.Next(3) + 1);
             _ = RecruitAdventurer(random.Next(3) + 1);
             _expeditions.Player = _player;
+            _armory.Player = _player;
             SaveGame();
         }
 
@@ -60,6 +61,7 @@ namespace SoftwareExam.CoreProgram {
 
             _player = SaveManager.LoadGame(_expeditions.Log, id);
             _expeditions.Player = _player;
+            _armory.Player = _player;
         }
 
         public static string[] GetPlayers() {

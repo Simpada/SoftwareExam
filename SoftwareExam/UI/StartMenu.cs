@@ -40,17 +40,18 @@
     adventurer's out to earn you money. 
 
     Health:
-    Health determined the durability of an adventurer, high
-    health makes an adventurer stronger against certain enemies
+    Health determined the durability of an adventurer, 
+    this determines how many wounds an adventurer can take before
+    they have to head back.
 
     Damage: 
     Damage determines the combat strength of an adventurer.
-    High damage helps deal with certain enemies.
+    High damage helps win encounters with monsters.
 
     Luck:
     Luck determines an adventurer's general luck and good fortune
     High luck results in better encounters, and a chance of finding
-    more treasure.
+    more treasure, as well as the ability to avoid traps.
 
     [1] : Return
 ";

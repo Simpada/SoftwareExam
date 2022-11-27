@@ -1,5 +1,6 @@
 ﻿using SoftwareExam.CoreProgram.Adventurers;
 using SoftwareExam.CoreProgram.Adventurers.Decorators;
+using SoftwareExam.CoreProgram.Expedition;
 
 namespace SoftwareExam.CoreProgram.Economy {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -19,10 +20,14 @@ namespace SoftwareExam.CoreProgram.Economy {
         private readonly int _inventorySize = 8;
         private readonly int _inventoryRefreshRate = 60000;
         private readonly Random _random = new();
+        private readonly LogWriter _logWriter;
+        public Player Player { private get; set; }
 
         private readonly ManualResetEvent _taskPauseEvent = new(true);
 
-        public Armory() {
+        public Armory(LogWriter logWriter, Player player) {
+            _logWriter = logWriter;
+            Player = player;
             InitializeItems();
             // Starts Refresh Inventory on its own thread, that will always run, resetting inventory every x seconds
 
@@ -100,6 +105,7 @@ namespace SoftwareExam.CoreProgram.Economy {
                         break;
                     }
                 }
+                _logWriter.UpdateLog(Player, "    - THE ARMORY HAS NEW INVENTORY");
                 Thread.Sleep(_inventoryRefreshRate);
             }
         }
